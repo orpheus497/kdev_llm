@@ -35,3 +35,5 @@ qrc_*.cpp
 # OS Specific
 .DS_Store
 Thumbs.db
+reference/kate-code/
+reference/kdevcxx_with_ai/
