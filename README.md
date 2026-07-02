@@ -1,6 +1,6 @@
-# Jenova Cognitive Architecture - KDevelop Plugin
+LLM KDevelop Plugin
 
-Jenova Cognitive Architecture (JCA) is a native AI assistant plugin designed specifically for the **KDevelop IDE** (KDE Frameworks 6). It integrates deeply into the `KDevelop::IPlugin` architecture, providing seamless, context-aware AI autocomplete, semantic refactoring, and conversational assistance natively within the IDE.
+AI assistant plugin designed specifically for the **KDevelop IDE** (KDE Frameworks 6). It integrates deeply into the `KDevelop::IPlugin` architecture, providing seamless, context-aware AI autocomplete, semantic refactoring, and conversational assistance natively within the IDE. Built for Tje Jenova Cognitive Architecture but can be configured for any LLM server on localhost:8080 or any other unique set API
 
 ## Features
 
