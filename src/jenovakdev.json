@@ -1,0 +1,16 @@
+{
+    "KPlugin": {
+        "Description": "Jenova Cognitive Architecture KDeveloper IDE Plugin",
+        "Icon": "code-context",
+        "Name": "JCA KDev Plugin",
+        "Version": "1.0",
+        "Authors": [
+            {
+                "Name": "Jenova",
+                "Email": "admin@localhost"
+            }
+        ]
+    },
+    "X-KDevelop-Category": "Global",
+    "X-KDevelop-Mode": "GUI"
+}

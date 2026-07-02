@@ -10,14 +10,13 @@ class QPushButton;
 class QVBoxLayout;
 class LlamaClient;
 class ContextManager;
-namespace KTextEditor { class MainWindow; }
 
 // ##Class purpose: Manages the chat history display and input box for interacting with the AI.
 class AiChatWidget : public QWidget {
     Q_OBJECT
 public:
     // ##Method purpose: Constructor for the chat widget.
-    explicit AiChatWidget(KTextEditor::MainWindow *mainWindow, QWidget *parent = nullptr);
+    explicit AiChatWidget(QWidget *parent = nullptr);
     
     // ##Method purpose: Destructor.
     ~AiChatWidget() override = default;
@@ -46,11 +45,10 @@ private:
     // ##Method purpose: Refreshes the QTextBrowser with the accumulated markdown string.
     void renderMarkdown();
     
-    KTextEditor::MainWindow *m_mainWindow;
-    QTextBrowser *m_chatHistory;
-    AiChatInputWidget *m_inputWidget;
     QPushButton *m_sendButton;
     QPushButton *m_newChatButton;
+    QTextBrowser *m_chatHistory;
+    AiChatInputWidget *m_inputWidget;
     
     LlamaClient *m_client;
     ContextManager *m_context;

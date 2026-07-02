@@ -4,23 +4,37 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QTextStream>
+#include <interfaces/icore.h>
+#include <interfaces/iprojectcontroller.h>
+#include <interfaces/iproject.h>
+#include <language/duchain/duchain.h>
+#include <language/duchain/duchainlock.h>
+#include <language/duchain/duchainutils.h>
+#include <language/duchain/declaration.h>
+#include <language/duchain/types/abstracttype.h>
+#include <util/path.h>
 
 // ##Method purpose: Constructor implementation.
 ContextManager::ContextManager(QObject *parent) : QObject(parent) {}
 
-// ##Method purpose: Scans upwards from the document's directory to find .git or CMakeLists.txt.
 QString ContextManager::getProjectRoot(KTextEditor::Document *doc) const
 {
-    // ##Condition purpose: Ensure we have a valid document URL.
     if (!doc || doc->url().isEmpty()) {
         return QString();
     }
     
-    QDir dir = QFileInfo(doc->url().toLocalFile()).absoluteDir();
+    // Attempt IDE proper integration first
+    KDevelop::IProjectController* pc = KDevelop::ICore::self()->projectController();
+    if (pc) {
+        KDevelop::IProject* proj = pc->findProjectForUrl(doc->url());
+        if (proj) {
+            return proj->path().toLocalFile();
+        }
+    }
     
-    // ##Loop purpose: Traverse up the directory tree to locate the project root indicator.
+    // Fallback to directory scanning if not in a KDevelop project
+    QDir dir = QFileInfo(doc->url().toLocalFile()).absoluteDir();
     while (dir.absolutePath() != QStringLiteral("/")) {
-        // ##Condition purpose: Match standard project root markers.
         if (dir.exists(QStringLiteral(".git")) || dir.exists(QStringLiteral("CMakeLists.txt"))) {
             return dir.absolutePath();
         }
@@ -53,19 +67,25 @@ QString ContextManager::getAgentsInstruction(const QString &projectRoot) const
     return QString();
 }
 
-// ##Method purpose: Assembles the final system prompt string containing the root instructions and selection.
 QString ContextManager::buildSystemPrompt(KTextEditor::View *view) const
 {
-    QString prompt = QStringLiteral("You are an expert AI coding assistant integrated into the Kate/KDevelop editor.\n");
+    QString prompt = QStringLiteral("You are an expert AI coding assistant integrated natively into the KDevelop IDE.\n");
     
-    // ##Condition purpose: Only append specific context if a valid view and document are active.
     if (view && view->document()) {
         QString root = getProjectRoot(view->document());
         QString agentsInst = getAgentsInstruction(root);
         
-        // ##Condition purpose: Inject AGENTS.md instructions if found.
+        KDevelop::IProjectController* pc = KDevelop::ICore::self()->projectController();
+        if (pc) {
+            KDevelop::IProject* proj = pc->findProjectForUrl(view->document()->url());
+            if (proj) {
+                prompt += QStringLiteral("Project Name: ") + proj->name() + QStringLiteral("\n");
+                prompt += QStringLiteral("Project Root: ") + proj->path().toLocalFile() + QStringLiteral("\n\n");
+            }
+        }
+        
         if (!agentsInst.isEmpty()) {
-            prompt += QStringLiteral("\nFollow these project-specific instructions from AGENTS.md:\n");
+            prompt += QStringLiteral("Follow these project-specific instructions from AGENTS.md:\n");
             prompt += agentsInst + QStringLiteral("\n");
         }
         
@@ -74,27 +94,55 @@ QString ContextManager::buildSystemPrompt(KTextEditor::View *view) const
         prompt += view->document()->text();
         prompt += QStringLiteral("\n```\n");
         
-        // ##Condition purpose: Inject the user's active text selection into the prompt context.
         if (view->selection()) {
             prompt += QStringLiteral("\nThe user has selected the following code:\n```\n");
             prompt += view->selectionText();
             prompt += QStringLiteral("\n```\n");
+            
+            // Try extracting semantic context from selection via DUChain
+            KDevelop::DUChainReadLocker lock(KDevelop::DUChain::lock());
+            KDevelop::DUChainUtils::ItemUnderCursor item = KDevelop::DUChainUtils::itemUnderCursor(view->document()->url(), view->selectionRange().start());
+            if (item.declaration) {
+                prompt += QStringLiteral("\nSemantic Information (from KDevelop DUChain AST):\n");
+                prompt += QStringLiteral("- Declaration: ") + item.declaration->toString() + QStringLiteral("\n");
+                if (item.declaration->abstractType()) {
+                    prompt += QStringLiteral("- Type: ") + item.declaration->abstractType()->toString() + QStringLiteral("\n");
+                }
+            }
         }
     }
     
     return prompt;
 }
 
-// ##Method purpose: Builds a context-aware prompt for the AI refactoring action.
 QString ContextManager::buildRefactorPrompt(const QString &instruction, const QString &code, KTextEditor::View *view) const
 {
     QString prompt = QStringLiteral("You are an expert developer. ");
     
     if (view && view->document()) {
+        KDevelop::IProjectController* pc = KDevelop::ICore::self()->projectController();
+        if (pc) {
+            KDevelop::IProject* proj = pc->findProjectForUrl(view->document()->url());
+            if (proj) {
+                prompt += QStringLiteral("Project Name: ") + proj->name() + QStringLiteral("\n");
+            }
+        }
+        
         prompt += QStringLiteral("You are working in the file: ") + view->document()->url().toLocalFile() + QStringLiteral("\n\n");
         prompt += QStringLiteral("Here is the full content of the file for context:\n```\n");
         prompt += view->document()->text();
         prompt += QStringLiteral("\n```\n\n");
+        
+        KDevelop::DUChainReadLocker lock(KDevelop::DUChain::lock());
+        KDevelop::DUChainUtils::ItemUnderCursor item = KDevelop::DUChainUtils::itemUnderCursor(view->document()->url(), view->selectionRange().start());
+        if (item.declaration) {
+            prompt += QStringLiteral("The selected code corresponds to the following semantic AST entity:\n");
+            prompt += QStringLiteral("- Declaration: ") + item.declaration->toString() + QStringLiteral("\n");
+            if (item.declaration->abstractType()) {
+                prompt += QStringLiteral("- Type: ") + item.declaration->abstractType()->toString() + QStringLiteral("\n");
+            }
+            prompt += QStringLiteral("\n");
+        }
     }
     
     prompt += QStringLiteral("The user has selected the following code to modify:\n```\n");

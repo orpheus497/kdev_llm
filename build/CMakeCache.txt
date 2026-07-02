@@ -261,6 +261,12 @@ CMAKE_TAPI:FILEPATH=CMAKE_TAPI-NOTFOUND
 // Studio IDE projects all commands are done without /nologo.
 CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
 
+//Path to a file.
+CUPS_INCLUDE_DIR:PATH=/usr/include
+
+//Path to a library.
+CUPS_LIBRARIES:FILEPATH=/usr/lib/libcups.so
+
 //The directory containing a CMake configuration file for ECM.
 ECM_DIR:PATH=/usr/share/ECM/cmake
 
@@ -378,7 +384,7 @@ KDE_INSTALL_LIBEXECDIR:PATH=
 //locale-dependent data (DATAROOTDIR/locale)
 KDE_INSTALL_LOCALEDIR:PATH=
 
-//modifiable single-machine data (var)
+//modifiable single-machine data (/var)
 KDE_INSTALL_LOCALSTATEDIR:PATH=
 
 //Qt Logging categories files (DATAROOTDIR/qlogging-categories6)
@@ -403,14 +409,17 @@ KDE_INSTALL_PREFIX_SCRIPT:BOOL=OFF
 //documentation bundles in QCH format (DATAROOTDIR/doc/qch)
 KDE_INSTALL_QCHDIR:PATH=
 
-//QtQuick2 imports (LIBDIR/qml)
+//QtQuick2 imports (lib/qt6/qml)
 KDE_INSTALL_QMLDIR:PATH=
 
-//Qt plugins (LIBDIR/plugins)
+//Qt metatypes files (lib/qt6/metatypes)
+KDE_INSTALL_QTMETATYPESDIR:PATH=
+
+//Qt plugins (lib/qt6/plugins)
 KDE_INSTALL_QTPLUGINDIR:PATH=
 
 //documentation bundles in QCH format for Qt-extending libraries
-// (DATAROOTDIR/doc/qch)
+// (/usr/share/doc/qt6)
 KDE_INSTALL_QTQCHDIR:PATH=
 
 //system admin executables (EXECROOTDIR/sbin)
@@ -422,7 +431,7 @@ KDE_INSTALL_SHAREDSTATEDIR:PATH=
 //sound files (DATAROOTDIR/sounds)
 KDE_INSTALL_SOUNDDIR:PATH=
 
-//read-only single-machine data (etc)
+//read-only single-machine data (/etc)
 KDE_INSTALL_SYSCONFDIR:PATH=
 
 //Systemd units (CMAKE_INSTALL_PREFIX/lib/systemd)
@@ -456,6 +465,9 @@ KDE_L10N_SYNC_TRANSLATIONS:BOOL=OFF
 
 //Prevent an "uninstall" target from being generated.
 KDE_SKIP_UNINSTALL_TARGET:BOOL=OFF
+
+//The directory containing a CMake configuration file for KDevPlatform.
+KDevPlatform_DIR:PATH=/usr/lib/cmake/KDevPlatform
 
 //The directory containing a CMake configuration file for KF6Bookmarks.
 KF6Bookmarks_DIR:PATH=/usr/lib/cmake/KF6Bookmarks
@@ -507,6 +519,9 @@ KF6SyntaxHighlighting_DIR:PATH=/usr/lib/cmake/KF6SyntaxHighlighting
 
 //The directory containing a CMake configuration file for KF6TextEditor.
 KF6TextEditor_DIR:PATH=/usr/lib/cmake/KF6TextEditor
+
+//The directory containing a CMake configuration file for KF6ThreadWeaver.
+KF6ThreadWeaver_DIR:PATH=/usr/lib/cmake/KF6ThreadWeaver
 
 //The directory containing a CMake configuration file for KF6WidgetsAddons.
 KF6WidgetsAddons_DIR:PATH=/usr/lib/cmake/KF6WidgetsAddons
@@ -575,6 +590,9 @@ QT_ADDITIONAL_HOST_PACKAGES_PREFIX_PATH:STRING=
 //Additional directories where find(Qt6 ...) components are searched
 QT_ADDITIONAL_PACKAGES_PREFIX_PATH:STRING=
 
+//The directory containing a CMake configuration file for Qt6Core5Compat.
+Qt6Core5Compat_DIR:PATH=/usr/lib/cmake/Qt6Core5Compat
+
 //The directory containing a CMake configuration file for Qt6CoreTools.
 Qt6CoreTools_DIR:PATH=/usr/lib/cmake/Qt6CoreTools
 
@@ -596,17 +614,56 @@ Qt6Gui_DIR:PATH=/usr/lib/cmake/Qt6Gui
 //The directory containing a CMake configuration file for Qt6Network.
 Qt6Network_DIR:PATH=/usr/lib/cmake/Qt6Network
 
+//The directory containing a CMake configuration file for Qt6OpenGL.
+Qt6OpenGL_DIR:PATH=/usr/lib/cmake/Qt6OpenGL
+
+//The directory containing a CMake configuration file for Qt6Positioning.
+Qt6Positioning_DIR:PATH=/usr/lib/cmake/Qt6Positioning
+
+//The directory containing a CMake configuration file for Qt6PrintSupport.
+Qt6PrintSupport_DIR:PATH=/usr/lib/cmake/Qt6PrintSupport
+
 //The directory containing a CMake configuration file for Qt6QmlCompilerPlusPrivateTools.
 Qt6QmlCompilerPlusPrivateTools_DIR:PATH=Qt6QmlCompilerPlusPrivateTools_DIR-NOTFOUND
 
 //The directory containing a CMake configuration file for Qt6QmlIntegration.
 Qt6QmlIntegration_DIR:PATH=/usr/lib/cmake/Qt6QmlIntegration
 
+//The directory containing a CMake configuration file for Qt6QmlMeta.
+Qt6QmlMeta_DIR:PATH=/usr/lib/cmake/Qt6QmlMeta
+
+//The directory containing a CMake configuration file for Qt6QmlModels.
+Qt6QmlModels_DIR:PATH=/usr/lib/cmake/Qt6QmlModels
+
 //The directory containing a CMake configuration file for Qt6QmlTools.
 Qt6QmlTools_DIR:PATH=/usr/lib/cmake/Qt6QmlTools
 
+//The directory containing a CMake configuration file for Qt6QmlWorkerScript.
+Qt6QmlWorkerScript_DIR:PATH=/usr/lib/cmake/Qt6QmlWorkerScript
+
 //The directory containing a CMake configuration file for Qt6Qml.
 Qt6Qml_DIR:PATH=/usr/lib/cmake/Qt6Qml
+
+//The directory containing a CMake configuration file for Qt6QuickTools.
+Qt6QuickTools_DIR:PATH=/usr/lib/cmake/Qt6QuickTools
+
+//The directory containing a CMake configuration file for Qt6QuickWidgets.
+Qt6QuickWidgets_DIR:PATH=/usr/lib/cmake/Qt6QuickWidgets
+
+//The directory containing a CMake configuration file for Qt6Quick.
+Qt6Quick_DIR:PATH=/usr/lib/cmake/Qt6Quick
+
+//The directory containing a CMake configuration file for Qt6WebChannel.
+Qt6WebChannel_DIR:PATH=/usr/lib/cmake/Qt6WebChannel
+
+//The directory containing a CMake configuration file for Qt6WebEngineCoreTools.
+Qt6WebEngineCoreTools_DIR:PATH=/usr/lib/cmake/Qt6WebEngineCoreTools
+
+//The directory containing a CMake configuration file for Qt6WebEngineCore.
+Qt6WebEngineCore_DIR:PATH=/usr/lib/cmake/Qt6WebEngineCore
+
+//The directory containing a CMake configuration file for Qt6WebEngineWidgets.
+Qt6WebEngineWidgets_DIR:PATH=/usr/lib/cmake/Qt6WebEngineWidgets
 
 //The directory containing a CMake configuration file for Qt6WidgetsTools.
 Qt6WidgetsTools_DIR:PATH=/usr/lib/cmake/Qt6WidgetsTools
@@ -1052,15 +1109,6 @@ jenovaktext_IS_TOP_LEVEL:STATIC=ON
 //Value Computed by CMake
 jenovaktext_SOURCE_DIR:STATIC=/home/orpheus497/Documents/Projects/ktext_jenova
 
-//Value Computed by CMake
-kate-ai-plugin_BINARY_DIR:STATIC=/home/orpheus497/Documents/Projects/ktext_jenova/build
-
-//Value Computed by CMake
-kate-ai-plugin_IS_TOP_LEVEL:STATIC=ON
-
-//Value Computed by CMake
-kate-ai-plugin_SOURCE_DIR:STATIC=/home/orpheus497/Documents/Projects/ktext_jenova
-
 //Path to a library.
 pkgcfg_lib_PKG_FONTCONFIG_fontconfig:FILEPATH=/usr/lib/libfontconfig.so
 
@@ -1238,6 +1286,12 @@ CMAKE_TAPI-ADVANCED:INTERNAL=1
 CMAKE_UNAME:INTERNAL=/usr/bin/uname
 //ADVANCED property for variable: CMAKE_VERBOSE_MAKEFILE
 CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CUPS_INCLUDE_DIR
+CUPS_INCLUDE_DIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CUPS_LIBRARIES
+CUPS_LIBRARIES-ADVANCED:INTERNAL=1
+//Details about finding Cups
+FIND_PACKAGE_MESSAGE_DETAILS_Cups:INTERNAL=[/usr/lib/libcups.so][/usr/include][v2.4.19()]
 //Details about finding Gettext
 FIND_PACKAGE_MESSAGE_DETAILS_Gettext:INTERNAL=[/usr/bin/msgmerge][/usr/bin/msgfmt][v1.0()]
 //Details about finding KF6
@@ -1350,6 +1404,8 @@ KDE_INSTALL_PLUGINDIR-ADVANCED:INTERNAL=1
 KDE_INSTALL_QCHDIR-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: KDE_INSTALL_QMLDIR
 KDE_INSTALL_QMLDIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: KDE_INSTALL_QTMETATYPESDIR
+KDE_INSTALL_QTMETATYPESDIR-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: KDE_INSTALL_QTPLUGINDIR
 KDE_INSTALL_QTPLUGINDIR-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: KDE_INSTALL_QTQCHDIR
@@ -1495,6 +1551,8 @@ QT_FEATURE_avx512vbmi2:INTERNAL=ON
 QT_FEATURE_avx512vl:INTERNAL=ON
 //Qt feature: backtrace (from target Qt6::Core)
 QT_FEATURE_backtrace:INTERNAL=ON
+//Qt feature: big_codecs (from target Qt6::Core5Compat)
+QT_FEATURE_big_codecs:INTERNAL=ON
 //Qt feature: broken_threadlocal_dtors (from target Qt6::Core)
 QT_FEATURE_broken_threadlocal_dtors:INTERNAL=OFF
 //Qt feature: brotli (from target Qt6::Network)
@@ -1515,6 +1573,8 @@ QT_FEATURE_clipboard:INTERNAL=ON
 QT_FEATURE_clock_gettime:INTERNAL=ON
 //Qt feature: clock_monotonic (from target Qt6::Core)
 QT_FEATURE_clock_monotonic:INTERNAL=ON
+//Qt feature: codecs (from target Qt6::Core5Compat)
+QT_FEATURE_codecs:INTERNAL=ON
 //Qt feature: colordialog (from target Qt6::Widgets)
 QT_FEATURE_colordialog:INTERNAL=ON
 //Qt feature: colornames (from target Qt6::Gui)
@@ -1545,6 +1605,12 @@ QT_FEATURE_cross_compile:INTERNAL=OFF
 QT_FEATURE_cssparser:INTERNAL=ON
 //Qt feature: ctf (from target Qt6::Core)
 QT_FEATURE_ctf:INTERNAL=OFF
+//Qt feature: cups (from target Qt6::PrintSupport)
+QT_FEATURE_cups:INTERNAL=ON
+//Qt feature: cupsjobwidget (from target Qt6::PrintSupport)
+QT_FEATURE_cupsjobwidget:INTERNAL=ON
+//Qt feature: cupspassworddialog (from target Qt6::PrintSupport)
+QT_FEATURE_cupspassworddialog:INTERNAL=ON
 //Qt feature: cursor (from target Qt6::Gui)
 QT_FEATURE_cursor:INTERNAL=ON
 //Qt feature: cxx11_future (from target Qt6::Core)
@@ -1739,6 +1805,8 @@ QT_FEATURE_gssapi:INTERNAL=ON
 QT_FEATURE_gtk3:INTERNAL=ON
 //Qt feature: gui (from target Qt6::Core)
 QT_FEATURE_gui:INTERNAL=ON
+//Qt feature: gypsy (from target Qt6::Positioning)
+QT_FEATURE_gypsy:INTERNAL=OFF
 //Qt feature: harfbuzz (from target Qt6::Gui)
 QT_FEATURE_harfbuzz:INTERNAL=ON
 //Qt feature: highdpiscaling (from target Qt6::Gui)
@@ -1749,6 +1817,8 @@ QT_FEATURE_hijricalendar:INTERNAL=ON
 QT_FEATURE_http:INTERNAL=ON
 //Qt feature: ico (from target Qt6::Gui)
 QT_FEATURE_ico:INTERNAL=ON
+//Qt feature: iconv (from target Qt6::Core5Compat)
+QT_FEATURE_iconv:INTERNAL=OFF
 //Qt feature: icu (from target Qt6::Core)
 QT_FEATURE_icu:INTERNAL=ON
 //Qt feature: identityproxymodel (from target Qt6::Core)
@@ -1955,6 +2025,14 @@ QT_FEATURE_posix_fallocate:INTERNAL=ON
 QT_FEATURE_posix_sem:INTERNAL=ON
 //Qt feature: posix_shm (from target Qt6::Core)
 QT_FEATURE_posix_shm:INTERNAL=ON
+//Qt feature: printdialog (from target Qt6::PrintSupport)
+QT_FEATURE_printdialog:INTERNAL=ON
+//Qt feature: printer (from target Qt6::PrintSupport)
+QT_FEATURE_printer:INTERNAL=ON
+//Qt feature: printpreviewdialog (from target Qt6::PrintSupport)
+QT_FEATURE_printpreviewdialog:INTERNAL=ON
+//Qt feature: printpreviewwidget (from target Qt6::PrintSupport)
+QT_FEATURE_printpreviewwidget:INTERNAL=ON
 //Qt feature: printsupport (from target Qt6::Core)
 QT_FEATURE_printsupport:INTERNAL=ON
 //Qt feature: private_tests (from target Qt6::Core)
@@ -1985,24 +2063,36 @@ QT_FEATURE_pushbutton:INTERNAL=ON
 QT_FEATURE_qml_animation:INTERNAL=ON
 //Qt feature: qml_debug (from target Qt6::Qml)
 QT_FEATURE_qml_debug:INTERNAL=ON
+//Qt feature: qml_delegate_model (from target Qt6::QmlModels)
+QT_FEATURE_qml_delegate_model:INTERNAL=ON
 //Qt feature: qml_itemmodel (from target Qt6::Qml)
 QT_FEATURE_qml_itemmodel:INTERNAL=ON
 //Qt feature: qml_jit (from target Qt6::Qml)
 QT_FEATURE_qml_jit:INTERNAL=ON
 //Qt feature: qml_labs (from target Qt6::Qml)
 QT_FEATURE_qml_labs:INTERNAL=ON
+//Qt feature: qml_list_model (from target Qt6::QmlModels)
+QT_FEATURE_qml_list_model:INTERNAL=ON
 //Qt feature: qml_locale (from target Qt6::Qml)
 QT_FEATURE_qml_locale:INTERNAL=ON
 //Qt feature: qml_network (from target Qt6::Qml)
 QT_FEATURE_qml_network:INTERNAL=ON
+//Qt feature: qml_object_model (from target Qt6::QmlModels)
+QT_FEATURE_qml_object_model:INTERNAL=ON
 //Qt feature: qml_preview (from target Qt6::Qml)
 QT_FEATURE_qml_preview:INTERNAL=ON
 //Qt feature: qml_profiler (from target Qt6::Qml)
 QT_FEATURE_qml_profiler:INTERNAL=ON
 //Qt feature: qml_python (from target Qt6::Qml)
 QT_FEATURE_qml_python:INTERNAL=ON
+//Qt feature: qml_sfpm_model (from target Qt6::QmlModels)
+QT_FEATURE_qml_sfpm_model:INTERNAL=ON
 //Qt feature: qml_ssl (from target Qt6::Qml)
 QT_FEATURE_qml_ssl:INTERNAL=ON
+//Qt feature: qml_table_model (from target Qt6::QmlModels)
+QT_FEATURE_qml_table_model:INTERNAL=ON
+//Qt feature: qml_tree_model (from target Qt6::QmlModels)
+QT_FEATURE_qml_tree_model:INTERNAL=ON
 //Qt feature: qml_type_loader_thread (from target Qt6::Qml)
 QT_FEATURE_qml_type_loader_thread:INTERNAL=ON
 //Qt feature: qml_worker_script (from target Qt6::Qml)
@@ -2019,6 +2109,49 @@ QT_FEATURE_qqnx_imf:INTERNAL=OFF
 QT_FEATURE_qqnx_pps:INTERNAL=OFF
 //Qt feature: qtgui_threadpool (from target Qt6::Gui)
 QT_FEATURE_qtgui_threadpool:INTERNAL=ON
+//Qt feature: quick_animatedimage (from target Qt6::Quick)
+QT_FEATURE_quick_animatedimage:INTERNAL=ON
+//Qt feature: quick_canvas (from target Qt6::Quick)
+QT_FEATURE_quick_canvas:INTERNAL=ON
+//Qt feature: quick_designer (from target Qt6::Quick)
+QT_FEATURE_quick_designer:INTERNAL=ON
+//Qt feature: quick_dialogs (from target Qt6::Quick)
+QT_FEATURE_quick_dialogs:INTERNAL=ON
+//Qt feature: quick_draganddrop (from target Qt6::Quick)
+QT_FEATURE_quick_draganddrop:INTERNAL=ON
+//Qt feature: quick_flipable (from target Qt6::Quick)
+QT_FEATURE_quick_flipable:INTERNAL=ON
+//Qt feature: quick_gridview (from target Qt6::Quick)
+QT_FEATURE_quick_gridview:INTERNAL=ON
+//Qt feature: quick_itemview (from target Qt6::Quick)
+QT_FEATURE_quick_itemview:INTERNAL=ON
+//Qt feature: quick_listview (from target Qt6::Quick)
+QT_FEATURE_quick_listview:INTERNAL=ON
+//Qt feature: quick_particles (from target Qt6::Quick)
+QT_FEATURE_quick_particles:INTERNAL=ON
+//Qt feature: quick_path (from target Qt6::Quick)
+QT_FEATURE_quick_path:INTERNAL=ON
+//Qt feature: quick_pathview (from target Qt6::Quick)
+QT_FEATURE_quick_pathview:INTERNAL=ON
+//Qt feature: quick_pixmap_cache_threaded_download (from target
+// Qt6::Quick)
+QT_FEATURE_quick_pixmap_cache_threaded_download:INTERNAL=ON
+//Qt feature: quick_positioners (from target Qt6::Quick)
+QT_FEATURE_quick_positioners:INTERNAL=ON
+//Qt feature: quick_repeater (from target Qt6::Quick)
+QT_FEATURE_quick_repeater:INTERNAL=ON
+//Qt feature: quick_shadereffect (from target Qt6::Quick)
+QT_FEATURE_quick_shadereffect:INTERNAL=ON
+//Qt feature: quick_sprite (from target Qt6::Quick)
+QT_FEATURE_quick_sprite:INTERNAL=ON
+//Qt feature: quick_tableview (from target Qt6::Quick)
+QT_FEATURE_quick_tableview:INTERNAL=ON
+//Qt feature: quick_treeview (from target Qt6::Quick)
+QT_FEATURE_quick_treeview:INTERNAL=ON
+//Qt feature: quick_vectorimage (from target Qt6::Quick)
+QT_FEATURE_quick_vectorimage:INTERNAL=ON
+//Qt feature: quick_viewtransitions (from target Qt6::Quick)
+QT_FEATURE_quick_viewtransitions:INTERNAL=ON
 //Qt feature: radiobutton (from target Qt6::Widgets)
 QT_FEATURE_radiobutton:INTERNAL=ON
 //Qt feature: raster_64bit (from target Qt6::Gui)
@@ -2203,6 +2336,8 @@ QT_FEATURE_test_squish:INTERNAL=ON
 QT_FEATURE_testlib:INTERNAL=ON
 //Qt feature: textbrowser (from target Qt6::Widgets)
 QT_FEATURE_textbrowser:INTERNAL=ON
+//Qt feature: textcodec (from target Qt6::Core5Compat)
+QT_FEATURE_textcodec:INTERNAL=ON
 //Qt feature: textdate (from target Qt6::Core)
 QT_FEATURE_textdate:INTERNAL=ON
 //Qt feature: textedit (from target Qt6::Widgets)
@@ -2327,6 +2462,52 @@ QT_FEATURE_wayland_shm_emulation_server_buffer:INTERNAL=ON
 QT_FEATURE_wayland_vulkan_server_buffer:INTERNAL=ON
 //Qt feature: waylandscanner (from target Qt6::Gui)
 QT_FEATURE_waylandscanner:INTERNAL=ON
+//Qt feature: webengine_arm64_udot_support (from target Qt6::WebEngineCore)
+QT_FEATURE_webengine_arm64_udot_support:INTERNAL=OFF
+//Qt feature: webengine_embedded_build (from target Qt6::WebEngineCore)
+QT_FEATURE_webengine_embedded_build:INTERNAL=OFF
+//Qt feature: webengine_extensions (from target Qt6::WebEngineCore)
+QT_FEATURE_webengine_extensions:INTERNAL=ON
+//Qt feature: webengine_full_debug_info (from target Qt6::WebEngineCore)
+QT_FEATURE_webengine_full_debug_info:INTERNAL=OFF
+//Qt feature: webengine_geolocation (from target Qt6::WebEngineCore)
+QT_FEATURE_webengine_geolocation:INTERNAL=ON
+//Qt feature: webengine_kerberos (from target Qt6::WebEngineCore)
+QT_FEATURE_webengine_kerberos:INTERNAL=ON
+//Qt feature: webengine_native_spellchecker (from target Qt6::WebEngineCore)
+QT_FEATURE_webengine_native_spellchecker:INTERNAL=OFF
+//Qt feature: webengine_pepper_plugins (from target Qt6::WebEngineCore)
+QT_FEATURE_webengine_pepper_plugins:INTERNAL=ON
+//Qt feature: webengine_printing_and_pdf (from target Qt6::WebEngineCore)
+QT_FEATURE_webengine_printing_and_pdf:INTERNAL=ON
+//Qt feature: webengine_proprietary_codecs (from target Qt6::WebEngineCore)
+QT_FEATURE_webengine_proprietary_codecs:INTERNAL=ON
+//Qt feature: webengine_sanitizer (from target Qt6::WebEngineCore)
+QT_FEATURE_webengine_sanitizer:INTERNAL=OFF
+//Qt feature: webengine_spellchecker (from target Qt6::WebEngineCore)
+QT_FEATURE_webengine_spellchecker:INTERNAL=ON
+//Qt feature: webengine_system_alsa (from target Qt6::WebEngineCore)
+QT_FEATURE_webengine_system_alsa:INTERNAL=ON
+//Qt feature: webengine_system_gbm (from target Qt6::WebEngineCore)
+QT_FEATURE_webengine_system_gbm:INTERNAL=ON
+//Qt feature: webengine_system_pulseaudio (from target Qt6::WebEngineCore)
+QT_FEATURE_webengine_system_pulseaudio:INTERNAL=ON
+//Qt feature: webengine_v8_context_snapshot (from target Qt6::WebEngineCore)
+QT_FEATURE_webengine_v8_context_snapshot:INTERNAL=ON
+//Qt feature: webengine_vaapi (from target Qt6::WebEngineCore)
+QT_FEATURE_webengine_vaapi:INTERNAL=ON
+//Qt feature: webengine_vulkan (from target Qt6::WebEngineCore)
+QT_FEATURE_webengine_vulkan:INTERNAL=ON
+//Qt feature: webengine_webchannel (from target Qt6::WebEngineCore)
+QT_FEATURE_webengine_webchannel:INTERNAL=ON
+//Qt feature: webengine_webrtc (from target Qt6::WebEngineCore)
+QT_FEATURE_webengine_webrtc:INTERNAL=ON
+//Qt feature: webengine_webrtc_pipewire (from target Qt6::WebEngineCore)
+QT_FEATURE_webengine_webrtc_pipewire:INTERNAL=ON
+//Qt feature: webengine_webrtc_system_openh264 (from target Qt6::WebEngineCore)
+QT_FEATURE_webengine_webrtc_system_openh264:INTERNAL=ON
+//Qt feature: webenginedriver (from target Qt6::WebEngineCore)
+QT_FEATURE_webenginedriver:INTERNAL=ON
 //Qt feature: whatsthis (from target Qt6::Gui)
 QT_FEATURE_whatsthis:INTERNAL=ON
 //Qt feature: wheelevent (from target Qt6::Gui)
@@ -2340,6 +2521,8 @@ QT_FEATURE_windows_ioring:INTERNAL=OFF
 //Qt feature: windows_ioring_skip_builder_param_checks (from target
 // Qt6::Core)
 QT_FEATURE_windows_ioring_skip_builder_param_checks:INTERNAL=OFF
+//Qt feature: winrt_geolocation (from target Qt6::Positioning)
+QT_FEATURE_winrt_geolocation:INTERNAL=OFF
 //Qt feature: winsdkicu (from target Qt6::Core)
 QT_FEATURE_winsdkicu:INTERNAL=OFF
 //Qt feature: wizard (from target Qt6::Widgets)

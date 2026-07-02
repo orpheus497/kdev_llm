@@ -84,11 +84,11 @@ clean: src/clean
 # Directory level rules for directory src
 
 # Recursive "all" directory target.
-src/all: src/CMakeFiles/jenovaktext.dir/all
+src/all: src/CMakeFiles/jenovakdev.dir/all
 .PHONY : src/all
 
 # Recursive "codegen" directory target.
-src/codegen: src/CMakeFiles/jenovaktext.dir/codegen
+src/codegen: src/CMakeFiles/jenovakdev.dir/codegen
 .PHONY : src/codegen
 
 # Recursive "preinstall" directory target.
@@ -96,9 +96,9 @@ src/preinstall:
 .PHONY : src/preinstall
 
 # Recursive "clean" directory target.
-src/clean: src/CMakeFiles/jenovaktext.dir/clean
-src/clean: src/CMakeFiles/jenovaktext_autogen_timestamp_deps.dir/clean
-src/clean: src/CMakeFiles/jenovaktext_autogen.dir/clean
+src/clean: src/CMakeFiles/jenovakdev.dir/clean
+src/clean: src/CMakeFiles/jenovakdev_autogen_timestamp_deps.dir/clean
+src/clean: src/CMakeFiles/jenovakdev_autogen.dir/clean
 .PHONY : src/clean
 
 #=============================================================================
@@ -166,101 +166,101 @@ CMakeFiles/fetch-translations.dir/clean:
 .PHONY : CMakeFiles/fetch-translations.dir/clean
 
 #=============================================================================
-# Target rules for target src/CMakeFiles/jenovaktext.dir
+# Target rules for target src/CMakeFiles/jenovakdev.dir
 
 # All Build rule for target.
-src/CMakeFiles/jenovaktext.dir/all: src/CMakeFiles/jenovaktext_autogen_timestamp_deps.dir/all
-src/CMakeFiles/jenovaktext.dir/all: src/CMakeFiles/jenovaktext_autogen.dir/all
-	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovaktext.dir/build.make src/CMakeFiles/jenovaktext.dir/depend
-	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovaktext.dir/build.make src/CMakeFiles/jenovaktext.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/orpheus497/Documents/Projects/ktext_jenova/build/CMakeFiles --progress-num=3,4,5,6,7,8,9,10,11,12,13 "Built target jenovaktext"
-.PHONY : src/CMakeFiles/jenovaktext.dir/all
+src/CMakeFiles/jenovakdev.dir/all: src/CMakeFiles/jenovakdev_autogen_timestamp_deps.dir/all
+src/CMakeFiles/jenovakdev.dir/all: src/CMakeFiles/jenovakdev_autogen.dir/all
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovakdev.dir/build.make src/CMakeFiles/jenovakdev.dir/depend
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovakdev.dir/build.make src/CMakeFiles/jenovakdev.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/orpheus497/Documents/Projects/ktext_jenova/build/CMakeFiles --progress-num=3,4,5,6,7,8,9,10,11 "Built target jenovakdev"
+.PHONY : src/CMakeFiles/jenovakdev.dir/all
 
 # Build rule for subdir invocation for target.
-src/CMakeFiles/jenovaktext.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/orpheus497/Documents/Projects/ktext_jenova/build/CMakeFiles 12
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/jenovaktext.dir/all
+src/CMakeFiles/jenovakdev.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/orpheus497/Documents/Projects/ktext_jenova/build/CMakeFiles 10
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/jenovakdev.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/orpheus497/Documents/Projects/ktext_jenova/build/CMakeFiles 0
-.PHONY : src/CMakeFiles/jenovaktext.dir/rule
+.PHONY : src/CMakeFiles/jenovakdev.dir/rule
 
 # Convenience name for target.
-jenovaktext: src/CMakeFiles/jenovaktext.dir/rule
-.PHONY : jenovaktext
+jenovakdev: src/CMakeFiles/jenovakdev.dir/rule
+.PHONY : jenovakdev
 
 # codegen rule for target.
-src/CMakeFiles/jenovaktext.dir/codegen: src/CMakeFiles/jenovaktext_autogen_timestamp_deps.dir/all
-	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovaktext.dir/build.make src/CMakeFiles/jenovaktext.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/orpheus497/Documents/Projects/ktext_jenova/build/CMakeFiles --progress-num=3,4,5,6,7,8,9,10,11,12,13 "Finished codegen for target jenovaktext"
-.PHONY : src/CMakeFiles/jenovaktext.dir/codegen
+src/CMakeFiles/jenovakdev.dir/codegen: src/CMakeFiles/jenovakdev_autogen_timestamp_deps.dir/all
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovakdev.dir/build.make src/CMakeFiles/jenovakdev.dir/codegen
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/orpheus497/Documents/Projects/ktext_jenova/build/CMakeFiles --progress-num=3,4,5,6,7,8,9,10,11 "Finished codegen for target jenovakdev"
+.PHONY : src/CMakeFiles/jenovakdev.dir/codegen
 
 # clean rule for target.
-src/CMakeFiles/jenovaktext.dir/clean:
-	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovaktext.dir/build.make src/CMakeFiles/jenovaktext.dir/clean
-.PHONY : src/CMakeFiles/jenovaktext.dir/clean
+src/CMakeFiles/jenovakdev.dir/clean:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovakdev.dir/build.make src/CMakeFiles/jenovakdev.dir/clean
+.PHONY : src/CMakeFiles/jenovakdev.dir/clean
 
 #=============================================================================
-# Target rules for target src/CMakeFiles/jenovaktext_autogen_timestamp_deps.dir
+# Target rules for target src/CMakeFiles/jenovakdev_autogen_timestamp_deps.dir
 
 # All Build rule for target.
-src/CMakeFiles/jenovaktext_autogen_timestamp_deps.dir/all:
-	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovaktext_autogen_timestamp_deps.dir/build.make src/CMakeFiles/jenovaktext_autogen_timestamp_deps.dir/depend
-	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovaktext_autogen_timestamp_deps.dir/build.make src/CMakeFiles/jenovaktext_autogen_timestamp_deps.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/orpheus497/Documents/Projects/ktext_jenova/build/CMakeFiles --progress-num= "Built target jenovaktext_autogen_timestamp_deps"
-.PHONY : src/CMakeFiles/jenovaktext_autogen_timestamp_deps.dir/all
+src/CMakeFiles/jenovakdev_autogen_timestamp_deps.dir/all:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovakdev_autogen_timestamp_deps.dir/build.make src/CMakeFiles/jenovakdev_autogen_timestamp_deps.dir/depend
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovakdev_autogen_timestamp_deps.dir/build.make src/CMakeFiles/jenovakdev_autogen_timestamp_deps.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/orpheus497/Documents/Projects/ktext_jenova/build/CMakeFiles --progress-num= "Built target jenovakdev_autogen_timestamp_deps"
+.PHONY : src/CMakeFiles/jenovakdev_autogen_timestamp_deps.dir/all
 
 # Build rule for subdir invocation for target.
-src/CMakeFiles/jenovaktext_autogen_timestamp_deps.dir/rule: cmake_check_build_system
+src/CMakeFiles/jenovakdev_autogen_timestamp_deps.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/orpheus497/Documents/Projects/ktext_jenova/build/CMakeFiles 0
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/jenovaktext_autogen_timestamp_deps.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/jenovakdev_autogen_timestamp_deps.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/orpheus497/Documents/Projects/ktext_jenova/build/CMakeFiles 0
-.PHONY : src/CMakeFiles/jenovaktext_autogen_timestamp_deps.dir/rule
+.PHONY : src/CMakeFiles/jenovakdev_autogen_timestamp_deps.dir/rule
 
 # Convenience name for target.
-jenovaktext_autogen_timestamp_deps: src/CMakeFiles/jenovaktext_autogen_timestamp_deps.dir/rule
-.PHONY : jenovaktext_autogen_timestamp_deps
+jenovakdev_autogen_timestamp_deps: src/CMakeFiles/jenovakdev_autogen_timestamp_deps.dir/rule
+.PHONY : jenovakdev_autogen_timestamp_deps
 
 # codegen rule for target.
-src/CMakeFiles/jenovaktext_autogen_timestamp_deps.dir/codegen:
-	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovaktext_autogen_timestamp_deps.dir/build.make src/CMakeFiles/jenovaktext_autogen_timestamp_deps.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/orpheus497/Documents/Projects/ktext_jenova/build/CMakeFiles --progress-num= "Finished codegen for target jenovaktext_autogen_timestamp_deps"
-.PHONY : src/CMakeFiles/jenovaktext_autogen_timestamp_deps.dir/codegen
+src/CMakeFiles/jenovakdev_autogen_timestamp_deps.dir/codegen:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovakdev_autogen_timestamp_deps.dir/build.make src/CMakeFiles/jenovakdev_autogen_timestamp_deps.dir/codegen
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/orpheus497/Documents/Projects/ktext_jenova/build/CMakeFiles --progress-num= "Finished codegen for target jenovakdev_autogen_timestamp_deps"
+.PHONY : src/CMakeFiles/jenovakdev_autogen_timestamp_deps.dir/codegen
 
 # clean rule for target.
-src/CMakeFiles/jenovaktext_autogen_timestamp_deps.dir/clean:
-	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovaktext_autogen_timestamp_deps.dir/build.make src/CMakeFiles/jenovaktext_autogen_timestamp_deps.dir/clean
-.PHONY : src/CMakeFiles/jenovaktext_autogen_timestamp_deps.dir/clean
+src/CMakeFiles/jenovakdev_autogen_timestamp_deps.dir/clean:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovakdev_autogen_timestamp_deps.dir/build.make src/CMakeFiles/jenovakdev_autogen_timestamp_deps.dir/clean
+.PHONY : src/CMakeFiles/jenovakdev_autogen_timestamp_deps.dir/clean
 
 #=============================================================================
-# Target rules for target src/CMakeFiles/jenovaktext_autogen.dir
+# Target rules for target src/CMakeFiles/jenovakdev_autogen.dir
 
 # All Build rule for target.
-src/CMakeFiles/jenovaktext_autogen.dir/all: src/CMakeFiles/jenovaktext_autogen_timestamp_deps.dir/all
-	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovaktext_autogen.dir/build.make src/CMakeFiles/jenovaktext_autogen.dir/depend
-	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovaktext_autogen.dir/build.make src/CMakeFiles/jenovaktext_autogen.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/orpheus497/Documents/Projects/ktext_jenova/build/CMakeFiles --progress-num=14 "Built target jenovaktext_autogen"
-.PHONY : src/CMakeFiles/jenovaktext_autogen.dir/all
+src/CMakeFiles/jenovakdev_autogen.dir/all: src/CMakeFiles/jenovakdev_autogen_timestamp_deps.dir/all
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovakdev_autogen.dir/build.make src/CMakeFiles/jenovakdev_autogen.dir/depend
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovakdev_autogen.dir/build.make src/CMakeFiles/jenovakdev_autogen.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/orpheus497/Documents/Projects/ktext_jenova/build/CMakeFiles --progress-num=12 "Built target jenovakdev_autogen"
+.PHONY : src/CMakeFiles/jenovakdev_autogen.dir/all
 
 # Build rule for subdir invocation for target.
-src/CMakeFiles/jenovaktext_autogen.dir/rule: cmake_check_build_system
+src/CMakeFiles/jenovakdev_autogen.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/orpheus497/Documents/Projects/ktext_jenova/build/CMakeFiles 1
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/jenovaktext_autogen.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/jenovakdev_autogen.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/orpheus497/Documents/Projects/ktext_jenova/build/CMakeFiles 0
-.PHONY : src/CMakeFiles/jenovaktext_autogen.dir/rule
+.PHONY : src/CMakeFiles/jenovakdev_autogen.dir/rule
 
 # Convenience name for target.
-jenovaktext_autogen: src/CMakeFiles/jenovaktext_autogen.dir/rule
-.PHONY : jenovaktext_autogen
+jenovakdev_autogen: src/CMakeFiles/jenovakdev_autogen.dir/rule
+.PHONY : jenovakdev_autogen
 
 # codegen rule for target.
-src/CMakeFiles/jenovaktext_autogen.dir/codegen: src/CMakeFiles/jenovaktext_autogen_timestamp_deps.dir/all
-	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovaktext_autogen.dir/build.make src/CMakeFiles/jenovaktext_autogen.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/orpheus497/Documents/Projects/ktext_jenova/build/CMakeFiles --progress-num=14 "Finished codegen for target jenovaktext_autogen"
-.PHONY : src/CMakeFiles/jenovaktext_autogen.dir/codegen
+src/CMakeFiles/jenovakdev_autogen.dir/codegen: src/CMakeFiles/jenovakdev_autogen_timestamp_deps.dir/all
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovakdev_autogen.dir/build.make src/CMakeFiles/jenovakdev_autogen.dir/codegen
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/orpheus497/Documents/Projects/ktext_jenova/build/CMakeFiles --progress-num=12 "Finished codegen for target jenovakdev_autogen"
+.PHONY : src/CMakeFiles/jenovakdev_autogen.dir/codegen
 
 # clean rule for target.
-src/CMakeFiles/jenovaktext_autogen.dir/clean:
-	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovaktext_autogen.dir/build.make src/CMakeFiles/jenovaktext_autogen.dir/clean
-.PHONY : src/CMakeFiles/jenovaktext_autogen.dir/clean
+src/CMakeFiles/jenovakdev_autogen.dir/clean:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovakdev_autogen.dir/build.make src/CMakeFiles/jenovakdev_autogen.dir/clean
+.PHONY : src/CMakeFiles/jenovakdev_autogen.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

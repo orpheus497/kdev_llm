@@ -27,6 +27,8 @@ find_package(Qt6 REQUIRED COMPONENTS
     Network
 )
 
+find_package(KDevPlatform 6.0 REQUIRED)
+
 add_subdirectory(src)
 
 feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)

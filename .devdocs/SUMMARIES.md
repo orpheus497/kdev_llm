@@ -1,4 +1,21 @@
+**Timestamp**: 2026-07-03 02:17
+- Stabilized the KDevelop plugin architecture by fixing critical loading bugs that broke the ToolView layout initialization and bypassed the Autocomplete hooks. 
+- Integrated `IDocumentController` for foolproof code completion injection.
+- Rebranded the plugin to "JCA KDev Plugin" and the UI to "Jenova C.A." per user instruction.
+- Brought the README.md up-to-date with the new branding, DUChain functionality, and KDevelop installation instructions.
 # Historical Session Summaries
+
+**Timestamp**: 2026-07-03 01:43
+* **Phase 14 (Cleanup)**: Deleted the old Kate `src` codebase, promoted `src_kdevelop` to `src`, updated `CMakeLists.txt`, and documented KDevelop installation and testing instructions in `README.md`.
+
+**Timestamp**: 2026-07-03 01:42
+* **Phase 14 (Completed)**: Ported the remaining UI integrations (`AiCompletionModel` and Context Menus) into the proper KDevelop architecture using `ContextMenuExtension` and global `KTextEditor::Editor` signals. The ground-up rebuild is now functionally complete.
+
+**Timestamp**: 2026-07-03 01:38
+* **Phase 14 (Cont.)**: Migrated the core AI Chat backend (LlamaClient, ContextManager) and the UI frontend (AiChatWidget). Completely adapted the ToolView spawning mechanism from Kate's architecture to `KDevelop::IToolViewFactory`. Compilation successful.
+
+**Timestamp**: 2026-07-03 01:35
+* **Phase 14**: Commenced the ground-up KDevelop plugin rebuild by scaffolding a parallel `src_kdevelop` directory. Created boilerplate `KDevelop::IPlugin` implementation and successfully verified its compilation against `KDevPlatform` libraries.
 
 **Timestamp**: 2026-07-02 15:52
 * **Phase 13**: Refactored the core AI context engine to inject full document text rather than just file paths, resolving hallucinated LLM responses during refactoring. Overhauled the context menu architecture by replacing the `QMenu` override with standard native XMLGUI (`ktexteditor_popup`), ensuring deep IDE compliance. Added a rich `QInputDialog` to the refactor flow to allow explicit user instructions. Recompiled successfully.

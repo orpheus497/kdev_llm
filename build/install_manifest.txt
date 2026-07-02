@@ -1,2 +1,1 @@
-/home/orpheus497/.local/lib/plugins/kf6/ktexteditor/jenovaktext.so
-/home/orpheus497/.local/share/kxmlgui5/jenovaktext/jenovaktextui.rc
+/home/orpheus497/.local/lib/plugins/kdevplatform/65/jenovakdev.so

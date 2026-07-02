@@ -4,7 +4,6 @@
 #include "../network/LlamaClient.h"
 #include "../context/ContextManager.h"
 
-#include <KTextEditor/MainWindow>
 #include <KTextEditor/View>
 #include <QVBoxLayout>
 #include <QTextBrowser>
@@ -13,10 +12,13 @@
 #include <QKeyEvent>
 #include <KTextEditor/Document>
 
+#include <interfaces/icore.h>
+#include <interfaces/idocumentcontroller.h>
+#include <interfaces/idocument.h>
+
 // ##Method purpose: Sets up the layout, initializes UI components, and connects signals.
-AiChatWidget::AiChatWidget(KTextEditor::MainWindow *mainWindow, QWidget *parent)
+AiChatWidget::AiChatWidget(QWidget *parent)
     : QWidget(parent)
-    , m_mainWindow(mainWindow)
     , m_client(new LlamaClient(this))
     , m_context(new ContextManager(this))
 {
@@ -57,7 +59,12 @@ void AiChatWidget::sendMessage(const QString &text)
     renderMarkdown();
     
     // ##Condition purpose: Inject or update the system prompt on every message to keep file context fresh.
-    QString sysPrompt = m_context->buildSystemPrompt(m_mainWindow->activeView());
+    KTextEditor::View* activeView = nullptr;
+    auto activeDoc = KDevelop::ICore::self()->documentController()->activeDocument();
+    if (activeDoc) {
+        activeView = activeDoc->activeTextView();
+    }
+    QString sysPrompt = m_context->buildSystemPrompt(activeView);
     if (m_messageHistory.isEmpty()) {
         QJsonObject sysMsg;
         sysMsg[QStringLiteral("role")] = QStringLiteral("system");
@@ -123,6 +130,6 @@ void AiChatWidget::clearChat()
 {
     m_messageHistory = QJsonArray();
     m_currentAssistantResponse.clear();
-    m_rawMarkdown = QStringLiteral("# Jenova K Text\n\nWelcome to Jenova K Text, your AI Assistant for Kate and KDevelop!\n\n## Features:\n- **Chat**: Type below and press `Enter` to ask questions about your code.\n- **Refactor**: Select code, right-click (or Tools menu) and choose **AI: Refactor Selection...**\n- **Autocomplete**: Press `Ctrl+Space` while typing to get AI code suggestions.\n\n*(Note: Ensure your local Llama.cpp server is running at the configured endpoint in Settings)*\n\n---\n\n");
+    m_rawMarkdown = QStringLiteral("# Jenova C.A.\n\nWelcome to Jenova Cognitive Architecture, your AI Assistant for KDevelop!\n\n## Features:\n- **Chat**: Type below and press `Enter` to ask questions about your code.\n- **Refactor**: Select code, right-click (or Tools menu) and choose **AI: Refactor Selection...**\n- **Autocomplete**: Press `Ctrl+Space` while typing to get AI code suggestions.\n\n*(Note: Ensure your local Llama.cpp server is running at the configured endpoint in Settings)*\n\n---\n\n");
     renderMarkdown();
 }

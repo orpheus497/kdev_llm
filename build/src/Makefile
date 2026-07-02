@@ -172,53 +172,77 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
-src/CMakeFiles/jenovaktext.dir/rule:
-	cd /home/orpheus497/Documents/Projects/ktext_jenova/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/jenovaktext.dir/rule
-.PHONY : src/CMakeFiles/jenovaktext.dir/rule
+src/CMakeFiles/jenovakdev.dir/rule:
+	cd /home/orpheus497/Documents/Projects/ktext_jenova/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/jenovakdev.dir/rule
+.PHONY : src/CMakeFiles/jenovakdev.dir/rule
 
 # Convenience name for target.
-jenovaktext: src/CMakeFiles/jenovaktext.dir/rule
-.PHONY : jenovaktext
+jenovakdev: src/CMakeFiles/jenovakdev.dir/rule
+.PHONY : jenovakdev
 
 # fast build rule for target.
-jenovaktext/fast:
-	cd /home/orpheus497/Documents/Projects/ktext_jenova/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovaktext.dir/build.make src/CMakeFiles/jenovaktext.dir/build
-.PHONY : jenovaktext/fast
+jenovakdev/fast:
+	cd /home/orpheus497/Documents/Projects/ktext_jenova/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovakdev.dir/build.make src/CMakeFiles/jenovakdev.dir/build
+.PHONY : jenovakdev/fast
 
 # Convenience name for target.
-src/CMakeFiles/jenovaktext_autogen_timestamp_deps.dir/rule:
-	cd /home/orpheus497/Documents/Projects/ktext_jenova/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/jenovaktext_autogen_timestamp_deps.dir/rule
-.PHONY : src/CMakeFiles/jenovaktext_autogen_timestamp_deps.dir/rule
+src/CMakeFiles/jenovakdev_autogen_timestamp_deps.dir/rule:
+	cd /home/orpheus497/Documents/Projects/ktext_jenova/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/jenovakdev_autogen_timestamp_deps.dir/rule
+.PHONY : src/CMakeFiles/jenovakdev_autogen_timestamp_deps.dir/rule
 
 # Convenience name for target.
-jenovaktext_autogen_timestamp_deps: src/CMakeFiles/jenovaktext_autogen_timestamp_deps.dir/rule
-.PHONY : jenovaktext_autogen_timestamp_deps
+jenovakdev_autogen_timestamp_deps: src/CMakeFiles/jenovakdev_autogen_timestamp_deps.dir/rule
+.PHONY : jenovakdev_autogen_timestamp_deps
 
 # fast build rule for target.
-jenovaktext_autogen_timestamp_deps/fast:
-	cd /home/orpheus497/Documents/Projects/ktext_jenova/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovaktext_autogen_timestamp_deps.dir/build.make src/CMakeFiles/jenovaktext_autogen_timestamp_deps.dir/build
-.PHONY : jenovaktext_autogen_timestamp_deps/fast
+jenovakdev_autogen_timestamp_deps/fast:
+	cd /home/orpheus497/Documents/Projects/ktext_jenova/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovakdev_autogen_timestamp_deps.dir/build.make src/CMakeFiles/jenovakdev_autogen_timestamp_deps.dir/build
+.PHONY : jenovakdev_autogen_timestamp_deps/fast
 
 # Convenience name for target.
-src/CMakeFiles/jenovaktext_autogen.dir/rule:
-	cd /home/orpheus497/Documents/Projects/ktext_jenova/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/jenovaktext_autogen.dir/rule
-.PHONY : src/CMakeFiles/jenovaktext_autogen.dir/rule
+src/CMakeFiles/jenovakdev_autogen.dir/rule:
+	cd /home/orpheus497/Documents/Projects/ktext_jenova/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/jenovakdev_autogen.dir/rule
+.PHONY : src/CMakeFiles/jenovakdev_autogen.dir/rule
 
 # Convenience name for target.
-jenovaktext_autogen: src/CMakeFiles/jenovaktext_autogen.dir/rule
-.PHONY : jenovaktext_autogen
+jenovakdev_autogen: src/CMakeFiles/jenovakdev_autogen.dir/rule
+.PHONY : jenovakdev_autogen
 
 # fast build rule for target.
-jenovaktext_autogen/fast:
-	cd /home/orpheus497/Documents/Projects/ktext_jenova/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovaktext_autogen.dir/build.make src/CMakeFiles/jenovaktext_autogen.dir/build
-.PHONY : jenovaktext_autogen/fast
+jenovakdev_autogen/fast:
+	cd /home/orpheus497/Documents/Projects/ktext_jenova/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovakdev_autogen.dir/build.make src/CMakeFiles/jenovakdev_autogen.dir/build
+.PHONY : jenovakdev_autogen/fast
+
+JenovaPlugin.o: JenovaPlugin.cpp.o
+.PHONY : JenovaPlugin.o
+
+# target to build an object file
+JenovaPlugin.cpp.o:
+	cd /home/orpheus497/Documents/Projects/ktext_jenova/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovakdev.dir/build.make src/CMakeFiles/jenovakdev.dir/JenovaPlugin.cpp.o
+.PHONY : JenovaPlugin.cpp.o
+
+JenovaPlugin.i: JenovaPlugin.cpp.i
+.PHONY : JenovaPlugin.i
+
+# target to preprocess a source file
+JenovaPlugin.cpp.i:
+	cd /home/orpheus497/Documents/Projects/ktext_jenova/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovakdev.dir/build.make src/CMakeFiles/jenovakdev.dir/JenovaPlugin.cpp.i
+.PHONY : JenovaPlugin.cpp.i
+
+JenovaPlugin.s: JenovaPlugin.cpp.s
+.PHONY : JenovaPlugin.s
+
+# target to generate assembly for a file
+JenovaPlugin.cpp.s:
+	cd /home/orpheus497/Documents/Projects/ktext_jenova/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovakdev.dir/build.make src/CMakeFiles/jenovakdev.dir/JenovaPlugin.cpp.s
+.PHONY : JenovaPlugin.cpp.s
 
 completion/AiCompletionModel.o: completion/AiCompletionModel.cpp.o
 .PHONY : completion/AiCompletionModel.o
 
 # target to build an object file
 completion/AiCompletionModel.cpp.o:
-	cd /home/orpheus497/Documents/Projects/ktext_jenova/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovaktext.dir/build.make src/CMakeFiles/jenovaktext.dir/completion/AiCompletionModel.cpp.o
+	cd /home/orpheus497/Documents/Projects/ktext_jenova/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovakdev.dir/build.make src/CMakeFiles/jenovakdev.dir/completion/AiCompletionModel.cpp.o
 .PHONY : completion/AiCompletionModel.cpp.o
 
 completion/AiCompletionModel.i: completion/AiCompletionModel.cpp.i
@@ -226,7 +250,7 @@ completion/AiCompletionModel.i: completion/AiCompletionModel.cpp.i
 
 # target to preprocess a source file
 completion/AiCompletionModel.cpp.i:
-	cd /home/orpheus497/Documents/Projects/ktext_jenova/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovaktext.dir/build.make src/CMakeFiles/jenovaktext.dir/completion/AiCompletionModel.cpp.i
+	cd /home/orpheus497/Documents/Projects/ktext_jenova/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovakdev.dir/build.make src/CMakeFiles/jenovakdev.dir/completion/AiCompletionModel.cpp.i
 .PHONY : completion/AiCompletionModel.cpp.i
 
 completion/AiCompletionModel.s: completion/AiCompletionModel.cpp.s
@@ -234,39 +258,15 @@ completion/AiCompletionModel.s: completion/AiCompletionModel.cpp.s
 
 # target to generate assembly for a file
 completion/AiCompletionModel.cpp.s:
-	cd /home/orpheus497/Documents/Projects/ktext_jenova/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovaktext.dir/build.make src/CMakeFiles/jenovaktext.dir/completion/AiCompletionModel.cpp.s
+	cd /home/orpheus497/Documents/Projects/ktext_jenova/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovakdev.dir/build.make src/CMakeFiles/jenovakdev.dir/completion/AiCompletionModel.cpp.s
 .PHONY : completion/AiCompletionModel.cpp.s
-
-config/AiConfigPage.o: config/AiConfigPage.cpp.o
-.PHONY : config/AiConfigPage.o
-
-# target to build an object file
-config/AiConfigPage.cpp.o:
-	cd /home/orpheus497/Documents/Projects/ktext_jenova/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovaktext.dir/build.make src/CMakeFiles/jenovaktext.dir/config/AiConfigPage.cpp.o
-.PHONY : config/AiConfigPage.cpp.o
-
-config/AiConfigPage.i: config/AiConfigPage.cpp.i
-.PHONY : config/AiConfigPage.i
-
-# target to preprocess a source file
-config/AiConfigPage.cpp.i:
-	cd /home/orpheus497/Documents/Projects/ktext_jenova/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovaktext.dir/build.make src/CMakeFiles/jenovaktext.dir/config/AiConfigPage.cpp.i
-.PHONY : config/AiConfigPage.cpp.i
-
-config/AiConfigPage.s: config/AiConfigPage.cpp.s
-.PHONY : config/AiConfigPage.s
-
-# target to generate assembly for a file
-config/AiConfigPage.cpp.s:
-	cd /home/orpheus497/Documents/Projects/ktext_jenova/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovaktext.dir/build.make src/CMakeFiles/jenovaktext.dir/config/AiConfigPage.cpp.s
-.PHONY : config/AiConfigPage.cpp.s
 
 context/ContextManager.o: context/ContextManager.cpp.o
 .PHONY : context/ContextManager.o
 
 # target to build an object file
 context/ContextManager.cpp.o:
-	cd /home/orpheus497/Documents/Projects/ktext_jenova/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovaktext.dir/build.make src/CMakeFiles/jenovaktext.dir/context/ContextManager.cpp.o
+	cd /home/orpheus497/Documents/Projects/ktext_jenova/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovakdev.dir/build.make src/CMakeFiles/jenovakdev.dir/context/ContextManager.cpp.o
 .PHONY : context/ContextManager.cpp.o
 
 context/ContextManager.i: context/ContextManager.cpp.i
@@ -274,7 +274,7 @@ context/ContextManager.i: context/ContextManager.cpp.i
 
 # target to preprocess a source file
 context/ContextManager.cpp.i:
-	cd /home/orpheus497/Documents/Projects/ktext_jenova/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovaktext.dir/build.make src/CMakeFiles/jenovaktext.dir/context/ContextManager.cpp.i
+	cd /home/orpheus497/Documents/Projects/ktext_jenova/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovakdev.dir/build.make src/CMakeFiles/jenovakdev.dir/context/ContextManager.cpp.i
 .PHONY : context/ContextManager.cpp.i
 
 context/ContextManager.s: context/ContextManager.cpp.s
@@ -282,39 +282,39 @@ context/ContextManager.s: context/ContextManager.cpp.s
 
 # target to generate assembly for a file
 context/ContextManager.cpp.s:
-	cd /home/orpheus497/Documents/Projects/ktext_jenova/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovaktext.dir/build.make src/CMakeFiles/jenovaktext.dir/context/ContextManager.cpp.s
+	cd /home/orpheus497/Documents/Projects/ktext_jenova/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovakdev.dir/build.make src/CMakeFiles/jenovakdev.dir/context/ContextManager.cpp.s
 .PHONY : context/ContextManager.cpp.s
 
-jenovaktext_autogen/mocs_compilation.o: jenovaktext_autogen/mocs_compilation.cpp.o
-.PHONY : jenovaktext_autogen/mocs_compilation.o
+jenovakdev_autogen/mocs_compilation.o: jenovakdev_autogen/mocs_compilation.cpp.o
+.PHONY : jenovakdev_autogen/mocs_compilation.o
 
 # target to build an object file
-jenovaktext_autogen/mocs_compilation.cpp.o:
-	cd /home/orpheus497/Documents/Projects/ktext_jenova/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovaktext.dir/build.make src/CMakeFiles/jenovaktext.dir/jenovaktext_autogen/mocs_compilation.cpp.o
-.PHONY : jenovaktext_autogen/mocs_compilation.cpp.o
+jenovakdev_autogen/mocs_compilation.cpp.o:
+	cd /home/orpheus497/Documents/Projects/ktext_jenova/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovakdev.dir/build.make src/CMakeFiles/jenovakdev.dir/jenovakdev_autogen/mocs_compilation.cpp.o
+.PHONY : jenovakdev_autogen/mocs_compilation.cpp.o
 
-jenovaktext_autogen/mocs_compilation.i: jenovaktext_autogen/mocs_compilation.cpp.i
-.PHONY : jenovaktext_autogen/mocs_compilation.i
+jenovakdev_autogen/mocs_compilation.i: jenovakdev_autogen/mocs_compilation.cpp.i
+.PHONY : jenovakdev_autogen/mocs_compilation.i
 
 # target to preprocess a source file
-jenovaktext_autogen/mocs_compilation.cpp.i:
-	cd /home/orpheus497/Documents/Projects/ktext_jenova/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovaktext.dir/build.make src/CMakeFiles/jenovaktext.dir/jenovaktext_autogen/mocs_compilation.cpp.i
-.PHONY : jenovaktext_autogen/mocs_compilation.cpp.i
+jenovakdev_autogen/mocs_compilation.cpp.i:
+	cd /home/orpheus497/Documents/Projects/ktext_jenova/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovakdev.dir/build.make src/CMakeFiles/jenovakdev.dir/jenovakdev_autogen/mocs_compilation.cpp.i
+.PHONY : jenovakdev_autogen/mocs_compilation.cpp.i
 
-jenovaktext_autogen/mocs_compilation.s: jenovaktext_autogen/mocs_compilation.cpp.s
-.PHONY : jenovaktext_autogen/mocs_compilation.s
+jenovakdev_autogen/mocs_compilation.s: jenovakdev_autogen/mocs_compilation.cpp.s
+.PHONY : jenovakdev_autogen/mocs_compilation.s
 
 # target to generate assembly for a file
-jenovaktext_autogen/mocs_compilation.cpp.s:
-	cd /home/orpheus497/Documents/Projects/ktext_jenova/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovaktext.dir/build.make src/CMakeFiles/jenovaktext.dir/jenovaktext_autogen/mocs_compilation.cpp.s
-.PHONY : jenovaktext_autogen/mocs_compilation.cpp.s
+jenovakdev_autogen/mocs_compilation.cpp.s:
+	cd /home/orpheus497/Documents/Projects/ktext_jenova/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovakdev.dir/build.make src/CMakeFiles/jenovakdev.dir/jenovakdev_autogen/mocs_compilation.cpp.s
+.PHONY : jenovakdev_autogen/mocs_compilation.cpp.s
 
 network/LlamaClient.o: network/LlamaClient.cpp.o
 .PHONY : network/LlamaClient.o
 
 # target to build an object file
 network/LlamaClient.cpp.o:
-	cd /home/orpheus497/Documents/Projects/ktext_jenova/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovaktext.dir/build.make src/CMakeFiles/jenovaktext.dir/network/LlamaClient.cpp.o
+	cd /home/orpheus497/Documents/Projects/ktext_jenova/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovakdev.dir/build.make src/CMakeFiles/jenovakdev.dir/network/LlamaClient.cpp.o
 .PHONY : network/LlamaClient.cpp.o
 
 network/LlamaClient.i: network/LlamaClient.cpp.i
@@ -322,7 +322,7 @@ network/LlamaClient.i: network/LlamaClient.cpp.i
 
 # target to preprocess a source file
 network/LlamaClient.cpp.i:
-	cd /home/orpheus497/Documents/Projects/ktext_jenova/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovaktext.dir/build.make src/CMakeFiles/jenovaktext.dir/network/LlamaClient.cpp.i
+	cd /home/orpheus497/Documents/Projects/ktext_jenova/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovakdev.dir/build.make src/CMakeFiles/jenovakdev.dir/network/LlamaClient.cpp.i
 .PHONY : network/LlamaClient.cpp.i
 
 network/LlamaClient.s: network/LlamaClient.cpp.s
@@ -330,63 +330,15 @@ network/LlamaClient.s: network/LlamaClient.cpp.s
 
 # target to generate assembly for a file
 network/LlamaClient.cpp.s:
-	cd /home/orpheus497/Documents/Projects/ktext_jenova/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovaktext.dir/build.make src/CMakeFiles/jenovaktext.dir/network/LlamaClient.cpp.s
+	cd /home/orpheus497/Documents/Projects/ktext_jenova/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovakdev.dir/build.make src/CMakeFiles/jenovakdev.dir/network/LlamaClient.cpp.s
 .PHONY : network/LlamaClient.cpp.s
-
-plugin/AiPlugin.o: plugin/AiPlugin.cpp.o
-.PHONY : plugin/AiPlugin.o
-
-# target to build an object file
-plugin/AiPlugin.cpp.o:
-	cd /home/orpheus497/Documents/Projects/ktext_jenova/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovaktext.dir/build.make src/CMakeFiles/jenovaktext.dir/plugin/AiPlugin.cpp.o
-.PHONY : plugin/AiPlugin.cpp.o
-
-plugin/AiPlugin.i: plugin/AiPlugin.cpp.i
-.PHONY : plugin/AiPlugin.i
-
-# target to preprocess a source file
-plugin/AiPlugin.cpp.i:
-	cd /home/orpheus497/Documents/Projects/ktext_jenova/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovaktext.dir/build.make src/CMakeFiles/jenovaktext.dir/plugin/AiPlugin.cpp.i
-.PHONY : plugin/AiPlugin.cpp.i
-
-plugin/AiPlugin.s: plugin/AiPlugin.cpp.s
-.PHONY : plugin/AiPlugin.s
-
-# target to generate assembly for a file
-plugin/AiPlugin.cpp.s:
-	cd /home/orpheus497/Documents/Projects/ktext_jenova/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovaktext.dir/build.make src/CMakeFiles/jenovaktext.dir/plugin/AiPlugin.cpp.s
-.PHONY : plugin/AiPlugin.cpp.s
-
-plugin/AiPluginView.o: plugin/AiPluginView.cpp.o
-.PHONY : plugin/AiPluginView.o
-
-# target to build an object file
-plugin/AiPluginView.cpp.o:
-	cd /home/orpheus497/Documents/Projects/ktext_jenova/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovaktext.dir/build.make src/CMakeFiles/jenovaktext.dir/plugin/AiPluginView.cpp.o
-.PHONY : plugin/AiPluginView.cpp.o
-
-plugin/AiPluginView.i: plugin/AiPluginView.cpp.i
-.PHONY : plugin/AiPluginView.i
-
-# target to preprocess a source file
-plugin/AiPluginView.cpp.i:
-	cd /home/orpheus497/Documents/Projects/ktext_jenova/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovaktext.dir/build.make src/CMakeFiles/jenovaktext.dir/plugin/AiPluginView.cpp.i
-.PHONY : plugin/AiPluginView.cpp.i
-
-plugin/AiPluginView.s: plugin/AiPluginView.cpp.s
-.PHONY : plugin/AiPluginView.s
-
-# target to generate assembly for a file
-plugin/AiPluginView.cpp.s:
-	cd /home/orpheus497/Documents/Projects/ktext_jenova/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovaktext.dir/build.make src/CMakeFiles/jenovaktext.dir/plugin/AiPluginView.cpp.s
-.PHONY : plugin/AiPluginView.cpp.s
 
 ui/AiChatInputWidget.o: ui/AiChatInputWidget.cpp.o
 .PHONY : ui/AiChatInputWidget.o
 
 # target to build an object file
 ui/AiChatInputWidget.cpp.o:
-	cd /home/orpheus497/Documents/Projects/ktext_jenova/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovaktext.dir/build.make src/CMakeFiles/jenovaktext.dir/ui/AiChatInputWidget.cpp.o
+	cd /home/orpheus497/Documents/Projects/ktext_jenova/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovakdev.dir/build.make src/CMakeFiles/jenovakdev.dir/ui/AiChatInputWidget.cpp.o
 .PHONY : ui/AiChatInputWidget.cpp.o
 
 ui/AiChatInputWidget.i: ui/AiChatInputWidget.cpp.i
@@ -394,7 +346,7 @@ ui/AiChatInputWidget.i: ui/AiChatInputWidget.cpp.i
 
 # target to preprocess a source file
 ui/AiChatInputWidget.cpp.i:
-	cd /home/orpheus497/Documents/Projects/ktext_jenova/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovaktext.dir/build.make src/CMakeFiles/jenovaktext.dir/ui/AiChatInputWidget.cpp.i
+	cd /home/orpheus497/Documents/Projects/ktext_jenova/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovakdev.dir/build.make src/CMakeFiles/jenovakdev.dir/ui/AiChatInputWidget.cpp.i
 .PHONY : ui/AiChatInputWidget.cpp.i
 
 ui/AiChatInputWidget.s: ui/AiChatInputWidget.cpp.s
@@ -402,7 +354,7 @@ ui/AiChatInputWidget.s: ui/AiChatInputWidget.cpp.s
 
 # target to generate assembly for a file
 ui/AiChatInputWidget.cpp.s:
-	cd /home/orpheus497/Documents/Projects/ktext_jenova/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovaktext.dir/build.make src/CMakeFiles/jenovaktext.dir/ui/AiChatInputWidget.cpp.s
+	cd /home/orpheus497/Documents/Projects/ktext_jenova/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovakdev.dir/build.make src/CMakeFiles/jenovakdev.dir/ui/AiChatInputWidget.cpp.s
 .PHONY : ui/AiChatInputWidget.cpp.s
 
 ui/AiChatWidget.o: ui/AiChatWidget.cpp.o
@@ -410,7 +362,7 @@ ui/AiChatWidget.o: ui/AiChatWidget.cpp.o
 
 # target to build an object file
 ui/AiChatWidget.cpp.o:
-	cd /home/orpheus497/Documents/Projects/ktext_jenova/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovaktext.dir/build.make src/CMakeFiles/jenovaktext.dir/ui/AiChatWidget.cpp.o
+	cd /home/orpheus497/Documents/Projects/ktext_jenova/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovakdev.dir/build.make src/CMakeFiles/jenovakdev.dir/ui/AiChatWidget.cpp.o
 .PHONY : ui/AiChatWidget.cpp.o
 
 ui/AiChatWidget.i: ui/AiChatWidget.cpp.i
@@ -418,7 +370,7 @@ ui/AiChatWidget.i: ui/AiChatWidget.cpp.i
 
 # target to preprocess a source file
 ui/AiChatWidget.cpp.i:
-	cd /home/orpheus497/Documents/Projects/ktext_jenova/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovaktext.dir/build.make src/CMakeFiles/jenovaktext.dir/ui/AiChatWidget.cpp.i
+	cd /home/orpheus497/Documents/Projects/ktext_jenova/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovakdev.dir/build.make src/CMakeFiles/jenovakdev.dir/ui/AiChatWidget.cpp.i
 .PHONY : ui/AiChatWidget.cpp.i
 
 ui/AiChatWidget.s: ui/AiChatWidget.cpp.s
@@ -426,7 +378,7 @@ ui/AiChatWidget.s: ui/AiChatWidget.cpp.s
 
 # target to generate assembly for a file
 ui/AiChatWidget.cpp.s:
-	cd /home/orpheus497/Documents/Projects/ktext_jenova/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovaktext.dir/build.make src/CMakeFiles/jenovaktext.dir/ui/AiChatWidget.cpp.s
+	cd /home/orpheus497/Documents/Projects/ktext_jenova/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovakdev.dir/build.make src/CMakeFiles/jenovakdev.dir/ui/AiChatWidget.cpp.s
 .PHONY : ui/AiChatWidget.cpp.s
 
 # Help Target
@@ -442,30 +394,24 @@ help:
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
 	@echo "... test"
-	@echo "... jenovaktext_autogen"
-	@echo "... jenovaktext_autogen_timestamp_deps"
-	@echo "... jenovaktext"
+	@echo "... jenovakdev_autogen"
+	@echo "... jenovakdev_autogen_timestamp_deps"
+	@echo "... jenovakdev"
+	@echo "... JenovaPlugin.o"
+	@echo "... JenovaPlugin.i"
+	@echo "... JenovaPlugin.s"
 	@echo "... completion/AiCompletionModel.o"
 	@echo "... completion/AiCompletionModel.i"
 	@echo "... completion/AiCompletionModel.s"
-	@echo "... config/AiConfigPage.o"
-	@echo "... config/AiConfigPage.i"
-	@echo "... config/AiConfigPage.s"
 	@echo "... context/ContextManager.o"
 	@echo "... context/ContextManager.i"
 	@echo "... context/ContextManager.s"
-	@echo "... jenovaktext_autogen/mocs_compilation.o"
-	@echo "... jenovaktext_autogen/mocs_compilation.i"
-	@echo "... jenovaktext_autogen/mocs_compilation.s"
+	@echo "... jenovakdev_autogen/mocs_compilation.o"
+	@echo "... jenovakdev_autogen/mocs_compilation.i"
+	@echo "... jenovakdev_autogen/mocs_compilation.s"
 	@echo "... network/LlamaClient.o"
 	@echo "... network/LlamaClient.i"
 	@echo "... network/LlamaClient.s"
-	@echo "... plugin/AiPlugin.o"
-	@echo "... plugin/AiPlugin.i"
-	@echo "... plugin/AiPlugin.s"
-	@echo "... plugin/AiPluginView.o"
-	@echo "... plugin/AiPluginView.i"
-	@echo "... plugin/AiPluginView.s"
 	@echo "... ui/AiChatInputWidget.o"
 	@echo "... ui/AiChatInputWidget.i"
 	@echo "... ui/AiChatInputWidget.s"

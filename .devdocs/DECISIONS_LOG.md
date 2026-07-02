@@ -1,6 +1,28 @@
+**Timestamp**: 2026-07-03 02:01
+
+## Architecture: Native IDE Project & DUChain Integration
+* **Decision**: Upgraded `ContextManager.cpp` to pull data from `KDevelop::ICore::self()->projectController()` and `KDevelop::DUChain`. Used `KDevelop::DUChainUtils::itemUnderCursor` to extract semantic context (e.g. types and declarations) instead of parsing raw text, and pulled full project scope data. Fixed `ToolView` initialization by explicitly calling `CreateAndRaise`.
+* **Justification**: The user demanded a *true* IDE integration, not just a Kate editor port. By linking against `KDev::Project` and `KDev::Language` and utilizing the AST Engine, the LLM now understands C++ types and project scopes semantically.
+
 # Decisions Log
 
-**Timestamp**: 2026-07-02 15:52
+**Timestamp**: 2026-07-03 01:42
+
+## Architecture: KDevelop Context Menus & Autocomplete
+* **Decision**: Implement `KDevelop::ContextMenuExtension` inside `JenovaPlugin` instead of overriding `KTextEditor::MainWindow` XMLGUI files, and register `AiCompletionModel` globally by hooking into `KTextEditor::Editor::instance()->documentCreated`.
+* **Justification**: This maps the Kate XMLGUI approach and model registration to native, clean KDevPlatform mechanisms. `ContextMenuExtension` natively hooks into KDevelop's right-click menus, while the `KTextEditor::Editor` global signals safely deploy our autocomplete model to all editors.
+
+**Timestamp**: 2026-07-03 01:38
+
+## Architecture: KDevelop ToolView
+* **Decision**: Implemented `KDevelop::IToolViewFactory` to register `AiChatWidget` via `core()->uiController()->addToolView()`.
+* **Justification**: This maps the Kate `ToolView` concept to the native KDevPlatform architecture while preserving the inner chat UI logic.
+
+**Timestamp**: 2026-07-03 01:34
+
+## Architecture: KDevelop Ground-Up Rebuild
+* **Decision**: Pivot from `KTextEditor::Plugin` to `KDevelop::IPlugin` and scaffold in a parallel `src_kdevelop` directory.
+* **Justification**: The user explicitly instructed that the project must be a proper KDevelop plugin rather than a Kate plugin, and demanded a complete ground-up rebuild without deleting the old files until the new plugin is fully functional.
 
 ## Architecture: Native KTextEditor Menus
 * **Decision**: Replace `QMenu::addAction` in the `contextMenuAboutToShow` signal with native XMLGUI `<Menu name="ktexteditor_popup">`.

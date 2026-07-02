@@ -1,32 +1,23 @@
-add_definitions(-DTRANSLATION_DOMAIN=\"jenovaktext\")
-
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTOUIC ON)
-set(CMAKE_AUTORCC ON)
-
-set(jenovaktext_SRCS
-    plugin/AiPlugin.cpp
-    plugin/AiPluginView.cpp
-    config/AiConfigPage.cpp
-    network/LlamaClient.cpp
-    context/ContextManager.cpp
+set(jenovakdev_SRCS
+    JenovaPlugin.cpp
     ui/AiChatWidget.cpp
     ui/AiChatInputWidget.cpp
+    network/LlamaClient.cpp
+    context/ContextManager.cpp
     completion/AiCompletionModel.cpp
 )
 
-kcoreaddons_add_plugin(jenovaktext INSTALL_NAMESPACE "kf6/ktexteditor")
-target_sources(jenovaktext PRIVATE ${jenovaktext_SRCS})
+kdevplatform_add_plugin(jenovakdev
+    SOURCES ${jenovakdev_SRCS}
+)
 
-target_link_libraries(jenovaktext
-    KF6::TextEditor
-    KF6::I18n
-    KF6::CoreAddons
-    KF6::XmlGui
-    KF6::SyntaxHighlighting
+target_link_libraries(jenovakdev
+    KDev::Interfaces
+    KDev::Util
+    KDev::Project
+    KDev::Shell
+    KDev::Language
     Qt6::Core
     Qt6::Widgets
     Qt6::Network
 )
-
-install(FILES jenovaktextui.rc DESTINATION ${KDE_INSTALL_KXMLGUIDIR}/jenovaktext)

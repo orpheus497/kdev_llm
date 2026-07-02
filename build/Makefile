@@ -198,43 +198,43 @@ fetch-translations/fast:
 .PHONY : fetch-translations/fast
 
 #=============================================================================
-# Target rules for targets named jenovaktext
+# Target rules for targets named jenovakdev
 
 # Build rule for target.
-jenovaktext: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 jenovaktext
-.PHONY : jenovaktext
+jenovakdev: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 jenovakdev
+.PHONY : jenovakdev
 
 # fast build rule for target.
-jenovaktext/fast:
-	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovaktext.dir/build.make src/CMakeFiles/jenovaktext.dir/build
-.PHONY : jenovaktext/fast
+jenovakdev/fast:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovakdev.dir/build.make src/CMakeFiles/jenovakdev.dir/build
+.PHONY : jenovakdev/fast
 
 #=============================================================================
-# Target rules for targets named jenovaktext_autogen_timestamp_deps
+# Target rules for targets named jenovakdev_autogen_timestamp_deps
 
 # Build rule for target.
-jenovaktext_autogen_timestamp_deps: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 jenovaktext_autogen_timestamp_deps
-.PHONY : jenovaktext_autogen_timestamp_deps
+jenovakdev_autogen_timestamp_deps: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 jenovakdev_autogen_timestamp_deps
+.PHONY : jenovakdev_autogen_timestamp_deps
 
 # fast build rule for target.
-jenovaktext_autogen_timestamp_deps/fast:
-	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovaktext_autogen_timestamp_deps.dir/build.make src/CMakeFiles/jenovaktext_autogen_timestamp_deps.dir/build
-.PHONY : jenovaktext_autogen_timestamp_deps/fast
+jenovakdev_autogen_timestamp_deps/fast:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovakdev_autogen_timestamp_deps.dir/build.make src/CMakeFiles/jenovakdev_autogen_timestamp_deps.dir/build
+.PHONY : jenovakdev_autogen_timestamp_deps/fast
 
 #=============================================================================
-# Target rules for targets named jenovaktext_autogen
+# Target rules for targets named jenovakdev_autogen
 
 # Build rule for target.
-jenovaktext_autogen: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 jenovaktext_autogen
-.PHONY : jenovaktext_autogen
+jenovakdev_autogen: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 jenovakdev_autogen
+.PHONY : jenovakdev_autogen
 
 # fast build rule for target.
-jenovaktext_autogen/fast:
-	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovaktext_autogen.dir/build.make src/CMakeFiles/jenovaktext_autogen.dir/build
-.PHONY : jenovaktext_autogen/fast
+jenovakdev_autogen/fast:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovakdev_autogen.dir/build.make src/CMakeFiles/jenovakdev_autogen.dir/build
+.PHONY : jenovakdev_autogen/fast
 
 # Help Target
 help:
@@ -250,10 +250,10 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... test"
 	@echo "... fetch-translations"
-	@echo "... jenovaktext_autogen"
-	@echo "... jenovaktext_autogen_timestamp_deps"
+	@echo "... jenovakdev_autogen"
+	@echo "... jenovakdev_autogen_timestamp_deps"
 	@echo "... uninstall"
-	@echo "... jenovaktext"
+	@echo "... jenovakdev"
 .PHONY : help
 
 

@@ -7,7 +7,7 @@
 /home/orpheus497/Documents/Projects/ktext_jenova/build/CMakeFiles/install.dir
 /home/orpheus497/Documents/Projects/ktext_jenova/build/CMakeFiles/install/local.dir
 /home/orpheus497/Documents/Projects/ktext_jenova/build/CMakeFiles/install/strip.dir
-/home/orpheus497/Documents/Projects/ktext_jenova/build/src/CMakeFiles/jenovaktext.dir
+/home/orpheus497/Documents/Projects/ktext_jenova/build/src/CMakeFiles/jenovakdev.dir
 /home/orpheus497/Documents/Projects/ktext_jenova/build/src/CMakeFiles/test.dir
 /home/orpheus497/Documents/Projects/ktext_jenova/build/src/CMakeFiles/edit_cache.dir
 /home/orpheus497/Documents/Projects/ktext_jenova/build/src/CMakeFiles/rebuild_cache.dir
@@ -15,5 +15,5 @@
 /home/orpheus497/Documents/Projects/ktext_jenova/build/src/CMakeFiles/install.dir
 /home/orpheus497/Documents/Projects/ktext_jenova/build/src/CMakeFiles/install/local.dir
 /home/orpheus497/Documents/Projects/ktext_jenova/build/src/CMakeFiles/install/strip.dir
-/home/orpheus497/Documents/Projects/ktext_jenova/build/src/CMakeFiles/jenovaktext_autogen_timestamp_deps.dir
-/home/orpheus497/Documents/Projects/ktext_jenova/build/src/CMakeFiles/jenovaktext_autogen.dir
+/home/orpheus497/Documents/Projects/ktext_jenova/build/src/CMakeFiles/jenovakdev_autogen_timestamp_deps.dir
+/home/orpheus497/Documents/Projects/ktext_jenova/build/src/CMakeFiles/jenovakdev_autogen.dir

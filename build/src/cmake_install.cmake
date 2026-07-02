@@ -43,31 +43,27 @@ if(NOT DEFINED CMAKE_OBJDUMP)
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "jenovaktext" OR NOT CMAKE_INSTALL_COMPONENT)
-  if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/plugins/kf6/ktexteditor/jenovaktext.so" AND
-     NOT IS_SYMLINK "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/plugins/kf6/ktexteditor/jenovaktext.so")
+  if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/plugins/kdevplatform/65/jenovakdev.so" AND
+     NOT IS_SYMLINK "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/plugins/kdevplatform/65/jenovakdev.so")
     file(RPATH_CHECK
-         FILE "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/plugins/kf6/ktexteditor/jenovaktext.so"
+         FILE "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/plugins/kdevplatform/65/jenovakdev.so"
          RPATH "/home/orpheus497/.local/lib")
   endif()
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/plugins/kf6/ktexteditor" TYPE MODULE FILES "/home/orpheus497/Documents/Projects/ktext_jenova/build/bin/kf6/ktexteditor/jenovaktext.so")
-  if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/plugins/kf6/ktexteditor/jenovaktext.so" AND
-     NOT IS_SYMLINK "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/plugins/kf6/ktexteditor/jenovaktext.so")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/plugins/kdevplatform/65" TYPE MODULE FILES "/home/orpheus497/Documents/Projects/ktext_jenova/build/bin/jenovakdev.so")
+  if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/plugins/kdevplatform/65/jenovakdev.so" AND
+     NOT IS_SYMLINK "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/plugins/kdevplatform/65/jenovakdev.so")
     file(RPATH_CHANGE
-         FILE "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/plugins/kf6/ktexteditor/jenovaktext.so"
+         FILE "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/plugins/kdevplatform/65/jenovakdev.so"
          OLD_RPATH ":::::::::::::::::::::::::::"
          NEW_RPATH "/home/orpheus497/.local/lib")
     if(CMAKE_INSTALL_DO_STRIP)
-      execute_process(COMMAND "/usr/bin/strip" "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/plugins/kf6/ktexteditor/jenovaktext.so")
+      execute_process(COMMAND "/usr/bin/strip" "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/plugins/kdevplatform/65/jenovakdev.so")
     endif()
   endif()
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "jenovaktext" OR NOT CMAKE_INSTALL_COMPONENT)
-  include("/home/orpheus497/Documents/Projects/ktext_jenova/build/src/CMakeFiles/jenovaktext.dir/install-cxx-module-bmi-Debug.cmake" OPTIONAL)
-endif()
-
-if(CMAKE_INSTALL_COMPONENT STREQUAL "jenovaktext" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/kxmlgui5/jenovaktext" TYPE FILE FILES "/home/orpheus497/Documents/Projects/ktext_jenova/src/jenovaktextui.rc")
+  include("/home/orpheus497/Documents/Projects/ktext_jenova/build/src/CMakeFiles/jenovakdev.dir/install-cxx-module-bmi-Debug.cmake" OPTIONAL)
 endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
