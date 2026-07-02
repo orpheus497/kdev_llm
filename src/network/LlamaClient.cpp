@@ -46,7 +46,6 @@ void LlamaClient::requestCompletion(const QString &prefix, const QString &suffix
 
     if (m_completionReply) {
         m_completionReply->abort();
-        m_completionReply->deleteLater();
     }
     
     m_completionBuffer.clear();
@@ -69,7 +68,6 @@ void LlamaClient::requestChat(const QJsonArray &messages)
 
     if (m_chatReply) {
         m_chatReply->abort();
-        m_chatReply->deleteLater();
     }
     
     m_chatReply = m_nam->post(request, QJsonDocument(json).toJson());
@@ -93,7 +91,6 @@ void LlamaClient::requestRefactor(const QString &code)
 
     if (m_refactorReply) {
         m_refactorReply->abort();
-        m_refactorReply->deleteLater();
     }
     
     m_refactorBuffer.clear();

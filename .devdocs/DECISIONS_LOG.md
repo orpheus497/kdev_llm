@@ -10,6 +10,10 @@
 * **Decision**: Remove manual `rowCount()` overrides. Rely strictly on KTextEditor's `setRowCount()` API natively synchronized with `beginResetModel()`.
 * **Justification**: KTextEditor's base `CodeCompletionModel` utilizes complex internal Qt tree-structures based around its own internal `d->rowCount` pointer. Overriding the `rowCount()` function without using `setRowCount()` causes a severe data de-synchronization where KTextEditor attempts to iterate over internal arrays that have size 0 while the override falsely reports size 1, leading to immediate recursion loops and segmentation faults during UI rendering. Wrapping `m_completions` changes inside `beginResetModel()` completely stabilizes it.
 
+## Network: QNetworkReply Abortion Lifecycle
+* **Decision**: Remove `deleteLater()` calls immediately following `abort()` in `LlamaClient` network requests.
+* **Justification**: When `QNetworkReply::abort()` is called, Qt synchronously emits the `finished()` signal on the main event loop thread before `abort()` returns. Our `finished()` slot natively captures this and sets the pointer to `nullptr` while calling `deleteLater()`. Executing a second `deleteLater()` immediately after `abort()` in the calling function results in a null pointer dereference (`nullptr->deleteLater()`), instantly crashing the application.
+
 **Timestamp**: 2026-07-02 14:43
 
 ## Architecture: LSP and Interpretation
