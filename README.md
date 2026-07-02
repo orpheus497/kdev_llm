@@ -1,6 +1,6 @@
 LLM KDevelop Plugin
 
-AI assistant plugin designed specifically for the **KDevelop IDE** (KDE Frameworks 6). It integrates deeply into the `KDevelop::IPlugin` architecture, providing seamless, context-aware AI autocomplete, semantic refactoring, and conversational assistance natively within the IDE. Built for KDev LLM but can be configured for any LLM server on localhost:8080 or any other unique set API
+AI assistant plugin designed specifically for the **KDevelop IDE** (KDE Frameworks 6). It integrates deeply into the `KDevelop::IPlugin` architecture, providing seamless, context-aware AI autocomplete, semantic refactoring, and conversational assistance natively within the IDE. Built for llama.cpp
 
 ## Features
 
