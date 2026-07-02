@@ -1,3 +1,15 @@
+**Timestamp**: 2026-07-03 04:14
+
+## UI: Dynamic Layouts & Native Wrapping
+* **Decision**: Removed `setMinimumHeight` and `setMaximumHeight` from `AiChatInputWidget`'s text box, utilizing `QSizePolicy::Expanding` and `QSizePolicy::MinimumExpanding` instead. Updated `AiChatWidget`'s vertical layout to assign a stretch factor of `1` to the chat history and `0` to the input widget.
+* **Justification**: Hardcoded pixel sizing breaks IDE layouts on different resolutions and DPI settings, resulting in a "blocky" UI. By relying entirely on KDevelop's layout engine and Qt stretch factors, the sidebar natively expands and contracts seamlessly.
+
+**Timestamp**: 2026-07-03 04:12
+
+## Architecture: Project Rebranding to KDev LLM
+* **Decision**: Renamed core plugin files `JenovaPlugin` and `jenovakdev.json` to `KDevLLMPlugin` and `kdevllm.json`, updated all string literals, JSON plugin descriptors, and root `CMakeLists.txt` targets.
+* **Justification**: To fulfill user request to align the plugin's branding explicitly with "KDev LLM". Using shell renaming before updating CMake targets prevented dangling references.
+
 **Timestamp**: 2026-07-03 02:01
 
 ## Architecture: Native IDE Project & DUChain Integration

@@ -1,3 +1,12 @@
+**Timestamp**: 2026-07-03 04:15
+* Installed the rebuilt KDev LLM plugin to the local user directory (`~/.local/lib/plugins/kdevplatform/65/`).
+
+**Timestamp**: 2026-07-03 04:14
+* Fixed blocky UI sizing by removing hardcoded pixel limits in the chat side panel, migrating to native Qt `QSizePolicy` and stretch layouts for dynamic resolution scaling within KDevelop.
+
+**Timestamp**: 2026-07-03 04:12
+* Executed a comprehensive branding update across all files, renaming the project to "KDev LLM". Updated all documentation, CMake targets, and internal C++ namespaces.
+
 **Timestamp**: 2026-07-03 02:17
 - Stabilized the KDevelop plugin architecture by fixing critical loading bugs that broke the ToolView layout initialization and bypassed the Autocomplete hooks. 
 - Integrated `IDocumentController` for foolproof code completion injection.

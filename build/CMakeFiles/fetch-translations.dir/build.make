@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/orpheus497/Documents/Projects/ktext_jenova
+CMAKE_SOURCE_DIR = /home/orpheus497/Documents/Projects/kdev_llm
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/orpheus497/Documents/Projects/ktext_jenova/build
+CMAKE_BINARY_DIR = /home/orpheus497/Documents/Projects/kdev_llm/build
 
 # Utility rule file for fetch-translations.
 
@@ -67,14 +67,14 @@ include CMakeFiles/fetch-translations.dir/compiler_depend.make
 include CMakeFiles/fetch-translations.dir/progress.make
 
 CMakeFiles/fetch-translations: releaseme
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/home/orpheus497/Documents/Projects/ktext_jenova/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Downloading translations for jenovaktext branch trunk..."
-	git -C /home/orpheus497/Documents/Projects/ktext_jenova/build/releaseme pull
-	cmake -E remove_directory /home/orpheus497/Documents/Projects/ktext_jenova/build/po
-	cmake -E remove_directory /home/orpheus497/Documents/Projects/ktext_jenova/build/poqm
-	ruby /home/orpheus497/Documents/Projects/ktext_jenova/build/releaseme/fetchpo.rb --origin trunk --project jenovaktext --output-dir /home/orpheus497/Documents/Projects/ktext_jenova/build/po --output-poqm-dir /home/orpheus497/Documents/Projects/ktext_jenova/build/poqm /home/orpheus497/Documents/Projects/ktext_jenova
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/home/orpheus497/Documents/Projects/kdev_llm/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Downloading translations for kdevllm branch trunk..."
+	git -C /home/orpheus497/Documents/Projects/kdev_llm/build/releaseme pull
+	cmake -E remove_directory /home/orpheus497/Documents/Projects/kdev_llm/build/po
+	cmake -E remove_directory /home/orpheus497/Documents/Projects/kdev_llm/build/poqm
+	ruby /home/orpheus497/Documents/Projects/kdev_llm/build/releaseme/fetchpo.rb --origin trunk --project kdevllm --output-dir /home/orpheus497/Documents/Projects/kdev_llm/build/po --output-poqm-dir /home/orpheus497/Documents/Projects/kdev_llm/build/poqm /home/orpheus497/Documents/Projects/kdev_llm
 
 releaseme:
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/home/orpheus497/Documents/Projects/ktext_jenova/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Fetching releaseme scripts to download translations..."
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/home/orpheus497/Documents/Projects/kdev_llm/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Fetching releaseme scripts to download translations..."
 	git clone --depth 1 https://invent.kde.org/sdk/releaseme.git
 
 CMakeFiles/fetch-translations.dir/codegen:
@@ -94,6 +94,6 @@ CMakeFiles/fetch-translations.dir/clean:
 .PHONY : CMakeFiles/fetch-translations.dir/clean
 
 CMakeFiles/fetch-translations.dir/depend:
-	cd /home/orpheus497/Documents/Projects/ktext_jenova/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/orpheus497/Documents/Projects/ktext_jenova /home/orpheus497/Documents/Projects/ktext_jenova /home/orpheus497/Documents/Projects/ktext_jenova/build /home/orpheus497/Documents/Projects/ktext_jenova/build /home/orpheus497/Documents/Projects/ktext_jenova/build/CMakeFiles/fetch-translations.dir/DependInfo.cmake "--color=$(COLOR)" fetch-translations
+	cd /home/orpheus497/Documents/Projects/kdev_llm/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/orpheus497/Documents/Projects/kdev_llm /home/orpheus497/Documents/Projects/kdev_llm /home/orpheus497/Documents/Projects/kdev_llm/build /home/orpheus497/Documents/Projects/kdev_llm/build /home/orpheus497/Documents/Projects/kdev_llm/build/CMakeFiles/fetch-translations.dir/DependInfo.cmake "--color=$(COLOR)" fetch-translations
 .PHONY : CMakeFiles/fetch-translations.dir/depend
 

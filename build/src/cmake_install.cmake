@@ -1,4 +1,4 @@
-# Install script for directory: /home/orpheus497/Documents/Projects/ktext_jenova/src
+# Install script for directory: /home/orpheus497/Documents/Projects/kdev_llm/src
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -42,33 +42,33 @@ if(NOT DEFINED CMAKE_OBJDUMP)
   set(CMAKE_OBJDUMP "/usr/bin/objdump")
 endif()
 
-if(CMAKE_INSTALL_COMPONENT STREQUAL "jenovaktext" OR NOT CMAKE_INSTALL_COMPONENT)
-  if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/plugins/kdevplatform/65/jenovakdev.so" AND
-     NOT IS_SYMLINK "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/plugins/kdevplatform/65/jenovakdev.so")
+if(CMAKE_INSTALL_COMPONENT STREQUAL "kdevllm" OR NOT CMAKE_INSTALL_COMPONENT)
+  if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/plugins/kdevplatform/65/kdevllm.so" AND
+     NOT IS_SYMLINK "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/plugins/kdevplatform/65/kdevllm.so")
     file(RPATH_CHECK
-         FILE "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/plugins/kdevplatform/65/jenovakdev.so"
+         FILE "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/plugins/kdevplatform/65/kdevllm.so"
          RPATH "/home/orpheus497/.local/lib")
   endif()
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/plugins/kdevplatform/65" TYPE MODULE FILES "/home/orpheus497/Documents/Projects/ktext_jenova/build/bin/jenovakdev.so")
-  if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/plugins/kdevplatform/65/jenovakdev.so" AND
-     NOT IS_SYMLINK "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/plugins/kdevplatform/65/jenovakdev.so")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/plugins/kdevplatform/65" TYPE MODULE FILES "/home/orpheus497/Documents/Projects/kdev_llm/build/bin/kdevllm.so")
+  if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/plugins/kdevplatform/65/kdevllm.so" AND
+     NOT IS_SYMLINK "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/plugins/kdevplatform/65/kdevllm.so")
     file(RPATH_CHANGE
-         FILE "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/plugins/kdevplatform/65/jenovakdev.so"
+         FILE "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/plugins/kdevplatform/65/kdevllm.so"
          OLD_RPATH ":::::::::::::::::::::::::::"
          NEW_RPATH "/home/orpheus497/.local/lib")
     if(CMAKE_INSTALL_DO_STRIP)
-      execute_process(COMMAND "/usr/bin/strip" "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/plugins/kdevplatform/65/jenovakdev.so")
+      execute_process(COMMAND "/usr/bin/strip" "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/plugins/kdevplatform/65/kdevllm.so")
     endif()
   endif()
 endif()
 
-if(CMAKE_INSTALL_COMPONENT STREQUAL "jenovaktext" OR NOT CMAKE_INSTALL_COMPONENT)
-  include("/home/orpheus497/Documents/Projects/ktext_jenova/build/src/CMakeFiles/jenovakdev.dir/install-cxx-module-bmi-Debug.cmake" OPTIONAL)
+if(CMAKE_INSTALL_COMPONENT STREQUAL "kdevllm" OR NOT CMAKE_INSTALL_COMPONENT)
+  include("/home/orpheus497/Documents/Projects/kdev_llm/build/src/CMakeFiles/kdevllm.dir/install-cxx-module-bmi-Debug.cmake" OPTIONAL)
 endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
 if(CMAKE_INSTALL_LOCAL_ONLY)
-  file(WRITE "/home/orpheus497/Documents/Projects/ktext_jenova/build/src/install_local_manifest.txt"
+  file(WRITE "/home/orpheus497/Documents/Projects/kdev_llm/build/src/install_local_manifest.txt"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
 endif()

@@ -1,5 +1,5 @@
-// ##Class purpose: Main entry point implementation for the Jenova KDevelop plugin.
-#include "JenovaPlugin.h"
+// ##Class purpose: Main entry point implementation for the KDev LLM plugin.
+#include "KDevLLMPlugin.h"
 
 #include <KPluginFactory>
 #include <QDebug>
@@ -24,32 +24,32 @@
 
 class AiToolViewFactory : public KDevelop::IToolViewFactory {
 public:
-    AiToolViewFactory(JenovaPlugin* plugin) : m_plugin(plugin) {}
+    AiToolViewFactory(KDevLLMPlugin* plugin) : m_plugin(plugin) {}
     QWidget* create(QWidget *parent = nullptr) override {
         auto* widget = new AiChatWidget(parent);
-        widget->setWindowTitle(QStringLiteral("Jenova C.A."));
+        widget->setWindowTitle(QStringLiteral("KDev LLM"));
         return widget;
     }
-    QString id() const override { return QStringLiteral("org.kdevelop.JenovaPlugin"); }
+    QString id() const override { return QStringLiteral("org.kdevelop.KDevLLMPlugin"); }
     Qt::DockWidgetArea defaultPosition() const override { return Qt::RightDockWidgetArea; }
 private:
-    JenovaPlugin* m_plugin;
+    KDevLLMPlugin* m_plugin;
 };
 
-K_PLUGIN_FACTORY_WITH_JSON(JenovaPluginFactory, "jenovakdev.json", registerPlugin<JenovaPlugin>();)
+K_PLUGIN_FACTORY_WITH_JSON(KDevLLMPluginFactory, "kdevllm.json", registerPlugin<KDevLLMPlugin>();)
 
-JenovaPlugin::JenovaPlugin(QObject* parent, const KPluginMetaData& metaData, const QVariantList& args)
-    : KDevelop::IPlugin(QStringLiteral("jenovakdev"), parent, metaData)
+KDevLLMPlugin::KDevLLMPlugin(QObject* parent, const KPluginMetaData& metaData, const QVariantList& args)
+    : KDevelop::IPlugin(QStringLiteral("kdevllm"), parent, metaData)
     , m_completionModel(new AiCompletionModel(this))
     , m_refactorClient(new LlamaClient(this))
 {
     Q_UNUSED(args);
-    qDebug() << "JCA KDev Plugin Loaded!";
+    qDebug() << "KDev LLM Plugin Loaded!";
     m_factory = new AiToolViewFactory(this);
-    core()->uiController()->addToolView(QStringLiteral("Jenova C.A."), m_factory);
+    core()->uiController()->addToolView(QStringLiteral("KDev LLM"), m_factory);
     // Force the tool view to be created and raised in the UI
 
-    connect(m_refactorClient, &LlamaClient::refactorReceived, this, &JenovaPlugin::onRefactorReceived);
+    connect(m_refactorClient, &LlamaClient::refactorReceived, this, &KDevLLMPlugin::onRefactorReceived);
     connect(m_refactorClient, &LlamaClient::errorOccurred, this, [this](const QString &err) {
         if (m_refactorDocument && m_currentRefactorRange) {
             delete m_currentRefactorRange;
@@ -84,13 +84,13 @@ JenovaPlugin::JenovaPlugin(QObject* parent, const KPluginMetaData& metaData, con
     }
 }
 
-JenovaPlugin::~JenovaPlugin()
+KDevLLMPlugin::~KDevLLMPlugin()
 {
 }
 
-void JenovaPlugin::unload()
+void KDevLLMPlugin::unload()
 {
-    qDebug() << "JCA KDev Plugin Unloaded!";
+    qDebug() << "KDev LLM Plugin Unloaded!";
     core()->uiController()->removeToolView(m_factory);
     delete m_factory;
     
@@ -101,7 +101,7 @@ void JenovaPlugin::unload()
     }
 }
 
-KDevelop::ContextMenuExtension JenovaPlugin::contextMenuExtension(KDevelop::Context* context, QWidget* parent)
+KDevelop::ContextMenuExtension KDevLLMPlugin::contextMenuExtension(KDevelop::Context* context, QWidget* parent)
 {
     KDevelop::ContextMenuExtension ext;
     if (context->type() == KDevelop::Context::EditorContext) {
@@ -117,7 +117,7 @@ KDevelop::ContextMenuExtension JenovaPlugin::contextMenuExtension(KDevelop::Cont
     return ext;
 }
 
-void JenovaPlugin::requestAiRefactor(KTextEditor::View* view)
+void KDevLLMPlugin::requestAiRefactor(KTextEditor::View* view)
 {
     if (!view || !view->document() || !view->selection()) {
         return;
@@ -150,7 +150,7 @@ void JenovaPlugin::requestAiRefactor(KTextEditor::View* view)
     m_refactorClient->requestRefactor(promptText);
 }
 
-void JenovaPlugin::onRefactorReceived(const QString &text)
+void KDevLLMPlugin::onRefactorReceived(const QString &text)
 {
     if (!m_refactorDocument) {
         m_currentRefactorRange = nullptr;
@@ -168,4 +168,4 @@ void JenovaPlugin::onRefactorReceived(const QString &text)
     m_refactorDocument->postMessage(msg);
 }
 
-#include "JenovaPlugin.moc"
+#include "KDevLLMPlugin.moc"

@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/orpheus497/Documents/Projects/ktext_jenova
+CMAKE_SOURCE_DIR = /home/orpheus497/Documents/Projects/kdev_llm
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/orpheus497/Documents/Projects/ktext_jenova/build
+CMAKE_BINARY_DIR = /home/orpheus497/Documents/Projects/kdev_llm/build
 
 # Utility rule file for uninstall.
 
@@ -67,7 +67,7 @@ include CMakeFiles/uninstall.dir/compiler_depend.make
 include CMakeFiles/uninstall.dir/progress.make
 
 CMakeFiles/uninstall:
-	/usr/bin/cmake -P /home/orpheus497/Documents/Projects/ktext_jenova/build/ecm_uninstall.cmake
+	/usr/bin/cmake -P /home/orpheus497/Documents/Projects/kdev_llm/build/ecm_uninstall.cmake
 
 CMakeFiles/uninstall.dir/codegen:
 .PHONY : CMakeFiles/uninstall.dir/codegen
@@ -85,6 +85,6 @@ CMakeFiles/uninstall.dir/clean:
 .PHONY : CMakeFiles/uninstall.dir/clean
 
 CMakeFiles/uninstall.dir/depend:
-	cd /home/orpheus497/Documents/Projects/ktext_jenova/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/orpheus497/Documents/Projects/ktext_jenova /home/orpheus497/Documents/Projects/ktext_jenova /home/orpheus497/Documents/Projects/ktext_jenova/build /home/orpheus497/Documents/Projects/ktext_jenova/build /home/orpheus497/Documents/Projects/ktext_jenova/build/CMakeFiles/uninstall.dir/DependInfo.cmake "--color=$(COLOR)" uninstall
+	cd /home/orpheus497/Documents/Projects/kdev_llm/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/orpheus497/Documents/Projects/kdev_llm /home/orpheus497/Documents/Projects/kdev_llm /home/orpheus497/Documents/Projects/kdev_llm/build /home/orpheus497/Documents/Projects/kdev_llm/build /home/orpheus497/Documents/Projects/kdev_llm/build/CMakeFiles/uninstall.dir/DependInfo.cmake "--color=$(COLOR)" uninstall
 .PHONY : CMakeFiles/uninstall.dir/depend
 

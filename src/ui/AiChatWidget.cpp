@@ -28,10 +28,10 @@ AiChatWidget::AiChatWidget(QWidget *parent)
     m_chatHistory = new QTextBrowser(this);
     m_chatHistory->setOpenExternalLinks(true);
     m_chatHistory->setFrameStyle(QFrame::NoFrame);
-    layout->addWidget(m_chatHistory);
+    layout->addWidget(m_chatHistory, 1);
     
     m_inputWidget = new AiChatInputWidget(this);
-    layout->addWidget(m_inputWidget);
+    layout->addWidget(m_inputWidget, 0);
     
     connect(m_inputWidget, &AiChatInputWidget::messageSubmitted, this, &AiChatWidget::sendMessage);
     connect(m_inputWidget, &AiChatInputWidget::newChatClicked, this, &AiChatWidget::clearChat);
@@ -130,6 +130,6 @@ void AiChatWidget::clearChat()
 {
     m_messageHistory = QJsonArray();
     m_currentAssistantResponse.clear();
-    m_rawMarkdown = QStringLiteral("# Jenova C.A.\n\nWelcome to Jenova Cognitive Architecture, your AI Assistant for KDevelop!\n\n## Features:\n- **Chat**: Type below and press `Enter` to ask questions about your code.\n- **Refactor**: Select code, right-click (or Tools menu) and choose **AI: Refactor Selection...**\n- **Autocomplete**: Press `Ctrl+Space` while typing to get AI code suggestions.\n\n*(Note: Ensure your local Llama.cpp server is running at the configured endpoint in Settings)*\n\n---\n\n");
+    m_rawMarkdown = QStringLiteral("# KDev LLM\n\nWelcome to KDev LLM, your AI Assistant for KDevelop!\n\n## Features:\n- **Chat**: Type below and press `Enter` to ask questions about your code.\n- **Refactor**: Select code, right-click (or Tools menu) and choose **AI: Refactor Selection...**\n- **Autocomplete**: Press `Ctrl+Space` while typing to get AI code suggestions.\n\n*(Note: Ensure your local Llama.cpp server is running at the configured endpoint in Settings)*\n\n---\n\n");
     renderMarkdown();
 }

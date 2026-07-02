@@ -1,10 +1,10 @@
 cmake_policy(VERSION 3.16)
 
-if(NOT EXISTS "/home/orpheus497/Documents/Projects/ktext_jenova/build/install_manifest.txt")
-    message(FATAL_ERROR "Cannot find install manifest: /home/orpheus497/Documents/Projects/ktext_jenova/build/install_manifest.txt")
+if(NOT EXISTS "/home/orpheus497/Documents/Projects/kdev_llm/build/install_manifest.txt")
+    message(FATAL_ERROR "Cannot find install manifest: /home/orpheus497/Documents/Projects/kdev_llm/build/install_manifest.txt")
 endif()
 
-file(READ "/home/orpheus497/Documents/Projects/ktext_jenova/build/install_manifest.txt" files)
+file(READ "/home/orpheus497/Documents/Projects/kdev_llm/build/install_manifest.txt" files)
 string(REGEX REPLACE "\n" ";" files "${files}")
 foreach(file ${files})
     message(STATUS "Uninstalling $ENV{DESTDIR}${file}")

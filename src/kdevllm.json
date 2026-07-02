@@ -1,12 +1,12 @@
 {
     "KPlugin": {
-        "Description": "Jenova Cognitive Architecture KDeveloper IDE Plugin",
+        "Description": "KDev LLM IDE Plugin",
         "Icon": "code-context",
-        "Name": "JCA KDev Plugin",
+        "Name": "KDev LLM Plugin",
         "Version": "1.0",
         "Authors": [
             {
-                "Name": "Jenova",
+                "Name": "KDev LLM",
                 "Email": "admin@localhost"
             }
         ]

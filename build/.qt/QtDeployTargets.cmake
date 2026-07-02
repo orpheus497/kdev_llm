@@ -1,2 +1,2 @@
-set(__QT_DEPLOY_TARGET_jenovakdev_FILE /home/orpheus497/Documents/Projects/ktext_jenova/build/bin/jenovakdev.so)
-set(__QT_DEPLOY_TARGET_jenovakdev_TYPE MODULE_LIBRARY)
+set(__QT_DEPLOY_TARGET_kdevllm_FILE /home/orpheus497/Documents/Projects/kdev_llm/build/bin/kdevllm.so)
+set(__QT_DEPLOY_TARGET_kdevllm_TYPE MODULE_LIBRARY)

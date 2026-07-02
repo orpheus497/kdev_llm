@@ -1,5 +1,5 @@
-set(jenovakdev_SRCS
-    JenovaPlugin.cpp
+set(kdevllm_SRCS
+    KDevLLMPlugin.cpp
     ui/AiChatWidget.cpp
     ui/AiChatInputWidget.cpp
     network/LlamaClient.cpp
@@ -7,11 +7,11 @@ set(jenovakdev_SRCS
     completion/AiCompletionModel.cpp
 )
 
-kdevplatform_add_plugin(jenovakdev
-    SOURCES ${jenovakdev_SRCS}
+kdevplatform_add_plugin(kdevllm
+    SOURCES ${kdevllm_SRCS}
 )
 
-target_link_libraries(jenovakdev
+target_link_libraries(kdevllm
     KDev::Interfaces
     KDev::Util
     KDev::Project

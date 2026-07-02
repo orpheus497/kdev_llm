@@ -1,3 +1,24 @@
+**Timestamp**: 2026-07-03 04:15
+## Phase 19 Build & Deployment Session
+* **Accomplishments**: Executed the `make install` routine from the `build` directory. The plugin successfully deployed `kdevllm.so` to the local KF6 plugin directory (`~/.local/lib/plugins/kdevplatform/65/`). 
+* **Modified Files**: N/A (Only deployed binary).
+* **Decisions**: Utilize standard KDE installation paths to ensure the plugin is automatically discovered without requiring `sudo` privileges.
+* **Next Steps**: Await user verification of the plugin inside KDevelop.
+
+**Timestamp**: 2026-07-03 04:14
+## Phase 18 UI Dynamic Layouts Session
+* **Accomplishments**: Eradicated hardcoded sizing rules from the chat widget to fix blocky and broken UI behavior. Restructured `AiChatWidget` and `AiChatInputWidget` to use Qt's native `QSizePolicy` and explicit layout stretch factors. The chat history now correctly absorbs extra vertical space while the input box remains compact, allowing KDevelop's ToolView dock to dictate dynamic resolutions seamlessly.
+* **Modified Files**: `src/ui/AiChatWidget.cpp`, `src/ui/AiChatInputWidget.cpp`.
+* **Decisions**: Trust KDevelop's host layout engine by stripping away manual pixel constraints and using standardized Qt layout math (`layout->addWidget(widget, stretch)`).
+* **Next Steps**: Await user testing of the newly dynamic UI sidebar.
+
+**Timestamp**: 2026-07-03 04:12
+## Phase 17 Branding Overhaul Session
+* **Accomplishments**: Rebranded the entire project to "KDev LLM". Renamed plugin entry points (`JenovaPlugin.cpp`/`.h` to `KDevLLMPlugin.cpp`/`.h`), updated `CMakeLists.txt` project targets and sources from `jenovaktext`/`jenovakdev` to `kdevllm`, and modified UI string identifiers to reflect the new "KDev LLM" persona. The project compiled successfully with zero syntax or linking errors under the new structure.
+* **Modified Files**: `CMakeLists.txt`, `README.md`, `src/CMakeLists.txt`, `src/KDevLLMPlugin.h` (Renamed), `src/KDevLLMPlugin.cpp` (Renamed), `src/kdevllm.json` (Renamed), `src/network/LlamaClient.cpp`, `src/ui/AiChatWidget.cpp`.
+* **Decisions**: Conducted physical file renaming (`mv`) prior to internal text replacement to maintain Git history and structural integrity, preventing build breaks in the KDevelop layout system.
+* **Next Steps**: Await user testing and verification of the rebranded KDev LLM plugin.
+
 **Timestamp**: 2026-07-03 02:17
 ### Accomplishments
 - Fixed `AiToolViewFactory` registration by removing the premature `CreateAndRaise` signal that broke KDevelop's layout engine. The ToolView "Jenova C.A." now securely registers in KDevelop and is accessible via the Window -> Tool Views menu.

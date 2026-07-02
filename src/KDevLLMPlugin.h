@@ -1,4 +1,4 @@
-// ##Class purpose: Main entry point for the Jenova KDevelop plugin.
+// ##Class purpose: Main entry point for the KDev LLM plugin.
 #pragma once
 
 #include <interfaces/iplugin.h>
@@ -17,12 +17,12 @@ namespace KTextEditor {
     class MovingRange; 
 }
 
-class JenovaPlugin : public KDevelop::IPlugin {
+class KDevLLMPlugin : public KDevelop::IPlugin {
     Q_OBJECT
 
 public:
-    JenovaPlugin(QObject* parent, const KPluginMetaData& metaData, const QVariantList& args);
-    ~JenovaPlugin() override;
+    KDevLLMPlugin(QObject* parent, const KPluginMetaData& metaData, const QVariantList& args);
+    ~KDevLLMPlugin() override;
 
     void unload() override;
     KDevelop::ContextMenuExtension contextMenuExtension(KDevelop::Context* context, QWidget* parent) override;

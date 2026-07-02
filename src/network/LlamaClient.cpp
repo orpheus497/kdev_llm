@@ -14,7 +14,7 @@ LlamaClient::LlamaClient(QObject *parent)
     : QObject(parent), m_nam(new QNetworkAccessManager(this)) 
 {
     KSharedConfig::Ptr config = KSharedConfig::openConfig();
-    KConfigGroup group = config->group(QStringLiteral("JenovaKText"));
+    KConfigGroup group = config->group(QStringLiteral("KDevLLM"));
     m_endpointUrl = group.readEntry("EndpointUrl", QStringLiteral("http://127.0.0.1:8080"));
 }
 

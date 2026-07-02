@@ -57,10 +57,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/orpheus497/Documents/Projects/ktext_jenova
+CMAKE_SOURCE_DIR = /home/orpheus497/Documents/Projects/kdev_llm
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/orpheus497/Documents/Projects/ktext_jenova/build
+CMAKE_BINARY_DIR = /home/orpheus497/Documents/Projects/kdev_llm/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -97,7 +97,7 @@ rebuild_cache/fast: rebuild_cache
 
 # Special rule for the target list_install_components
 list_install_components:
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Available install components are: \"jenovaktext\""
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Available install components are: \"kdevllm\""
 .PHONY : list_install_components
 
 # Special rule for the target list_install_components
@@ -142,9 +142,9 @@ install/strip/fast: preinstall/fast
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/orpheus497/Documents/Projects/ktext_jenova/build/CMakeFiles /home/orpheus497/Documents/Projects/ktext_jenova/build//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/orpheus497/Documents/Projects/kdev_llm/build/CMakeFiles /home/orpheus497/Documents/Projects/kdev_llm/build//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/orpheus497/Documents/Projects/ktext_jenova/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/orpheus497/Documents/Projects/kdev_llm/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -198,43 +198,43 @@ fetch-translations/fast:
 .PHONY : fetch-translations/fast
 
 #=============================================================================
-# Target rules for targets named jenovakdev
+# Target rules for targets named kdevllm
 
 # Build rule for target.
-jenovakdev: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 jenovakdev
-.PHONY : jenovakdev
+kdevllm: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 kdevllm
+.PHONY : kdevllm
 
 # fast build rule for target.
-jenovakdev/fast:
-	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovakdev.dir/build.make src/CMakeFiles/jenovakdev.dir/build
-.PHONY : jenovakdev/fast
+kdevllm/fast:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/kdevllm.dir/build.make src/CMakeFiles/kdevllm.dir/build
+.PHONY : kdevllm/fast
 
 #=============================================================================
-# Target rules for targets named jenovakdev_autogen_timestamp_deps
+# Target rules for targets named kdevllm_autogen_timestamp_deps
 
 # Build rule for target.
-jenovakdev_autogen_timestamp_deps: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 jenovakdev_autogen_timestamp_deps
-.PHONY : jenovakdev_autogen_timestamp_deps
+kdevllm_autogen_timestamp_deps: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 kdevllm_autogen_timestamp_deps
+.PHONY : kdevllm_autogen_timestamp_deps
 
 # fast build rule for target.
-jenovakdev_autogen_timestamp_deps/fast:
-	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovakdev_autogen_timestamp_deps.dir/build.make src/CMakeFiles/jenovakdev_autogen_timestamp_deps.dir/build
-.PHONY : jenovakdev_autogen_timestamp_deps/fast
+kdevllm_autogen_timestamp_deps/fast:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/kdevllm_autogen_timestamp_deps.dir/build.make src/CMakeFiles/kdevllm_autogen_timestamp_deps.dir/build
+.PHONY : kdevllm_autogen_timestamp_deps/fast
 
 #=============================================================================
-# Target rules for targets named jenovakdev_autogen
+# Target rules for targets named kdevllm_autogen
 
 # Build rule for target.
-jenovakdev_autogen: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 jenovakdev_autogen
-.PHONY : jenovakdev_autogen
+kdevllm_autogen: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 kdevllm_autogen
+.PHONY : kdevllm_autogen
 
 # fast build rule for target.
-jenovakdev_autogen/fast:
-	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/jenovakdev_autogen.dir/build.make src/CMakeFiles/jenovakdev_autogen.dir/build
-.PHONY : jenovakdev_autogen/fast
+kdevllm_autogen/fast:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/kdevllm_autogen.dir/build.make src/CMakeFiles/kdevllm_autogen.dir/build
+.PHONY : kdevllm_autogen/fast
 
 # Help Target
 help:
@@ -250,10 +250,10 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... test"
 	@echo "... fetch-translations"
-	@echo "... jenovakdev_autogen"
-	@echo "... jenovakdev_autogen_timestamp_deps"
+	@echo "... kdevllm_autogen"
+	@echo "... kdevllm_autogen_timestamp_deps"
 	@echo "... uninstall"
-	@echo "... jenovakdev"
+	@echo "... kdevllm"
 .PHONY : help
 
 
