@@ -1,0 +1,37 @@
+build/
+CMakeCache.txt
+CMakeFiles/
+CMakeScripts/
+Makefile
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+
+# Qt/KDE Specific
+*.moc
+moc_*.cpp
+*.ui
+ui_*.h
+*.qrc
+qrc_*.cpp
+*.qm
+*.log
+
+# Kate/KDevelop IDE
+.kateconfig
+.kdev4/
+*.kdev4
+
+# C++ Objects and Libraries
+*.o
+*.obj
+*.so
+*.so.*
+*.dylib
+*.dll
+*.a
+*.lib
+
+# OS Specific
+.DS_Store
+Thumbs.db

@@ -39,6 +39,9 @@ private Q_SLOTS:
     // ##Method purpose: Triggered when the LlamaClient encounters an error.
     void onError(const QString &error);
 
+    // ##Method purpose: Clears the message history and resets the chat UI.
+    void clearChat();
+
 private:
     // ##Method purpose: Refreshes the QTextBrowser with the accumulated markdown string.
     void renderMarkdown();
@@ -47,6 +50,7 @@ private:
     QTextBrowser *m_chatHistory;
     QTextEdit *m_inputBox;
     QPushButton *m_sendButton;
+    QPushButton *m_newChatButton;
     
     LlamaClient *m_client;
     ContextManager *m_context;

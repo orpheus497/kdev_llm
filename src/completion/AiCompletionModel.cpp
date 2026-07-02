@@ -37,8 +37,10 @@ void AiCompletionModel::completionInvoked(KTextEditor::View *view, const KTextEd
     KTextEditor::Document *doc = view->document();
     QString prefix = doc->text(KTextEditor::Range(KTextEditor::Cursor(0, 0), range.end()));
     
-    int endLine = qMin(doc->lines(), range.end().line() + 10);
-    QString suffix = doc->text(KTextEditor::Range(range.end(), KTextEditor::Cursor(endLine, 0)));
+    int maxLine = qMax(0, doc->lines() - 1);
+    int endLine = qMin(maxLine, range.end().line() + 10);
+    int endCol = doc->lineLength(endLine);
+    QString suffix = doc->text(KTextEditor::Range(range.end(), KTextEditor::Cursor(endLine, endCol)));
 
     m_client->requestCompletion(prefix, suffix);
 }

@@ -1,5 +1,12 @@
 # Decisions Log
 
+**Timestamp**: 2026-07-02 14:43
+
+## Architecture: LSP and Interpretation
+* **Decision**: Retain Kate's basic `CodeCompletionModel` instead of writing a full out-of-process LSP server. Retain basic context aggregation instead of full project AST parsing.
+* **Justification**: A Qt Plugin is fundamentally restricted from acting as an LSP server. Deep parsing is beyond the scope of a fast inference client. We mitigate this by ensuring the plugin operates correctly within its intended scope.
+
+
 **Timestamp**: 2026-07-02 13:33
 
 ## Architecture: KF6 & Qt6 Native Plugin

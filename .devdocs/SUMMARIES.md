@@ -1,5 +1,11 @@
 # Historical Session Summaries
 
+**Timestamp**: 2026-07-02 14:49
+* **Phase 11**: Added repository essentials including a Qt/CMake specific `.gitignore` and a comprehensive `README.md` documenting architecture, features, and building instructions. Verified the pre-existing `LICENSE` file as BSD 2-Clause compliant.
+
+**Timestamp**: 2026-07-02 14:43
+* **Phase 10**: Investigated and fixed the IDE crash occurring during text edits. The crash was caused by `doc->lines()` generating an out-of-bounds `KTextEditor::Cursor` in `AiCompletionModel`. Clamped the cursor requests to the maximum valid line limit. Addressed missing chat controls by adding a "New Chat" button to `AiChatWidget` that clears the infinitely scaling message history array and resets the UI context. Concluded that a full LSP integration (diagnostics, symbol resolution) is structurally out of scope for a native Kate Qt-plugin; the current `CodeCompletionModel` is the correct, intended abstraction. Recompiled and installed successfully.
+
 **Timestamp**: 2026-07-02 14:22
 * **2026-07-02 14:22**: Executed Phase 9 UI Refactoring. Referenced `kate-code` to identify that `createToolView` supplies a pre-laid-out widget. Repaired the broken layout assignment causing the plugin to squish into the top-left corner. Removed artificial stretch constraints and fixed autocomplete model display issues.
 

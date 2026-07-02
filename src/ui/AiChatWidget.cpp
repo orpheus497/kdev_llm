@@ -42,16 +42,19 @@ AiChatWidget::AiChatWidget(KTextEditor::MainWindow *mainWindow, QWidget *parent)
     m_sendButton = new QPushButton(QStringLiteral("Send"), this);
     inputLayout->addWidget(m_sendButton);
     
+    m_newChatButton = new QPushButton(QStringLiteral("New Chat"), this);
+    inputLayout->addWidget(m_newChatButton);
+    
     layout->addLayout(inputLayout);
     
     connect(m_sendButton, &QPushButton::clicked, this, &AiChatWidget::sendMessage);
+    connect(m_newChatButton, &QPushButton::clicked, this, &AiChatWidget::clearChat);
     connect(m_client, &LlamaClient::chatTokenReceived, this, &AiChatWidget::onChatTokenReceived);
     connect(m_client, &LlamaClient::chatResponseFinished, this, &AiChatWidget::onChatFinished);
     connect(m_client, &LlamaClient::errorOccurred, this, &AiChatWidget::onError);
     
     // Display welcome guide
-    m_rawMarkdown = QStringLiteral("# Jenova K Text\n\nWelcome to Jenova K Text, your AI Assistant for Kate and KDevelop!\n\n## Features:\n- **Chat**: Type below and press `Enter` to ask questions about your code.\n- **Refactor**: Select code, right-click (or Tools menu) and choose **AI: Refactor Selection...**\n- **Autocomplete**: Press `Ctrl+Space` while typing to get AI code suggestions.\n\n*(Note: Ensure your local Llama.cpp server is running at the configured endpoint in Settings)*\n\n---\n\n");
-    renderMarkdown();
+    clearChat();
 }
 
 // ##Method purpose: Intercepts Enter key events on the input box to send the message.
@@ -135,4 +138,13 @@ void AiChatWidget::renderMarkdown()
 {
     m_chatHistory->setMarkdown(m_rawMarkdown);
     m_chatHistory->moveCursor(QTextCursor::End);
+}
+
+// ##Method purpose: Clears the message history and resets the chat UI.
+void AiChatWidget::clearChat()
+{
+    m_messageHistory = QJsonArray();
+    m_currentAssistantResponse.clear();
+    m_rawMarkdown = QStringLiteral("# Jenova K Text\n\nWelcome to Jenova K Text, your AI Assistant for Kate and KDevelop!\n\n## Features:\n- **Chat**: Type below and press `Enter` to ask questions about your code.\n- **Refactor**: Select code, right-click (or Tools menu) and choose **AI: Refactor Selection...**\n- **Autocomplete**: Press `Ctrl+Space` while typing to get AI code suggestions.\n\n*(Note: Ensure your local Llama.cpp server is running at the configured endpoint in Settings)*\n\n---\n\n");
+    renderMarkdown();
 }

@@ -1,5 +1,19 @@
 # Session Handoff Log
 
+**Timestamp**: 2026-07-02 14:49
+## Phase 11 Repository Essentials Session
+* **Accomplishments**: Generated a standard Qt/KDE `.gitignore` to keep the repository clean of build artifacts. Authored a comprehensive `README.md` detailing the Jenova K Text plugin, its architecture, compilation steps, and usage. Verified that the existing `LICENSE` file is already a BSD 2-Clause License, fulfilling the user's requirements.
+* **Modified Files**: `.gitignore` (New), `README.md` (New).
+* **Decisions**: Exclude `build/` and `.kateconfig`/`.kdev4` from version control. Ensure documentation explicitly references KF6 native integration.
+* **Next Steps**: Await next instructions from user.
+
+**Timestamp**: 2026-07-02 14:43
+## Phase 10 Investigation & Analysis Session
+* **Accomplishments**: Investigated and fixed the root cause of Kate crashing when the user types. The crash was caused by `AiCompletionModel::completionInvoked` requesting text from a `KTextEditor::Cursor` initialized with `doc->lines()`, which is out-of-bounds (0-indexed). Clamped the cursor request to `qMax(0, doc->lines() - 1)` and utilized `doc->lineLength()`. Also implemented "New Chat" functionality to clear the infinitely growing AI message history and reset the UI. Analyzed limitations in LSP and Interpretation, concluding that full LSP integration is beyond the scope of a Qt plugin and current implementation serves as a functional foundation. Re-compiled and installed the plugin.
+* **Modified Files**: `src/completion/AiCompletionModel.cpp`, `src/ui/AiChatWidget.h`, `src/ui/AiChatWidget.cpp`.
+* **Decisions**: Retain current `KTextEditor::CodeCompletionModel` UI instead of pivoting to a full cross-process LSP architecture. Add in-plugin chat controls to mitigate missing features. Ensure all `KTextEditor::Cursor` instantiations strictly abide by Kate's 0-indexed limit conventions.
+* **Next Steps**: Await user verification of the fix.
+
 **Timestamp**: 2026-07-02 14:22
 ## Phase 9 UI Diagnostics & Refactoring Session
 * **Accomplishments**: Investigated and fixed severe UI scaling and sizing issues reported by the user. Analyzed the `kate-code` MIT reference plugin per user instructions to identify the core layout flaw. Discovered that `KTextEditor::MainWindow::createToolView` returns a container widget that *already has a layout*. By blindly attempting to assign a new `QVBoxLayout`, Qt silently failed, leaving the chat widget completely unmanaged and squished into the top-left corner of the side panel. Fixed this by fetching and utilizing the existing `m_toolView->layout()` instead. Also removed arbitrary stretch factors in `AiChatWidget` and fixed a critical bug in `AiCompletionModel` where multiline AI code responses squished the autocomplete `QTreeView`.
