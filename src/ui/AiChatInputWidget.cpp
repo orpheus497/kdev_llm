@@ -165,7 +165,11 @@ AiChatInputWidget::AiChatInputWidget(QWidget *parent)
     btnLayout->setContentsMargins(0, 0, 0, 0);
     
     m_sendButton = new QPushButton(QStringLiteral("Send"), this);
+    m_sendButton->setToolTip(i18n("Send message (Enter)"));
+    m_sendButton->setCursor(Qt::PointingHandCursor);
     m_newChatButton = new QPushButton(QStringLiteral("New Chat"), this);
+    m_newChatButton->setToolTip(i18n("Clear history and start a new chat"));
+    m_newChatButton->setCursor(Qt::PointingHandCursor);
     
     btnLayout->addWidget(m_sendButton);
     btnLayout->addWidget(m_newChatButton);
@@ -182,6 +186,11 @@ void AiChatInputWidget::setPromptRunning(bool running)
 {
     m_promptRunning = running;
     m_sendButton->setEnabled(!running);
+    if (running) {
+        m_sendButton->setToolTip(i18n("Waiting for AI response..."));
+    } else {
+        m_sendButton->setToolTip(i18n("Send message (Enter)"));
+    }
 }
 
 // ##Method purpose: Clears the input box.
