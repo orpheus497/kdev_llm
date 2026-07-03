@@ -165,8 +165,7 @@ AiChatInputWidget::AiChatInputWidget(QWidget *parent)
     btnLayout->setContentsMargins(0, 0, 0, 0);
     
     m_sendButton = new QPushButton(QStringLiteral("Send"), this);
-    m_sendButton->setToolTip(QStringLiteral("Send message (Enter)"));
-    m_sendButton->setCursor(Qt::PointingHandCursor);
+    m_sendButton->setToolTip(i18n("Send message (Enter)"));
     m_newChatButton = new QPushButton(QStringLiteral("New Chat"), this);
     m_newChatButton->setToolTip(i18n("Clear history and start a new chat"));
     
