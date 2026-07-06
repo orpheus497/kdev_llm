@@ -1,4 +1,4 @@
-**Timestamp**: 2026-07-03 04:14
+**Timestamp**: 2026-07-06 06:49\n* Successfully untracked massive local build cache directory (over 45k files) that was previously polluting the repository state.\n* Restructured the src/CMakeLists.txt to properly embed JSON metadata using KDevelop's kdevplatform_add_plugin macro, restoring standard KDevelop KF6 plugin discovery conventions.\n* Removed non-standard hotfix instructions from the README, restoring a standard KDE CMake build command set.\n\n**Timestamp**: 2026-07-03 04:14
 
 ## UI: Dynamic Layouts & Native Wrapping
 * **Decision**: Removed `setMinimumHeight` and `setMaximumHeight` from `AiChatInputWidget`'s text box, utilizing `QSizePolicy::Expanding` and `QSizePolicy::MinimumExpanding` instead. Updated `AiChatWidget`'s vertical layout to assign a stretch factor of `1` to the chat history and `0` to the input widget.
