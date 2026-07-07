@@ -23,17 +23,28 @@ QString ContextManager::getProjectRoot(KTextEditor::Document *doc) const
         return QString();
     }
     
+    return getProjectRoot(doc->url());
+}
+
+QString ContextManager::getProjectRoot(const QUrl &url) const
+{
+    if (url.isEmpty()) {
+        return QString();
+    }
+
     // Attempt IDE proper integration first
-    KDevelop::IProjectController* pc = KDevelop::ICore::self()->projectController();
-    if (pc) {
-        KDevelop::IProject* proj = pc->findProjectForUrl(doc->url());
-        if (proj) {
-            return proj->path().toLocalFile();
+    if (KDevelop::ICore::self()) {
+        KDevelop::IProjectController* pc = KDevelop::ICore::self()->projectController();
+        if (pc) {
+            KDevelop::IProject* proj = pc->findProjectForUrl(url);
+            if (proj) {
+                return proj->path().toLocalFile();
+            }
         }
     }
     
     // Fallback to directory scanning if not in a KDevelop project
-    QDir dir = QFileInfo(doc->url().toLocalFile()).absoluteDir();
+    QDir dir = QFileInfo(url.toLocalFile()).absoluteDir();
     while (dir.absolutePath() != QStringLiteral("/")) {
         if (dir.exists(QStringLiteral(".git")) || dir.exists(QStringLiteral("CMakeLists.txt"))) {
             return dir.absolutePath();
@@ -75,12 +86,14 @@ QString ContextManager::buildSystemPrompt(KTextEditor::View *view) const
         QString root = getProjectRoot(view->document());
         QString agentsInst = getAgentsInstruction(root);
         
-        KDevelop::IProjectController* pc = KDevelop::ICore::self()->projectController();
-        if (pc) {
-            KDevelop::IProject* proj = pc->findProjectForUrl(view->document()->url());
-            if (proj) {
-                prompt += QStringLiteral("Project Name: ") + proj->name() + QStringLiteral("\n");
-                prompt += QStringLiteral("Project Root: ") + proj->path().toLocalFile() + QStringLiteral("\n\n");
+        if (KDevelop::ICore::self()) {
+            KDevelop::IProjectController* pc = KDevelop::ICore::self()->projectController();
+            if (pc) {
+                KDevelop::IProject* proj = pc->findProjectForUrl(view->document()->url());
+                if (proj) {
+                    prompt += QStringLiteral("Project Name: ") + proj->name() + QStringLiteral("\n");
+                    prompt += QStringLiteral("Project Root: ") + proj->path().toLocalFile() + QStringLiteral("\n\n");
+                }
             }
         }
         
@@ -120,11 +133,13 @@ QString ContextManager::buildRefactorPrompt(const QString &instruction, const QS
     QString prompt = QStringLiteral("You are an expert developer. ");
     
     if (view && view->document()) {
-        KDevelop::IProjectController* pc = KDevelop::ICore::self()->projectController();
-        if (pc) {
-            KDevelop::IProject* proj = pc->findProjectForUrl(view->document()->url());
-            if (proj) {
-                prompt += QStringLiteral("Project Name: ") + proj->name() + QStringLiteral("\n");
+        if (KDevelop::ICore::self()) {
+            KDevelop::IProjectController* pc = KDevelop::ICore::self()->projectController();
+            if (pc) {
+                KDevelop::IProject* proj = pc->findProjectForUrl(view->document()->url());
+                if (proj) {
+                    prompt += QStringLiteral("Project Name: ") + proj->name() + QStringLiteral("\n");
+                }
             }
         }
         

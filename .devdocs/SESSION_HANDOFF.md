@@ -1,3 +1,10 @@
+**Timestamp**: 2026-07-07 05:23
+## Phase 21 Testing Infrastructure & Coverage Session
+* **Accomplishments**: Implemented testing infrastructure by refactoring `ContextManager` to accept `QUrl` natively (improving unit testability) and adding null checks for `KDevelop::ICore::self()` to prevent headless crashes. Built a new `tests` directory with a full suite of fallback directory scanning tests (`TestContextManager.cpp`). Updated root `CMakeLists.txt` to enable testing and hooked up the test runner.
+* **Modified Files**: `src/context/ContextManager.h`, `src/context/ContextManager.cpp`, `CMakeLists.txt`, `tests/CMakeLists.txt`, `tests/TestContextManager.cpp`.
+* **Decisions**: Refactor methods for native URL injection rather than mocking large KTextEditor objects in unit tests. Always use headless null checks for singleton KDE IDE objects.
+* **Next Steps**: Await test execution and user review.
+
 **Timestamp**: 2026-07-06 06:51\n* **Session Focus**: Resolving non-standard KDevelop plugin installation conventions and cleaning up repository build artifacts.\n* **Accomplishments**: Embedded kdevllm.json metadata natively into the kdevplatform_add_plugin macro, standardizing installation without relying on hardcoded paths or qt-sys bypasses. Deleted ~45,000 erroneously tracked local build/ files. Cleaned up README build instructions to conform to KDevelop standards.\n* **Modified Files**: .gitignore, README.md, src/CMakeLists.txt, removed build/*.\n\n**Timestamp**: 2026-07-03 04:15
 ## Phase 19 Build & Deployment Session
 * **Accomplishments**: Executed the `make install` routine from the `build` directory. The plugin successfully deployed `kdevllm.so` to the local KF6 plugin directory (`~/.local/lib/plugins/kdevplatform/65/`). 
