@@ -37,3 +37,4 @@ qrc_*.cpp
 Thumbs.db
 reference/kate-code/
 reference/kdevcxx_with_ai/
+build/

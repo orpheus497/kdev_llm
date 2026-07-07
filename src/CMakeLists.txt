@@ -8,6 +8,7 @@ set(kdevllm_SRCS
 )
 
 kdevplatform_add_plugin(kdevllm
+    JSON kdevllm.json
     SOURCES ${kdevllm_SRCS}
 )
 

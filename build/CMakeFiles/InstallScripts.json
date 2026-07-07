@@ -1,8 +1,0 @@
-{
-	"InstallScripts" : 
-	[
-		"/home/orpheus497/Documents/Projects/kdev_llm/build/cmake_install.cmake",
-		"/home/orpheus497/Documents/Projects/kdev_llm/build/src/cmake_install.cmake"
-	],
-	"Parallel" : false
-}

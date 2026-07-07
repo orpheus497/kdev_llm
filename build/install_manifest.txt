@@ -1,1 +1,0 @@
-/home/orpheus497/.local/lib/plugins/kdevplatform/65/kdevllm.so

@@ -38,11 +38,11 @@ We use the standard KDevPlatform plugin macros (`kdevplatform_add_plugin`) for c
 To test the plugin locally in KDevelop (without requiring `sudo`):
 ```bash
 mkdir build && cd build
-cmake -DCMAKE_INSTALL_PREFIX=$HOME/.local -DKDE_INSTALL_USE_QT_SYS_PATHS=OFF ..
+cmake -DCMAKE_INSTALL_PREFIX=$HOME/.local ..
 make -j$(nproc)
 make install
 ```
-*(This installs the plugin object securely to `~/.local/lib/plugins/kdevplatform/65/kdevllm.so` or similar depending on your KF6 version).*
+*(This installs the plugin object securely to your local KDE plugin directory).*
 
 **How to Test in KDevelop:**
 1. Open KDevelop.
