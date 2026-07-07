@@ -87,3 +87,6 @@
 ## Architecture: Native Integration
 * **Decision**: Remove custom `ComparisonView` popup. Pipe LLM edits directly into `KTextEditor::Document` via `replaceText`.
 * **Justification**: Custom popups fight the host IDE. Editing the native buffer lets the user rely on the IDE's built-in Git Diff and Undo functionality, shifting from a "slap-on app" to a deeply integrated native plugin.
+
+## 2026-07-07 05:42 - ContextManager Vulnerability Fix
+Implement a hard cap of 50,000 characters for file content read by KDevelop's Document object during prompt generation. This prevents resource exhaustion when interacting with very large files in the IDE while maintaining functionality for small-to-medium files.

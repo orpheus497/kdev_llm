@@ -91,7 +91,15 @@ QString ContextManager::buildSystemPrompt(KTextEditor::View *view) const
         
         prompt += QStringLiteral("\nCurrent file: ") + view->document()->url().toLocalFile() + QStringLiteral("\n");
         prompt += QStringLiteral("\n--- File Content ---\n```\n");
-        prompt += view->document()->text();
+
+        const int maxFileLength = 50000;
+        QString fileText = view->document()->text();
+        if (fileText.length() > maxFileLength) {
+            prompt += fileText.left(maxFileLength) + QStringLiteral("\n...[Content truncated due to size]...\n");
+        } else {
+            prompt += fileText;
+        }
+
         prompt += QStringLiteral("\n```\n");
         
         if (view->selection()) {
@@ -130,7 +138,15 @@ QString ContextManager::buildRefactorPrompt(const QString &instruction, const QS
         
         prompt += QStringLiteral("You are working in the file: ") + view->document()->url().toLocalFile() + QStringLiteral("\n\n");
         prompt += QStringLiteral("Here is the full content of the file for context:\n```\n");
-        prompt += view->document()->text();
+
+        const int maxFileLength = 50000;
+        QString fileText = view->document()->text();
+        if (fileText.length() > maxFileLength) {
+            prompt += fileText.left(maxFileLength) + QStringLiteral("\n...[Content truncated due to size]...\n");
+        } else {
+            prompt += fileText;
+        }
+
         prompt += QStringLiteral("\n```\n\n");
         
         KDevelop::DUChainReadLocker lock(KDevelop::DUChain::lock());
