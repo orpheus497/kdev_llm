@@ -13,6 +13,18 @@
 #include <language/duchain/declaration.h>
 #include <language/duchain/types/abstracttype.h>
 #include <util/path.h>
+#include <QHash>
+#include <QStringList>
+#include <QDateTime>
+
+struct CacheEntry {
+    QString rootPath;
+    qint64 timestamp;
+};
+
+// Static cache with TTL to avoid redundant directory traversal and disk I/O
+static QHash<QString, CacheEntry> s_projectRootCache;
+const qint64 CACHE_TTL_MS = 5000; // 5 seconds TTL
 
 // ##Method purpose: Constructor implementation.
 ContextManager::ContextManager(QObject *parent) : QObject(parent) {}
@@ -34,11 +46,41 @@ QString ContextManager::getProjectRoot(KTextEditor::Document *doc) const
     
     // Fallback to directory scanning if not in a KDevelop project
     QDir dir = QFileInfo(doc->url().toLocalFile()).absoluteDir();
+    QStringList visitedDirs;
+    qint64 now = QDateTime::currentMSecsSinceEpoch();
+
     while (dir.absolutePath() != QStringLiteral("/")) {
+        QString currentPath = dir.absolutePath();
+
+        // ##Condition purpose: Check if we have a valid cached root for this directory
+        if (s_projectRootCache.contains(currentPath)) {
+            const CacheEntry& entry = s_projectRootCache.value(currentPath);
+            if (now - entry.timestamp < CACHE_TTL_MS) {
+                QString cachedRoot = entry.rootPath;
+                // Cache for all visited directories on the way up
+                for (const QString& visited : visitedDirs) {
+                    s_projectRootCache.insert(visited, {cachedRoot, now});
+                }
+                return cachedRoot;
+            }
+        }
+
+        visitedDirs.append(currentPath);
+
         if (dir.exists(QStringLiteral(".git")) || dir.exists(QStringLiteral("CMakeLists.txt"))) {
-            return dir.absolutePath();
+            QString rootPath = dir.absolutePath();
+            // Cache for this root and all visited directories
+            for (const QString& visited : visitedDirs) {
+                s_projectRootCache.insert(visited, {rootPath, now});
+            }
+            return rootPath;
         }
         dir.cdUp();
+    }
+
+    // Cache empty result if no root found
+    for (const QString& visited : visitedDirs) {
+        s_projectRootCache.insert(visited, {QString(), now});
     }
     return QString();
 }
