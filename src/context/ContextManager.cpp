@@ -82,8 +82,8 @@ QString ContextManager::buildSystemPrompt(KTextEditor::View *view) const
         if (pc) {
             KDevelop::IProject* proj = pc->findProjectForUrl(view->document()->url());
             if (proj) {
-                prompt += QStringLiteral("Project Name: ") % proj->name() % QChar('\n');
-                prompt += QStringLiteral("Project Root: ") % proj->path().toLocalFile() % QStringLiteral("\n\n");
+                prompt += QStringLiteral("Project Name: ") % proj->name() % QLatin1Char('\n');
+                prompt += QStringLiteral("Project Root: ") % proj->path().toLocalFile() % QLatin1String("\n\n");
             }
         }
         
