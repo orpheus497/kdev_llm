@@ -15,6 +15,10 @@
 #include <util/path.h>
 #include <QStringBuilder>
 
+namespace {
+constexpr int PromptReserveCapacity = 8192;
+}
+
 // ##Method purpose: Constructor implementation.
 ContextManager::ContextManager(QObject *parent) : QObject(parent) {}
 
@@ -71,7 +75,7 @@ QString ContextManager::getAgentsInstruction(const QString &projectRoot) const
 QString ContextManager::buildSystemPrompt(KTextEditor::View *view) const
 {
     QString prompt;
-    prompt.reserve(8192); // Pre-allocate to reduce memory reallocations
+    prompt.reserve(PromptReserveCapacity); // Pre-allocate to reduce memory reallocations
     prompt += QStringLiteral("You are an expert AI coding assistant integrated natively into the KDevelop IDE.\n");
     
     if (view && view->document()) {
@@ -82,14 +86,14 @@ QString ContextManager::buildSystemPrompt(KTextEditor::View *view) const
         if (pc) {
             KDevelop::IProject* proj = pc->findProjectForUrl(view->document()->url());
             if (proj) {
-                prompt += QStringLiteral("Project Name: ") % proj->name() % QLatin1Char('\n');
-                prompt += QStringLiteral("Project Root: ") % proj->path().toLocalFile() % QLatin1String("\n\n");
+                prompt += QStringLiteral("Project Name: ") % proj->name() % QChar('\n');
+                prompt += QStringLiteral("Project Root: ") % proj->path().toLocalFile() % QStringLiteral("\n\n");
             }
         }
         
         if (!agentsInst.isEmpty()) {
             prompt += QStringLiteral("Follow these project-specific instructions from AGENTS.md:\n");
-            prompt += agentsInst % QLatin1Char('\n');
+            prompt += agentsInst % QChar('\n');
         }
         
         prompt += QStringLiteral("\nCurrent file: ") % view->document()->url().toLocalFile() % QChar('\n');
@@ -121,7 +125,7 @@ QString ContextManager::buildSystemPrompt(KTextEditor::View *view) const
 QString ContextManager::buildRefactorPrompt(const QString &instruction, const QString &code, KTextEditor::View *view) const
 {
     QString prompt;
-    prompt.reserve(8192); // Pre-allocate to reduce memory reallocations
+    prompt.reserve(PromptReserveCapacity); // Pre-allocate to reduce memory reallocations
     prompt += QStringLiteral("You are an expert developer. ");
     
     if (view && view->document()) {
@@ -133,7 +137,7 @@ QString ContextManager::buildRefactorPrompt(const QString &instruction, const QS
             }
         }
         
-        prompt += QStringLiteral("You are working in the file: ") % view->document()->url().toLocalFile() % QLatin1String("\n\n");
+        prompt += QStringLiteral("You are working in the file: ") % view->document()->url().toLocalFile() % QStringLiteral("\n\n");
         prompt += QStringLiteral("Here is the full content of the file for context:\n```\n");
         prompt += view->document()->text();
         prompt += QStringLiteral("\n```\n\n");
