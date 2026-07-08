@@ -29,6 +29,7 @@ find_package(Qt6 REQUIRED COMPONENTS
 
 find_package(KDevPlatform 6.0 REQUIRED)
 
+enable_testing()
 add_subdirectory(src)
 add_subdirectory(tests)
 

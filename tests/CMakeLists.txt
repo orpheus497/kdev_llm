@@ -13,3 +13,5 @@ target_link_libraries(TestAiCompletionModel Qt6::Test Qt6::Core Qt6::Network Qt6
 
 find_package(KF6 REQUIRED COMPONENTS TextEditor CoreAddons)
 target_link_libraries(TestAiCompletionModel KF6::TextEditor KF6::CoreAddons)
+
+add_test(NAME TestAiCompletionModel COMMAND TestAiCompletionModel)

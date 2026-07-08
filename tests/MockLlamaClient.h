@@ -6,7 +6,7 @@ class MockLlamaClient : public LlamaClient {
 public:
     explicit MockLlamaClient(QObject *parent = nullptr) : LlamaClient(parent), requestCompletionCalled(false) {}
 
-    void requestCompletion(const QString &prefix, const QString &suffix) {
+    void requestCompletion(const QString &prefix, const QString &suffix) override {
         requestCompletionCalled = true;
         m_lastPrefix = prefix;
         m_lastSuffix = suffix;
