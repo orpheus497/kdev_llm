@@ -15,8 +15,14 @@ public:
     // ##Method purpose: Destructor.
     ~ContextManager() override = default;
 
+    // ##Method purpose: Finds the KDevelop project for a given URL, avoiding duplicate lookups.
+    KDevelop::IProject* findProject(const QUrl &url) const;
+
     // ##Method purpose: Determines the project root directory from a given document.
     QString getProjectRoot(KTextEditor::Document *doc) const;
+
+    // ##Method purpose: Determines the project root directory from a given URL (useful for testing).
+    QString getProjectRoot(const QUrl &url) const;
 
     // ##Method purpose: Reads and returns the contents of AGENTS.md if found in the project root.
     QString getAgentsInstruction(const QString &projectRoot) const;

@@ -34,6 +34,8 @@ private:
     CompletionContext completionUnderCursor() const;
     QCompleter *m_completer = nullptr;
     QAbstractItemModel *m_fileModel = nullptr;
+
+    friend class TestCommandTextEdit;
 };
 
 // ##Class purpose: Container widget that combines the input box and action buttons.

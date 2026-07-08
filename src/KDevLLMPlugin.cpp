@@ -38,6 +38,7 @@ private:
 
 K_PLUGIN_FACTORY_WITH_JSON(KDevLLMPluginFactory, "kdevllm.json", registerPlugin<KDevLLMPlugin>();)
 
+// ##Method purpose: Initializes the plugin, completion model, refactoring client, and registers the UI views and document hooks.
 KDevLLMPlugin::KDevLLMPlugin(QObject* parent, const KPluginMetaData& metaData, const QVariantList& args)
     : KDevelop::IPlugin(QStringLiteral("kdevllm"), parent, metaData)
     , m_completionModel(new AiCompletionModel(this))
@@ -61,26 +62,25 @@ KDevLLMPlugin::KDevLLMPlugin(QObject* parent, const KPluginMetaData& metaData, c
     });
 
     // Register completion model via KDevelop DocumentController
-    connect(core()->documentController(), &KDevelop::IDocumentController::textDocumentCreated, this, [this](KDevelop::IDocument* doc) {
+    // ##Function purpose: Registers the completion model for all views of a text document.
+    auto setupTextDocument = [this](KDevelop::IDocument* doc) {
         if (auto* textDoc = doc->textDocument()) {
+            // ##Function purpose: Callback to register completion model when a new view is created for this document.
             connect(textDoc, &KTextEditor::Document::viewCreated, this, [this](KTextEditor::Document*, KTextEditor::View* view) {
                 view->registerCompletionModel(m_completionModel);
             });
+            // ##Loop purpose: Ensure the completion model is attached to all currently open views of the document.
             for (auto* view : textDoc->views()) {
                 view->registerCompletionModel(m_completionModel);
             }
         }
-    });
+    };
+
+    connect(core()->documentController(), &KDevelop::IDocumentController::textDocumentCreated, this, setupTextDocument);
     
+    // ##Loop purpose: Catch up and register completion model on all documents that are already open during plugin initialization.
     for (auto* doc : core()->documentController()->openDocuments()) {
-        if (auto* textDoc = doc->textDocument()) {
-            connect(textDoc, &KTextEditor::Document::viewCreated, this, [this](KTextEditor::Document*, KTextEditor::View* view) {
-                view->registerCompletionModel(m_completionModel);
-            });
-            for (auto* view : textDoc->views()) {
-                view->registerCompletionModel(m_completionModel);
-            }
-        }
+        setupTextDocument(doc);
     }
 }
 

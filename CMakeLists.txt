@@ -34,11 +34,10 @@ endif()
 
 find_package(KDevPlatform 6.0 REQUIRED)
 
+enable_testing()
 add_subdirectory(src)
 
-if(BUILD_TESTING)
-    enable_testing()
-    add_subdirectory(tests)
-endif()
+enable_testing()
+add_subdirectory(tests)
 
 feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)

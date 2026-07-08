@@ -150,6 +150,11 @@ void LlamaClient::onChatReadyRead()
     // ##Condition purpose: Ensure reply is valid.
     if (!reply) return;
 
+    // ⚡ Bolt Optimization: Batch SSE tokens to reduce UI re-renders.
+    // Emitting a signal per network token triggers O(N^2) markdown parsing in the UI thread.
+    // Batching them per `readyRead` event preserves streaming speed while massively reducing CPU overhead.
+    QString batchedTokens;
+
     // ##Loop purpose: Read all available SSE lines.
     while (reply->canReadLine()) {
         QByteArray line = reply->readLine().trimmed();
@@ -166,11 +171,15 @@ void LlamaClient::onChatReadyRead()
                     QJsonObject delta = choices.first().toObject()[QStringLiteral("delta")].toObject();
                     QString content = delta[QStringLiteral("content")].toString();
                     if (!content.isEmpty()) {
-                        Q_EMIT chatTokenReceived(content);
+                        batchedTokens += content;
                     }
                 }
             }
         }
+    }
+
+    if (!batchedTokens.isEmpty()) {
+        Q_EMIT chatTokenReceived(batchedTokens);
     }
 }
 
