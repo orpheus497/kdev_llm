@@ -29,6 +29,10 @@ find_package(Qt6 REQUIRED COMPONENTS
 
 find_package(KDevPlatform 6.0 REQUIRED)
 
+include(CTest)
 add_subdirectory(src)
+if(BUILD_TESTING)
+    add_subdirectory(tests)
+endif()
 
 feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)

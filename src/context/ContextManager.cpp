@@ -4,6 +4,7 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QTextStream>
+#include <QDateTime>
 #include <interfaces/icore.h>
 #include <interfaces/iprojectcontroller.h>
 #include <interfaces/iproject.h>
@@ -56,12 +57,31 @@ QString ContextManager::getAgentsInstruction(const QString &projectRoot) const
 
     // ##Loop purpose: Check all possible locations for the AGENTS.md file.
     for (const auto &candidate : candidates) {
-        QFile file(QDir(projectRoot).filePath(candidate));
+        QString filePath = QDir(projectRoot).filePath(candidate);
+        QFileInfo fileInfo(filePath);
         
-        // ##Condition purpose: Only read the file if we can successfully open it.
-        if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-            QTextStream in(&file);
-            return in.readAll();
+        if (fileInfo.exists()) {
+            QDateTime lastModified = fileInfo.lastModified();
+
+            // Check cache first
+            auto it = m_agentsCache.constFind(filePath);
+            if (it != m_agentsCache.constEnd() && it.value().lastModified == lastModified) {
+                return it.value().content;
+            }
+
+            QFile file(filePath);
+            // ##Condition purpose: Only read the file if we can successfully open it.
+            if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+                QTextStream in(&file);
+                QString content = in.readAll();
+
+                AgentsCacheEntry newEntry;
+                newEntry.lastModified = lastModified;
+                newEntry.content = content;
+                m_agentsCache.insert(filePath, newEntry);
+
+                return content;
+            }
         }
     }
     return QString();

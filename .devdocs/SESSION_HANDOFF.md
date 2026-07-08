@@ -1,4 +1,16 @@
-**Timestamp**: 2026-07-06 06:51\n* **Session Focus**: Resolving non-standard KDevelop plugin installation conventions and cleaning up repository build artifacts.\n* **Accomplishments**: Embedded kdevllm.json metadata natively into the kdevplatform_add_plugin macro, standardizing installation without relying on hardcoded paths or qt-sys bypasses. Deleted ~45,000 erroneously tracked local build/ files. Cleaned up README build instructions to conform to KDevelop standards.\n* **Modified Files**: .gitignore, README.md, src/CMakeLists.txt, removed build/*.\n\n**Timestamp**: 2026-07-03 04:15
+**Timestamp**: 2026-07-07 05:22
+## Phase 17 Testing Improvements Session
+* **Accomplishments**: Implemented QTest-based unit tests for `AiCompletionModel::completionInvoked`. The tests mock the `LlamaClient` network layer to prevent HTTP calls, while utilizing the real `KTextEditor::Editor`, `Document`, and `View` objects for text integration. Integrated tests into the CMake build system by adding `tests/CMakeLists.txt` and configuring CTest testing options.
+* **Modified Files**: `tests/TestAiCompletionModel.cpp`, `tests/MockLlamaClient.h`, `tests/CMakeLists.txt`, `CMakeLists.txt`, `src/completion/AiCompletionModel.h`, `src/network/LlamaClient.h`, `.devdocs/BRIEFING.md`.
+* **Decisions**: Subclassed `LlamaClient` directly for `MockLlamaClient` rather than relying on abstract interface stubs to safely gate asynchronous network routines during testing, ensuring accurate component integration.
+* **Next Steps**: Await user testing and review of the completion tests.
+
+**Timestamp**: 2026-07-06 06:51
+* **Session Focus**: Resolving non-standard KDevelop plugin installation conventions and cleaning up repository build artifacts.
+* **Accomplishments**: Embedded kdevllm.json metadata natively into the kdevplatform_add_plugin macro, standardizing installation without relying on hardcoded paths or qt-sys bypasses. Deleted ~45,000 erroneously tracked local build/ files. Cleaned up README build instructions to conform to KDevelop standards.
+* **Modified Files**: .gitignore, README.md, src/CMakeLists.txt, removed build/*.
+
+**Timestamp**: 2026-07-03 04:15
 ## Phase 19 Build & Deployment Session
 * **Accomplishments**: Executed the `make install` routine from the `build` directory. The plugin successfully deployed `kdevllm.so` to the local KF6 plugin directory (`~/.local/lib/plugins/kdevplatform/65/`). 
 * **Modified Files**: N/A (Only deployed binary).
