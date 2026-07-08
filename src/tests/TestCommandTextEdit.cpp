@@ -10,6 +10,7 @@ class TestCommandTextEdit : public QObject
 private Q_SLOTS:
     void testCompletionUnderCursor_data();
     void testCompletionUnderCursor();
+    void testSimulatedKeyPresses();
 };
 
 void TestCommandTextEdit::testCompletionUnderCursor_data()
@@ -87,6 +88,44 @@ void TestCommandTextEdit::testCompletionUnderCursor()
         QCOMPARE(ctx.filterText, expectedFilterText);
         QCOMPARE(ctx.prefixStart, expectedPrefixStart);
     }
+}
+
+void TestCommandTextEdit::testSimulatedKeyPresses()
+{
+    CommandTextEdit edit;
+
+    // Simulate typing text
+    QTest::keyClicks(&edit, "hello ");
+    CommandTextEdit::CompletionContext ctx = edit.completionUnderCursor();
+    QCOMPARE(static_cast<int>(ctx.type), static_cast<int>(CommandTextEdit::None));
+
+    // Simulate typing an @ symbol
+    QTest::keyClicks(&edit, "@fi");
+    ctx = edit.completionUnderCursor();
+    QCOMPARE(static_cast<int>(ctx.type), static_cast<int>(CommandTextEdit::File));
+    QCOMPARE(ctx.prefix, QStringLiteral("@fi"));
+    QCOMPARE(ctx.filterText, QStringLiteral("fi"));
+
+    // Simulate backspacing a character
+    QTest::keyClick(&edit, Qt::Key_Backspace);
+    ctx = edit.completionUnderCursor();
+    QCOMPARE(static_cast<int>(ctx.type), static_cast<int>(CommandTextEdit::File));
+    QCOMPARE(ctx.prefix, QStringLiteral("@f"));
+    QCOMPARE(ctx.filterText, QStringLiteral("f"));
+
+    // Simulate completing backspace to remove the @
+    QTest::keyClick(&edit, Qt::Key_Backspace);
+    QTest::keyClick(&edit, Qt::Key_Backspace);
+    ctx = edit.completionUnderCursor();
+    QCOMPARE(static_cast<int>(ctx.type), static_cast<int>(CommandTextEdit::None));
+
+    // Simulate newline and then @
+    QTest::keyClick(&edit, Qt::Key_Return);
+    QTest::keyClicks(&edit, "@test");
+    ctx = edit.completionUnderCursor();
+    QCOMPARE(static_cast<int>(ctx.type), static_cast<int>(CommandTextEdit::File));
+    QCOMPARE(ctx.prefix, QStringLiteral("@test"));
+    QCOMPARE(ctx.filterText, QStringLiteral("test"));
 }
 
 QTEST_MAIN(TestCommandTextEdit)
