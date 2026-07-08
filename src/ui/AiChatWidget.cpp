@@ -141,8 +141,14 @@ void AiChatWidget::clearChat()
 // ##Method purpose: Securely handles clicked links to prevent arbitrary scheme execution.
 void AiChatWidget::onAnchorClicked(const QUrl &url)
 {
-    // Only allow safe HTTP/HTTPS schemes to prevent malicious execution (e.g., file://, javascript:)
-    QString scheme = url.scheme().toLower();
+    if (url.isRelative()) {
+        if (!url.fragment().isEmpty()) {
+            m_chatHistory->scrollToAnchor(url.fragment());
+        }
+        return;
+    }
+
+    const QString scheme = url.scheme();
     if (scheme == QStringLiteral("http") || scheme == QStringLiteral("https")) {
         QDesktopServices::openUrl(url);
     }
