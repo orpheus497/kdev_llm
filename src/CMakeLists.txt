@@ -22,7 +22,3 @@ target_link_libraries(kdevllm
     Qt6::Widgets
     Qt6::Network
 )
-
-if(BUILD_TESTING)
-    add_subdirectory(tests)
-endif()

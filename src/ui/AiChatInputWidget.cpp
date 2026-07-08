@@ -127,17 +127,11 @@ CommandTextEdit::CompletionContext CommandTextEdit::completionUnderCursor() cons
     while (searchPos >= 0) {
         QChar ch = allText.at(searchPos);
         if (ch == QLatin1Char('@')) {
-            // Require a preceding space or start-of-text for file completion
-            if (searchPos == 0 || allText.at(searchPos - 1).isSpace()) {
-                context.type = File;
-                context.prefix = allText.mid(searchPos, cursorPos - searchPos);
-                context.filterText = context.prefix.length() > 1 ? context.prefix.mid(1) : QString();
-                context.prefixStart = searchPos;
-                return context;
-            } else {
-                // E.g., user@domain.com, don't trigger completion
-                return context;
-            }
+            context.type = File;
+            context.prefix = allText.mid(searchPos, cursorPos - searchPos);
+            context.filterText = context.prefix.length() > 1 ? context.prefix.mid(1) : QString();
+            context.prefixStart = searchPos;
+            return context;
         }
         if (ch.isSpace()) break;
         searchPos--;
