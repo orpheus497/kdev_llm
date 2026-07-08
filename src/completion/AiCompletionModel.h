@@ -29,9 +29,6 @@ private Q_SLOTS:
 
 private:
     LlamaClient *m_client;
-
-    // For testing
-    friend class TestAiCompletionModel;
     QPointer<KTextEditor::View> m_currentView;
     KTextEditor::Range m_currentRange;
     QStringList m_completions;

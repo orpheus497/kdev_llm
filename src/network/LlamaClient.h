@@ -24,7 +24,7 @@ public:
     QString endpointUrl() const;
 
     // ##Method purpose: Trigger an inline completion request (infill).
-    virtual void requestCompletion(const QString &prefix, const QString &suffix);
+    void requestCompletion(const QString &prefix, const QString &suffix);
     
     // ##Method purpose: Trigger a chat completion request.
     void requestChat(const QJsonArray &messages);

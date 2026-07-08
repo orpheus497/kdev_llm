@@ -1,6 +1,3 @@
-**Timestamp**: 2026-07-07 05:22
-* Added QTest-based unit tests for `AiCompletionModel::completionInvoked` using KTextEditor mocks, integrated tests into CMake, and verified via static syntax checks.
-
 **Timestamp**: 2026-07-03 04:15
 * Installed the rebuilt KDev LLM plugin to the local user directory (`~/.local/lib/plugins/kdevplatform/65/`).
 

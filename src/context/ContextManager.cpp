@@ -111,32 +111,7 @@ QString ContextManager::buildSystemPrompt(KTextEditor::View *view) const
         
         prompt += QStringLiteral("\nCurrent file: ") + view->document()->url().toLocalFile() + QStringLiteral("\n");
         prompt += QStringLiteral("\n--- File Content ---\n```\n");
-
-        const int maxFileLength = 50000;
-        KTextEditor::Document *doc = view->document();
-        int totalLength = 0;
-        int linesCount = doc->lines();
-        int targetLine = 0;
-        int targetColumn = 0;
-        bool truncated = false;
-
-        for (int i = 0; i < linesCount; ++i) {
-            int len = doc->lineLength(i);
-            if (totalLength + len + 1 > maxFileLength) {
-                targetLine = i;
-                targetColumn = maxFileLength - totalLength;
-                truncated = true;
-                break;
-            }
-            totalLength += len + 1;
-        }
-
-        if (truncated) {
-            prompt += doc->text(KTextEditor::Range(0, 0, targetLine, targetColumn)) + QStringLiteral("\n...[Content truncated due to size]...\n");
-        } else {
-            prompt += doc->text();
-        }
-
+        prompt += view->document()->text();
         prompt += QStringLiteral("\n```\n");
         
         if (view->selection()) {
@@ -175,32 +150,7 @@ QString ContextManager::buildRefactorPrompt(const QString &instruction, const QS
         
         prompt += QStringLiteral("You are working in the file: ") + view->document()->url().toLocalFile() + QStringLiteral("\n\n");
         prompt += QStringLiteral("Here is the full content of the file for context:\n```\n");
-
-        const int maxFileLength = 50000;
-        KTextEditor::Document *doc = view->document();
-        int totalLength = 0;
-        int linesCount = doc->lines();
-        int targetLine = 0;
-        int targetColumn = 0;
-        bool truncated = false;
-
-        for (int i = 0; i < linesCount; ++i) {
-            int len = doc->lineLength(i);
-            if (totalLength + len + 1 > maxFileLength) {
-                targetLine = i;
-                targetColumn = maxFileLength - totalLength;
-                truncated = true;
-                break;
-            }
-            totalLength += len + 1;
-        }
-
-        if (truncated) {
-            prompt += doc->text(KTextEditor::Range(0, 0, targetLine, targetColumn)) + QStringLiteral("\n...[Content truncated due to size]...\n");
-        } else {
-            prompt += doc->text();
-        }
-
+        prompt += view->document()->text();
         prompt += QStringLiteral("\n```\n\n");
         
         KDevelop::DUChainReadLocker lock(KDevelop::DUChain::lock());
