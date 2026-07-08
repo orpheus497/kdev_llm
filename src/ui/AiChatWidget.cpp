@@ -141,7 +141,9 @@ void AiChatWidget::clearChat()
 // ##Method purpose: Securely handles clicked links to prevent arbitrary scheme execution.
 void AiChatWidget::onAnchorClicked(const QUrl &url)
 {
+    // ##Condition purpose: Handle relative URLs for internal anchor navigation.
     if (url.isRelative()) {
+        // ##Condition purpose: Ensure fragment is present before scrolling.
         if (!url.fragment().isEmpty()) {
             m_chatHistory->scrollToAnchor(url.fragment());
         }
@@ -149,6 +151,7 @@ void AiChatWidget::onAnchorClicked(const QUrl &url)
     }
 
     const QString scheme = url.scheme();
+    // ##Condition purpose: Restrict external link opening to safe HTTP/S schemes.
     if (scheme == QStringLiteral("http") || scheme == QStringLiteral("https")) {
         QDesktopServices::openUrl(url);
     }
