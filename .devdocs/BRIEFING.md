@@ -30,3 +30,15 @@ Phase: Maintenance
 Step: Fixing Unbounded File Read vulnerability
 Objective: Patch a security vulnerability in ContextManager.cpp where unbounded file reads could lead to resource exhaustion (Denial of Service).
 Status: Fix implemented by truncating file text to 50KB in system and refactor prompt generation.
+
+## Security Update Optimization - 2026-07-08 00:42
+Phase: Maintenance
+Step: Optimizing Unbounded File Read vulnerability fix
+Objective: Improve the previous security fix in ContextManager.cpp to calculate the truncation range via  and  instead of reading the whole text into a . This prevents memory exhaustion prior to truncation.
+Status: Implemented  logic.
+
+## Security Update Optimization - 2026-07-08 00:43
+Phase: Maintenance
+Step: Optimizing Unbounded File Read vulnerability fix
+Objective: Improve the previous security fix in ContextManager.cpp to calculate the truncation range via doc->lines and doc->lineLength instead of reading the whole text into a QString. This prevents memory exhaustion prior to truncation.
+Status: Implemented KTextEditor::Range logic.

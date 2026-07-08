@@ -90,3 +90,9 @@
 
 ## 2026-07-07 05:42 - ContextManager Vulnerability Fix
 Implement a hard cap of 50,000 characters for file content read by KDevelop's Document object during prompt generation. This prevents resource exhaustion when interacting with very large files in the IDE while maintaining functionality for small-to-medium files.
+
+## 2026-07-08 00:42 - ContextManager Vulnerability Fix Optimization
+Improved the hard cap of 50,000 characters logic. Rather than reading  (which pulls the whole text to memory) and truncating, we iterate  and  to calculate the exact  needed, only pulling the maximum 50KB required into memory.
+
+## 2026-07-08 00:43 - ContextManager Vulnerability Fix Optimization
+Improved the hard cap of 50,000 characters logic. Rather than reading doc->text (which pulls the whole text to memory) and truncating, we iterate doc->lines and doc->lineLength to calculate the exact KTextEditor::Range needed, only pulling the maximum 50KB required into memory.

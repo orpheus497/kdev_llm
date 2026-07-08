@@ -93,11 +93,28 @@ QString ContextManager::buildSystemPrompt(KTextEditor::View *view) const
         prompt += QStringLiteral("\n--- File Content ---\n```\n");
 
         const int maxFileLength = 50000;
-        QString fileText = view->document()->text();
-        if (fileText.length() > maxFileLength) {
-            prompt += fileText.left(maxFileLength) + QStringLiteral("\n...[Content truncated due to size]...\n");
+        KTextEditor::Document *doc = view->document();
+        int totalLength = 0;
+        int linesCount = doc->lines();
+        int targetLine = 0;
+        int targetColumn = 0;
+        bool truncated = false;
+
+        for (int i = 0; i < linesCount; ++i) {
+            int len = doc->lineLength(i);
+            if (totalLength + len + 1 > maxFileLength) {
+                targetLine = i;
+                targetColumn = maxFileLength - totalLength;
+                truncated = true;
+                break;
+            }
+            totalLength += len + 1;
+        }
+
+        if (truncated) {
+            prompt += doc->text(KTextEditor::Range(0, 0, targetLine, targetColumn)) + QStringLiteral("\n...[Content truncated due to size]...\n");
         } else {
-            prompt += fileText;
+            prompt += doc->text();
         }
 
         prompt += QStringLiteral("\n```\n");
@@ -140,11 +157,28 @@ QString ContextManager::buildRefactorPrompt(const QString &instruction, const QS
         prompt += QStringLiteral("Here is the full content of the file for context:\n```\n");
 
         const int maxFileLength = 50000;
-        QString fileText = view->document()->text();
-        if (fileText.length() > maxFileLength) {
-            prompt += fileText.left(maxFileLength) + QStringLiteral("\n...[Content truncated due to size]...\n");
+        KTextEditor::Document *doc = view->document();
+        int totalLength = 0;
+        int linesCount = doc->lines();
+        int targetLine = 0;
+        int targetColumn = 0;
+        bool truncated = false;
+
+        for (int i = 0; i < linesCount; ++i) {
+            int len = doc->lineLength(i);
+            if (totalLength + len + 1 > maxFileLength) {
+                targetLine = i;
+                targetColumn = maxFileLength - totalLength;
+                truncated = true;
+                break;
+            }
+            totalLength += len + 1;
+        }
+
+        if (truncated) {
+            prompt += doc->text(KTextEditor::Range(0, 0, targetLine, targetColumn)) + QStringLiteral("\n...[Content truncated due to size]...\n");
         } else {
-            prompt += fileText;
+            prompt += doc->text();
         }
 
         prompt += QStringLiteral("\n```\n\n");
