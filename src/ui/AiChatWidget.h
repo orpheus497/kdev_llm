@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QJsonArray>
+#include <QUrl>
 
 class QTextBrowser;
 class AiChatInputWidget;
@@ -40,6 +41,9 @@ private Q_SLOTS:
 
     // ##Method purpose: Clears the message history and resets the chat UI.
     void clearChat();
+
+    // ##Method purpose: Securely handles clicked links to prevent arbitrary scheme execution.
+    void onAnchorClicked(const QUrl &url);
 
 private:
     // ##Method purpose: Refreshes the QTextBrowser with the accumulated markdown string.
