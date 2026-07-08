@@ -136,6 +136,7 @@ bool TestAiChatWidget::testSendMessageSubsequentMessage() {
     return true;
 }
 
+// ##Function purpose: Application entry point for running the standalone test suite.
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
     TestAiChatWidget test;

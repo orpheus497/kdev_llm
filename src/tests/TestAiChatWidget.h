@@ -8,16 +8,19 @@ class TestAiChatWidget : public QObject {
     Q_OBJECT
 
 public:
+    // ##Method purpose: Constructor for the test class.
     explicit TestAiChatWidget(QObject *parent = nullptr);
+
+    // ##Method purpose: Executes all tests and returns the failure count.
     int runTests();
 
 private:
     // ##Method purpose: Tests sending an empty message does not modify state.
-    bool testSendMessageEmpty();
+    static bool testSendMessageEmpty();
 
     // ##Method purpose: Tests the first message sent adds the system prompt and the user message.
-    bool testSendMessageFirstMessage();
+    static bool testSendMessageFirstMessage();
 
     // ##Method purpose: Tests subsequent messages append to history and update system prompt if needed.
-    bool testSendMessageSubsequentMessage();
+    static bool testSendMessageSubsequentMessage();
 };

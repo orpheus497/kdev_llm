@@ -1,12 +1,7 @@
 # ##Script function and purpose: CMake setup for tests.
-add_executable(TestAiChatWidget
-    TestAiChatWidget.cpp
-    ../ui/AiChatWidget.cpp
-    ../ui/AiChatInputWidget.cpp
-    ../network/LlamaClient.cpp
-    ../context/ContextManager.cpp
-)
+add_executable(TestAiChatWidget TestAiChatWidget.cpp)
 target_link_libraries(TestAiChatWidget
+    kdevllm_core
     KDev::Interfaces
     KDev::Util
     KDev::Project
