@@ -2,14 +2,12 @@ set(CMAKE_AUTOMOC ON)
 
 add_executable(TestLlamaClient
     TestLlamaClient.cpp
-    ../src/network/LlamaClient.cpp
 )
 
-target_include_directories(TestLlamaClient PRIVATE ../src/network ${CMAKE_CURRENT_SOURCE_DIR}/mocks)
+target_include_directories(TestLlamaClient PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/mocks)
 
 target_link_libraries(TestLlamaClient
-    Qt6::Core
-    Qt6::Network
+    LlamaClientObj
     Qt6::Test
 )
 

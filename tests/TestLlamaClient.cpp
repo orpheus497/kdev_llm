@@ -29,6 +29,52 @@ private slots:
         delete m_server;
     }
 
+    // ##Method purpose: Helper to wait for a pending connection.
+    QTcpSocket* waitForConnection() {
+        // ##Loop purpose: Wait up to 1 second for a pending network connection to arrive.
+        for (int i = 0; i < 10; ++i) {
+            // ##Condition purpose: Check if a connection is available to accept.
+            if (m_server->hasPendingConnections()) {
+                return m_server->nextPendingConnection();
+            }
+            QTest::qWait(100);
+        }
+        return nullptr;
+    }
+
+    // ##Method purpose: Helper to wait for a full HTTP request.
+    QByteArray waitForFullRequest(QTcpSocket* socket) {
+        QByteArray requestData;
+        // ##Loop purpose: Accumulate network data until a complete HTTP request (headers + body) is received.
+        for (int i = 0; i < 20; ++i) {
+            // ##Condition purpose: Append any available bytes from the socket.
+            if (socket->bytesAvailable() > 0) {
+                requestData.append(socket->readAll());
+            }
+            int bodyIndex = requestData.indexOf("\r\n\r\n");
+            // ##Condition purpose: Parse Content-Length once headers are fully received.
+            if (bodyIndex != -1) {
+                int contentLength = 0;
+                int clIndex = requestData.indexOf("Content-Length:");
+                // ##Condition purpose: Extract the Content-Length value if present.
+                if (clIndex != -1 && clIndex < bodyIndex) {
+                    int valStart = clIndex + 15;
+                    int valEnd = requestData.indexOf("\r\n", valStart);
+                    // ##Condition purpose: Parse the integer value of Content-Length.
+                    if (valEnd != -1) {
+                        contentLength = requestData.mid(valStart, valEnd - valStart).trimmed().toInt();
+                    }
+                }
+                // ##Condition purpose: Verify if the entire body has been downloaded.
+                if (requestData.size() >= bodyIndex + 4 + contentLength) {
+                    break;
+                }
+            }
+            QTest::qWait(100);
+        }
+        return requestData;
+    }
+
     // ##Method purpose: Verifies that requestCompletion correctly formats the HTTP request and JSON payload.
     void testRequestCompletionPayload()
     {
@@ -45,45 +91,12 @@ private slots:
         QCoreApplication::processEvents();
 
         // Wait for connection to our mock server
-        bool hasConnection = false;
-        for (int i = 0; i < 10; ++i) {
-            if (m_server->hasPendingConnections()) {
-                hasConnection = true;
-                break;
-            }
-            QTest::qWait(100);
-        }
-
-        QVERIFY(hasConnection);
-        QTcpSocket *socket = m_server->nextPendingConnection();
+        QTcpSocket *socket = waitForConnection();
         QVERIFY(socket != nullptr);
 
         // Wait for the full HTTP request to arrive
-        QByteArray requestData;
-        bool hasFullRequest = false;
-        for (int i = 0; i < 20; ++i) {
-            if (socket->bytesAvailable() > 0) {
-                requestData.append(socket->readAll());
-            }
-            int bodyIndex = requestData.indexOf("\r\n\r\n");
-            if (bodyIndex != -1) {
-                int contentLength = 0;
-                int clIndex = requestData.indexOf("Content-Length:");
-                if (clIndex != -1 && clIndex < bodyIndex) {
-                    int valStart = clIndex + 15;
-                    int valEnd = requestData.indexOf("\r\n", valStart);
-                    if (valEnd != -1) {
-                        contentLength = requestData.mid(valStart, valEnd - valStart).trimmed().toInt();
-                    }
-                }
-                if (requestData.size() >= bodyIndex + 4 + contentLength) {
-                    hasFullRequest = true;
-                    break;
-                }
-            }
-            QTest::qWait(100);
-        }
-        QVERIFY(hasFullRequest);
+        QByteArray requestData = waitForFullRequest(socket);
+        QVERIFY(!requestData.isEmpty());
 
         // ##Step purpose: Verify HTTP POST line and headers
         QVERIFY(requestData.startsWith("POST /completion HTTP/1.1\r\n"));
