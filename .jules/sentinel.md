@@ -1,6 +1,4 @@
-# Sentinel Security Journal
-
-## 2024-07-07 - QTextBrowser URL Security
-**Vulnerability:** QTextBrowser was configured with `setOpenExternalLinks(true)`, which automatically passes clicked markdown links to the OS.
-**Learning:** LLMs can generate malicious markdown links with arbitrary URI schemes (e.g., `file://`, `javascript:`, or OS-specific app links). If clicked by the user, this can lead to arbitrary file reads or code execution.
-**Prevention:** Disable `openExternalLinks` and `openLinks`. Manually connect the `anchorClicked` signal to a custom slot that validates the URL scheme (allowing only `http` and `https`) before calling `QDesktopServices::openUrl()`.
+## 2023-10-27 - [Security Vulnerability] Unsanitized Markdown Rendering of LLM Output
+**Vulnerability:** XSS/HTML Injection in QTextBrowser via Markdown
+**Learning:** `QTextBrowser::setMarkdown` enables HTML rendering by default. Thus, when passing untrusted output to it, any embedded HTML tags are rendered, which can lead to XSS/Script Execution in Qt.
+**Prevention:** Configure the underlying `QTextDocument` directly by passing `QTextDocument::MarkdownNoHTML` to `QTextDocument::setMarkdown()`. This disables rendering raw HTML while keeping Markdown parsing active.
