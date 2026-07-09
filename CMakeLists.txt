@@ -19,6 +19,7 @@ find_package(KF6 ${REQUIRED_KF_VERSION} REQUIRED COMPONENTS
     CoreAddons
     XmlGui
     SyntaxHighlighting
+    Config
 )
 
 find_package(Qt6 REQUIRED COMPONENTS

@@ -4,11 +4,11 @@
 namespace KDevelop {
     class AbstractType {
     public:
-        QString toString() const { return ""; }
+        QString toString() const { return QString(); }
     };
     class Declaration {
     public:
-        QString toString() const { return ""; }
+        QString toString() const { return QString(); }
         AbstractType* abstractType() const { return nullptr; }
     };
     namespace DUChainUtils {

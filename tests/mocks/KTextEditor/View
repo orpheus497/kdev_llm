@@ -11,7 +11,7 @@ namespace KTextEditor {
         virtual ~View() = default;
         virtual Document* document() const = 0;
         virtual bool selection() const { return false; }
-        virtual QString selectionText() const { return ""; }
+        virtual QString selectionText() const { return QString(); }
         virtual Range selectionRange() const { return Range(); }
     };
 }

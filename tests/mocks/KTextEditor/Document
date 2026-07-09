@@ -6,6 +6,6 @@ namespace KTextEditor {
     public:
         virtual ~Document() = default;
         virtual QUrl url() const = 0;
-        virtual QString text() const { return ""; }
+        virtual QString text() const { return QString(); }
     };
 }

@@ -95,12 +95,12 @@ void TestCommandTextEdit::testSimulatedKeyPresses()
     CommandTextEdit edit;
 
     // Simulate typing text
-    QTest::keyClicks(&edit, "hello ");
+    QTest::keyClicks(&edit, QStringLiteral("hello "));
     CommandTextEdit::CompletionContext ctx = edit.completionUnderCursor();
     QCOMPARE(static_cast<int>(ctx.type), static_cast<int>(CommandTextEdit::None));
 
     // Simulate typing an @ symbol
-    QTest::keyClicks(&edit, "@fi");
+    QTest::keyClicks(&edit, QStringLiteral("@fi"));
     ctx = edit.completionUnderCursor();
     QCOMPARE(static_cast<int>(ctx.type), static_cast<int>(CommandTextEdit::File));
     QCOMPARE(ctx.prefix, QStringLiteral("@fi"));
@@ -121,12 +121,12 @@ void TestCommandTextEdit::testSimulatedKeyPresses()
 
     // Simulate newline and then @
     QTest::keyClick(&edit, Qt::Key_Return);
-    QTest::keyClicks(&edit, "@test");
+    QTest::keyClicks(&edit, QStringLiteral("@test"));
     ctx = edit.completionUnderCursor();
     QCOMPARE(static_cast<int>(ctx.type), static_cast<int>(CommandTextEdit::File));
     QCOMPARE(ctx.prefix, QStringLiteral("@test"));
     QCOMPARE(ctx.filterText, QStringLiteral("test"));
 }
 
- //  //  //  // QTEST_MAIN(TestCommandTextEdit)
+QTEST_MAIN(TestCommandTextEdit)
 #include "TestCommandTextEdit.moc"

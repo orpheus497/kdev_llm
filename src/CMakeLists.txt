@@ -1,6 +1,6 @@
 add_library(LlamaClientObj OBJECT network/LlamaClient.cpp)
 target_include_directories(LlamaClientObj PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/network)
-target_link_libraries(LlamaClientObj PUBLIC Qt6::Core Qt6::Network)
+target_link_libraries(LlamaClientObj PUBLIC Qt6::Core Qt6::Network KF6::ConfigCore)
 
 set(kdevllm_SRCS
     KDevLLMPlugin.cpp

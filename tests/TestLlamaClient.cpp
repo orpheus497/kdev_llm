@@ -12,7 +12,7 @@ class TestLlamaClient : public QObject
 {
     Q_OBJECT
 
-private slots:
+private Q_SLOTS:
     // ##Method purpose: Setup before each test function.
     void init()
     {

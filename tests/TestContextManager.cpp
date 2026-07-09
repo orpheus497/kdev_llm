@@ -15,7 +15,7 @@ class MockProject : public KDevelop::IProject {
 public:
     MockProject(const QUrl& path) : m_path(path) {}
     QUrl path() const override { return m_path; }
-    QString name() const override { return "MockProject"; }
+    QString name() const override { return QStringLiteral("MockProject"); }
 };
 
 class MockProjectController : public KDevelop::IProjectController {
@@ -46,7 +46,7 @@ public:
 class TestContextManager : public QObject {
     Q_OBJECT
 
-private slots:
+private Q_SLOTS:
     void initTestCase() {
         MockCore::s_instance = new MockCore();
     }
@@ -69,12 +69,12 @@ private slots:
 
     void testGetProjectRootWithKDevelopProject() {
         ContextManager cm;
-        MockDocument doc(QUrl::fromLocalFile("/path/to/some/file.cpp"));
-        MockProject proj(QUrl::fromLocalFile("/path/to/project"));
+        MockDocument doc(QUrl::fromLocalFile(QStringLiteral("/path/to/some/file.cpp")));
+        MockProject proj(QUrl::fromLocalFile(QStringLiteral("/path/to/project")));
 
         MockCore::s_instance->projectController()->setProject(&proj);
 
-        QCOMPARE(cm.getProjectRoot(&doc), QString("/path/to/project"));
+        QCOMPARE(cm.getProjectRoot(&doc), QStringLiteral("/path/to/project"));
     }
 
     void testGetProjectRootFallbackGit() {
@@ -85,13 +85,13 @@ private slots:
         QVERIFY(tempDir.isValid());
 
         // Create a fake git dir
-        QVERIFY(QDir().mkpath(tempDir.path() + "/.git"));
+        QVERIFY(QDir().mkpath(tempDir.path() + QStringLiteral("/.git")));
 
         // Create a nested dir for our file
-        QString nestedPath = tempDir.path() + "/src/nested";
+        QString nestedPath = tempDir.path() + QStringLiteral("/src/nested");
         QVERIFY(QDir().mkpath(nestedPath));
 
-        MockDocument doc(QUrl::fromLocalFile(nestedPath + "/file.cpp"));
+        MockDocument doc(QUrl::fromLocalFile(nestedPath + QStringLiteral("/file.cpp")));
 
         QCOMPARE(cm.getProjectRoot(&doc), tempDir.path());
     }
@@ -104,15 +104,15 @@ private slots:
         QVERIFY(tempDir.isValid());
 
         // Create a CMakeLists.txt
-        QFile file(tempDir.path() + "/CMakeLists.txt");
+        QFile file(tempDir.path() + QStringLiteral("/CMakeLists.txt"));
         QVERIFY(file.open(QIODevice::WriteOnly));
         file.close();
 
         // Create a nested dir for our file
-        QString nestedPath = tempDir.path() + "/src/nested";
+        QString nestedPath = tempDir.path() + QStringLiteral("/src/nested");
         QVERIFY(QDir().mkpath(nestedPath));
 
-        MockDocument doc(QUrl::fromLocalFile(nestedPath + "/file.cpp"));
+        MockDocument doc(QUrl::fromLocalFile(nestedPath + QStringLiteral("/file.cpp")));
 
         QCOMPARE(cm.getProjectRoot(&doc), tempDir.path());
     }
@@ -125,10 +125,10 @@ private slots:
         QVERIFY(tempDir.isValid());
 
         // No .git or CMakeLists.txt
-        QString nestedPath = tempDir.path() + "/src/nested";
+        QString nestedPath = tempDir.path() + QStringLiteral("/src/nested");
         QVERIFY(QDir().mkpath(nestedPath));
 
-        MockDocument doc(QUrl::fromLocalFile(nestedPath + "/file.cpp"));
+        MockDocument doc(QUrl::fromLocalFile(nestedPath + QStringLiteral("/file.cpp")));
 
         QCOMPARE(cm.getProjectRoot(&doc), QString());
     }
