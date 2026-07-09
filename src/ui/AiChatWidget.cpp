@@ -11,6 +11,8 @@
 #include <QEvent>
 #include <QKeyEvent>
 #include <KTextEditor/Document>
+#include <QDesktopServices>
+#include <QUrl>
 
 #include <interfaces/icore.h>
 #include <interfaces/idocumentcontroller.h>
@@ -26,7 +28,8 @@ AiChatWidget::AiChatWidget(QWidget *parent)
     layout->setContentsMargins(0, 0, 0, 0);
     
     m_chatHistory = new QTextBrowser(this);
-    m_chatHistory->setOpenExternalLinks(true);
+    m_chatHistory->setOpenExternalLinks(false);
+    m_chatHistory->setOpenLinks(false);
     m_chatHistory->setFrameStyle(QFrame::NoFrame);
     layout->addWidget(m_chatHistory, 1);
     
@@ -35,6 +38,7 @@ AiChatWidget::AiChatWidget(QWidget *parent)
     
     connect(m_inputWidget, &AiChatInputWidget::messageSubmitted, this, &AiChatWidget::sendMessage);
     connect(m_inputWidget, &AiChatInputWidget::newChatClicked, this, &AiChatWidget::clearChat);
+    connect(m_chatHistory, &QTextBrowser::anchorClicked, this, &AiChatWidget::onAnchorClicked);
     
     connect(m_client, &LlamaClient::chatTokenReceived, this, &AiChatWidget::onChatTokenReceived);
     connect(m_client, &LlamaClient::chatResponseFinished, this, &AiChatWidget::onChatFinished);
@@ -132,4 +136,23 @@ void AiChatWidget::clearChat()
     m_currentAssistantResponse.clear();
     m_rawMarkdown = QStringLiteral("# KDev LLM\n\nWelcome to KDev LLM, your AI Assistant for KDevelop!\n\n## Features:\n- **Chat**: Type below and press `Enter` to ask questions about your code.\n- **Refactor**: Select code, right-click (or Tools menu) and choose **AI: Refactor Selection...**\n- **Autocomplete**: Press `Ctrl+Space` while typing to get AI code suggestions.\n\n*(Note: Ensure your local Llama.cpp server is running at the configured endpoint in Settings)*\n\n---\n\n");
     renderMarkdown();
+}
+
+// ##Method purpose: Securely handles clicked links to prevent arbitrary scheme execution.
+void AiChatWidget::onAnchorClicked(const QUrl &url)
+{
+    // ##Condition purpose: Handle relative URLs for internal anchor navigation.
+    if (url.isRelative()) {
+        // ##Condition purpose: Ensure fragment is present before scrolling.
+        if (!url.fragment().isEmpty()) {
+            m_chatHistory->scrollToAnchor(url.fragment());
+        }
+        return;
+    }
+
+    const QString scheme = url.scheme();
+    // ##Condition purpose: Restrict external link opening to safe HTTP/S schemes.
+    if (scheme == QStringLiteral("http") || scheme == QStringLiteral("https")) {
+        QDesktopServices::openUrl(url);
+    }
 }
