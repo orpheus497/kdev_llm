@@ -1,11 +1,11 @@
 # Project Briefing
 
-**Timestamp**: 2026-07-03 02:17
+**Timestamp**: 2026-07-10 00:47
 
 ## Status
-- **Current Phase**: Phase 16 (Stabilization & Branding).
-- **Step**: Fixing KDevelop-specific layout/UI bugs and updating project branding.
-- **Progress**: 99% - Plugin compiles, installs, has full native KDevelop hooks (DUChain, Contexts, ToolView, Documents).
+- **Current Phase**: Phase 21 (Consolidation & Merge).
+- **Step**: Consolidating PR 14 branch into main, resolving merge conflicts, and updating installation process to proper KDE plugin paths.
+- **Progress**: 0% - Initiating PR 14 branch merge into main.
 
 ## Previous Session Accomplishments
 - Implemented deep KDevelop integrations: DUChain AST extraction, `IProject` aware contexts.
@@ -15,12 +15,12 @@
 - Updated the main `README.md` to reflect all architectural changes and deployment steps.
 
 ## Current Blockers
-- Awaiting user verification that the ToolView can be successfully opened from the `Window -> Tool Views` menu and that Autocomplete now works in standard documents.
+- Pending user approval to proceed with the PR 14 merge and conflict resolution.
 
 ## Recent Architectural Decisions
-- Removed early `CreateAndRaise` calls on the ToolView to prevent KDevelop startup failures.
-- Renamed project branding globally across CMake, JSON Metadata, and C++ UI strings.
+- Decided to stop using `.local` as a hotfix for KDevelop plugin installation; moving to standard KDE plugin paths requiring `sudo make install`.
 
 ## Next Execution Steps
-1. Wait for user verification.
-2. If verification passes, consider preparing the plugin for a stable `1.0` release tag.
+1. Merge PR 14 branch `jules-14714858885759819008-c1fa69dc` into `main`.
+2. Resolve merge conflicts in `src/context/ContextManager.cpp`, `src/ui/AiChatInputWidget.h`, and tests.
+3. Update `README.md` to specify standard installation (removing `.local` prefix).

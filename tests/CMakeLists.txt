@@ -32,3 +32,8 @@ add_executable(TestCommandTextEdit ${TEST_CMD_SRCS})
 set_target_properties(TestCommandTextEdit PROPERTIES AUTOMOC ON)
 target_link_libraries(TestCommandTextEdit PRIVATE kdevllm Qt6::Test Qt6::Core Qt6::Widgets)
 add_test(NAME TestCommandTextEdit COMMAND TestCommandTextEdit)
+
+add_executable(TestLlamaClient TestLlamaClient.cpp)
+target_include_directories(TestLlamaClient PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/mocks)
+target_link_libraries(TestLlamaClient LlamaClientObj Qt6::Test)
+add_test(NAME TestLlamaClient COMMAND TestLlamaClient)

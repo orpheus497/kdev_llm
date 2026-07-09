@@ -1,0 +1,3 @@
+// ##Script function and purpose: Mock classes for KConfigGroup to enable testing LlamaClient without KF6 dependencies.
+#pragma once
+#include "KSharedConfig"

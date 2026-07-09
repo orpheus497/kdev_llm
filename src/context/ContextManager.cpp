@@ -15,6 +15,7 @@
 #include <language/duchain/types/abstracttype.h>
 #include <util/path.h>
 
+
 // ##Method purpose: Constructor implementation.
 ContextManager::ContextManager(QObject *parent) : QObject(parent) {}
 
