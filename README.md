@@ -35,14 +35,14 @@ We use the standard KDevPlatform plugin macros (`kdevplatform_add_plugin`) for c
 
 ### Installation & Testing
 
-To test the plugin locally in KDevelop (without requiring `sudo`):
+To install the plugin globally for KDevelop:
 ```bash
 mkdir build && cd build
-cmake -DCMAKE_INSTALL_PREFIX=$HOME/.local ..
+cmake ..
 make -j$(nproc)
-make install
+sudo make install
 ```
-*(This installs the plugin object securely to your local KDE plugin directory).*
+*(This installs the plugin object to your system KDE plugin directory).*
 
 **How to Test in KDevelop:**
 1. Open KDevelop.

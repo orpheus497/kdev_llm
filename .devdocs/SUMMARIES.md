@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 **Timestamp**: 2026-07-07 05:22
 * Added QTest-based unit tests for `AiCompletionModel::completionInvoked` using KTextEditor mocks, integrated tests into CMake, and verified via static syntax checks.
+=======
+**Timestamp**: 2026-07-10 00:54
+* Merged PR 14 into main, resolved merge conflicts in context manager and UI headers, fixed subsequent compilation and Qt6 string casting errors in tests, and updated the README installation instructions to enforce standard KDE plugin installation over the local hotfix.
+>>>>>>> main
 
 **Timestamp**: 2026-07-03 04:15
 * Installed the rebuilt KDev LLM plugin to the local user directory (`~/.local/lib/plugins/kdevplatform/65/`).

@@ -1,0 +1,11 @@
+#pragma once
+#include <QUrl>
+#include <QString>
+namespace KTextEditor {
+    class Document {
+    public:
+        virtual ~Document() = default;
+        virtual QUrl url() const = 0;
+        virtual QString text() const { return QString(); }
+    };
+}

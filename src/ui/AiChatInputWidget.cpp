@@ -7,6 +7,7 @@
 #include <QHBoxLayout>
 #include <QPushButton>
 
+#include <KLocalizedString>
 // ============================================================================
 // CommandTextEdit Implementation
 // ============================================================================

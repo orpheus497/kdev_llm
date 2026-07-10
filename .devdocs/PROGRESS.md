@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 **Timestamp**: 2026-07-07 05:22
 
 * **Testing Improvements (Phase 21)**: Complete. Implemented unit tests for `AiCompletionModel::completionInvoked`, added CMake build integration, and performed static syntax validation.
@@ -7,6 +8,13 @@
 * **Repository Standards & Plugin Structure (Phase 20)**: Complete. Fixed kdevplatform_add_plugin macro usage to include correct kdevllm.json metadata, updated standard build instructions in README.md, and purged accidentally tracked local build/ artifacts from the repository.
 
 **Timestamp**: 2026-07-03 04:15
+=======
+**Timestamp**: 2026-07-10 00:54
+
+* **Consolidation & Merge (Phase 21)**: Complete. Merged PR 14 into main, resolved merge conflicts in context manager and UI headers. Fixed compilation errors resulting from the merge, corrected Qt6 string casting errors in tests, and updated the README installation instructions to use proper KDE plugin paths.
+
+**Timestamp**: 2026-07-06 06:48\n\n* **Repository Standards & Plugin Structure (Phase 20)**: Complete. Fixed kdevplatform_add_plugin macro usage to include correct kdevllm.json metadata, updated standard build instructions in README.md, and purged accidentally tracked local build/ artifacts from the repository.\n\n**Timestamp**: 2026-07-03 04:15
+>>>>>>> main
 
 * **Build & Deployment (Phase 19)**: Complete. Successfully installed `kdevllm.so` locally for KDevelop use.
 

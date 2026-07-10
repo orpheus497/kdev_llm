@@ -19,6 +19,7 @@ find_package(KF6 ${REQUIRED_KF_VERSION} REQUIRED COMPONENTS
     CoreAddons
     XmlGui
     SyntaxHighlighting
+    Config
 )
 
 find_package(Qt6 REQUIRED COMPONENTS
@@ -27,15 +28,17 @@ find_package(Qt6 REQUIRED COMPONENTS
     Network
 )
 
+option(BUILD_TESTING "Build the testing tree" OFF)
+if(BUILD_TESTING)
+    find_package(Qt6 REQUIRED COMPONENTS Test)
+endif()
+
 find_package(KDevPlatform 6.0 REQUIRED)
 
-enable_testing()
-if(BUILD_TESTING)
-    # Testing enabled
-endif()
-include(CTest)
 add_subdirectory(src)
+
 if(BUILD_TESTING)
+    enable_testing()
     add_subdirectory(tests)
 endif()
 
