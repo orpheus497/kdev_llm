@@ -1,3 +1,15 @@
+**Timestamp**: 2026-07-10 10:13
+* Merged PR 14 into main, resolved merge conflicts in context manager and UI headers, fixed subsequent compilation and Qt6 string casting errors in tests, fixed segmentation faults in `TestAiCompletionModel` caused by headless CI environments, and updated the README installation instructions to enforce standard KDE plugin installation over the local hotfix. All unit tests successfully passing.
+
+**Timestamp**: 2026-07-08 00:45
+* Completed refactoring of the LlamaClient security warning to adhere to DRY principles based on code review feedback.
+
+**Timestamp**: 2026-07-07 05:48
+* Implemented security warning for insecure non-loopback HTTP endpoints in `LlamaClient` and hooked it into the `AiChatWidget` UI, ensuring user data privacy awareness while maintaining backwards compatibility with default local `127.0.0.1:8080` configs.
+
+**Timestamp**: 2026-07-07 05:22
+* Added QTest-based unit tests for `AiCompletionModel::completionInvoked` using KTextEditor mocks, integrated tests into CMake, and verified via static syntax checks.
+
 **Timestamp**: 2026-07-03 04:15
 * Installed the rebuilt KDev LLM plugin to the local user directory (`~/.local/lib/plugins/kdevplatform/65/`).
 
@@ -67,7 +79,3 @@
 
 **Timestamp**: 2026-07-02 12:39
 * **2026-07-02 12:39**: Generated `.devdocs/` initialization files.
-
-- **2026-07-07 05:48**: Implemented security warning for insecure non-loopback HTTP endpoints in `LlamaClient` and hooked it into the `AiChatWidget` UI, ensuring user data privacy awareness while maintaining backwards compatibility with default local `127.0.0.1:8080` configs.
-
-- **2026-07-08 00:45**: Completed refactoring of the LlamaClient security warning to adhere to DRY principles based on code review feedback.

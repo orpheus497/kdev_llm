@@ -33,6 +33,7 @@ private:
     };
     CompletionContext completionUnderCursor() const;
     QCompleter *m_completer = nullptr;
+    friend class TestCommandTextEdit;
     QAbstractItemModel *m_fileModel = nullptr;
 };
 

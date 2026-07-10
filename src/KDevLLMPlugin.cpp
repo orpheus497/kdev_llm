@@ -61,7 +61,7 @@ KDevLLMPlugin::KDevLLMPlugin(QObject* parent, const KPluginMetaData& metaData, c
     });
 
     // Register completion model via KDevelop DocumentController
-    connect(core()->documentController(), &KDevelop::IDocumentController::textDocumentCreated, this, [this](KDevelop::IDocument* doc) {
+    auto setupTextDocument = [this](KDevelop::IDocument* doc) {
         if (auto* textDoc = doc->textDocument()) {
             connect(textDoc, &KTextEditor::Document::viewCreated, this, [this](KTextEditor::Document*, KTextEditor::View* view) {
                 view->registerCompletionModel(m_completionModel);
@@ -70,17 +70,12 @@ KDevLLMPlugin::KDevLLMPlugin(QObject* parent, const KPluginMetaData& metaData, c
                 view->registerCompletionModel(m_completionModel);
             }
         }
-    });
+    };
+
+    connect(core()->documentController(), &KDevelop::IDocumentController::textDocumentCreated, this, setupTextDocument);
     
     for (auto* doc : core()->documentController()->openDocuments()) {
-        if (auto* textDoc = doc->textDocument()) {
-            connect(textDoc, &KTextEditor::Document::viewCreated, this, [this](KTextEditor::Document*, KTextEditor::View* view) {
-                view->registerCompletionModel(m_completionModel);
-            });
-            for (auto* view : textDoc->views()) {
-                view->registerCompletionModel(m_completionModel);
-            }
-        }
+        setupTextDocument(doc);
     }
 }
 

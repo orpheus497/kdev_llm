@@ -1,4 +1,45 @@
-**Timestamp**: 2026-07-06 06:51\n* **Session Focus**: Resolving non-standard KDevelop plugin installation conventions and cleaning up repository build artifacts.\n* **Accomplishments**: Embedded kdevllm.json metadata natively into the kdevplatform_add_plugin macro, standardizing installation without relying on hardcoded paths or qt-sys bypasses. Deleted ~45,000 erroneously tracked local build/ files. Cleaned up README build instructions to conform to KDevelop standards.\n* **Modified Files**: .gitignore, README.md, src/CMakeLists.txt, removed build/*.\n\n**Timestamp**: 2026-07-03 04:15
+**Timestamp**: 2026-07-10 10:13
+* **Session Focus**: Consolidating PR 14 into main, resolving merge conflicts, and updating installation process.
+* **Accomplishments**: Merged PR 14 into main. Resolved merge conflicts in ContextManager.cpp and AiChatInputWidget.h. Rewrote tests/CMakeLists.txt to fix build failures caused by linking against a MODULE library. Corrected Qt6 QStringBuilder strict type casting errors in tests. Fixed missing KF6 Config and I18n dependencies. Fixed segmentation faults in `TestAiCompletionModel` caused by ODR violations between KTextEditor mocks and real system components in headless test environments. Updated README.md to remove the .local hotfix, directing users to use `sudo make install`. All tests passing.
+* **Modified Files**: src/context/ContextManager.cpp, src/ui/AiChatInputWidget.h, src/ui/AiChatInputWidget.cpp, tests/CMakeLists.txt, tests/TestCommandTextEdit.cpp, tests/TestContextManager.cpp, tests/TestLlamaClient.cpp, tests/TestAiCompletionModel.cpp, CMakeLists.txt, src/CMakeLists.txt, README.md, tests/mocks/*.
+* **Decisions**: Stopped using the .local hotfix for plugin installation, enforcing a standard `sudo make install` approach for KDevelop.
+
+**Timestamp**: 2026-07-08 00:45
+* **Accomplishments**:
+- Applied pull request feedback by extracting `checkInsecureEndpoint` into a separate private method inside `LlamaClient` to prevent code duplication across `requestCompletion`, `requestChat`, and `requestRefactor`.
+- Removed duplicate string prefix logic in the emitted string and updated `setEndpointUrl()` to reset `m_insecureWarningEmitted`, meaning `warningOccurred` is shown once per endpoint change rather than once per session.
+* **Modified Files**:
+- `src/network/LlamaClient.h`
+- `src/network/LlamaClient.cpp`
+* **Next Steps**:
+- Await PR merge.
+
+**Timestamp**: 2026-07-07 05:48
+* **Accomplishments**:
+- Added a security warning mechanism to `LlamaClient` and `AiChatWidget` that warns the user if an insecure, non-loopback HTTP endpoint is being used, exposing plaintext data over the network.
+- Modified `src/network/LlamaClient.h` and `src/network/LlamaClient.cpp` to introduce a check for insecure connections before making requests in `requestCompletion`, `requestChat`, and `requestRefactor`. Emitted `warningOccurred` once per endpoint change via an internal flag reset by `setEndpointUrl()`.
+- Modified `src/ui/AiChatWidget.h` and `src/ui/AiChatWidget.cpp` to listen for the `warningOccurred` signal and append it in a highly-visible Markdown block in the main chat history.
+* **Modified Files**:
+- `src/network/LlamaClient.h`
+- `src/network/LlamaClient.cpp`
+- `src/ui/AiChatWidget.h`
+- `src/ui/AiChatWidget.cpp`
+* **Next Steps**:
+- Monitor for feedback on whether this warning is obtrusive to users in mixed environments, or if they need a "do not show again" persistent option in settings.
+
+**Timestamp**: 2026-07-07 05:22
+## Phase 17 Testing Improvements Session
+* **Accomplishments**: Implemented QTest-based unit tests for `AiCompletionModel::completionInvoked`. The tests mock the `LlamaClient` network layer to prevent HTTP calls, while utilizing the real `KTextEditor::Editor`, `Document`, and `View` objects for text integration. Integrated tests into the CMake build system by adding `tests/CMakeLists.txt` and configuring CTest testing options.
+* **Modified Files**: `tests/TestAiCompletionModel.cpp`, `tests/MockLlamaClient.h`, `tests/CMakeLists.txt`, `CMakeLists.txt`, `src/completion/AiCompletionModel.h`, `src/network/LlamaClient.h`, `.devdocs/BRIEFING.md`.
+* **Decisions**: Subclassed `LlamaClient` directly for `MockLlamaClient` rather than relying on abstract interface stubs to safely gate asynchronous network routines during testing, ensuring accurate component integration.
+* **Next Steps**: Await user testing and review of the completion tests.
+
+**Timestamp**: 2026-07-06 06:51
+* **Session Focus**: Resolving non-standard KDevelop plugin installation conventions and cleaning up repository build artifacts.
+* **Accomplishments**: Embedded kdevllm.json metadata natively into the kdevplatform_add_plugin macro, standardizing installation without relying on hardcoded paths or qt-sys bypasses. Deleted ~45,000 erroneously tracked local build/ files. Cleaned up README build instructions to conform to KDevelop standards.
+* **Modified Files**: .gitignore, README.md, src/CMakeLists.txt, removed build/*.
+
+**Timestamp**: 2026-07-03 04:15
 ## Phase 19 Build & Deployment Session
 * **Accomplishments**: Executed the `make install` routine from the `build` directory. The plugin successfully deployed `kdevllm.so` to the local KF6 plugin directory (`~/.local/lib/plugins/kdevplatform/65/`). 
 * **Modified Files**: N/A (Only deployed binary).
@@ -162,30 +203,3 @@
 **Timestamp**: 2026-07-02 12:39
 ## Initial Setup Session
 * **Accomplishments**: Read AGENTS.md, initialized `.devdocs/`.
-
-## 2026-07-07 05:48
-**Accomplishments**:
-- Added a security warning mechanism to `LlamaClient` and `AiChatWidget` that warns the user if an insecure, non-loopback HTTP endpoint is being used, exposing plaintext data over the network.
-- Modified `src/network/LlamaClient.h` and `src/network/LlamaClient.cpp` to introduce a check for insecure connections before making requests in `requestCompletion`, `requestChat`, and `requestRefactor`. Emitted `warningOccurred` once per session via a new internal flag.
-- Modified `src/ui/AiChatWidget.h` and `src/ui/AiChatWidget.cpp` to listen for the `warningOccurred` signal and append it in a highly-visible Markdown block in the main chat history.
-
-**Modified Files**:
-- `src/network/LlamaClient.h`
-- `src/network/LlamaClient.cpp`
-- `src/ui/AiChatWidget.h`
-- `src/ui/AiChatWidget.cpp`
-
-**Next Steps**:
-- Monitor for feedback on whether this warning is obtrusive to users in mixed environments, or if they need a "do not show again" persistent option in settings.
-
-## 2026-07-08 00:45
-**Accomplishments**:
-- Applied pull request feedback by extracting `checkInsecureEndpoint` into a separate private method inside `LlamaClient` to prevent code duplication across `requestCompletion`, `requestChat`, and `requestRefactor`.
-- Removed duplicate string prefix logic in the emitted string and updated `setEndpointUrl` to successfully reset `m_insecureWarningEmitted`.
-
-**Modified Files**:
-- `src/network/LlamaClient.h`
-- `src/network/LlamaClient.cpp`
-
-**Next Steps**:
-- Await PR merge.

@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QJsonArray>
+#include <QUrl>
 
 class QTextBrowser;
 class AiChatInputWidget;
@@ -14,6 +15,7 @@ class ContextManager;
 // ##Class purpose: Manages the chat history display and input box for interacting with the AI.
 class AiChatWidget : public QWidget {
     Q_OBJECT
+    friend class TestAiChatWidget;
 public:
     // ##Method purpose: Constructor for the chat widget.
     explicit AiChatWidget(QWidget *parent = nullptr);
@@ -43,6 +45,9 @@ private Q_SLOTS:
 
     // ##Method purpose: Clears the message history and resets the chat UI.
     void clearChat();
+
+    // ##Method purpose: Securely handles clicked links to prevent arbitrary scheme execution.
+    void onAnchorClicked(const QUrl &url);
 
 private:
     // ##Method purpose: Refreshes the QTextBrowser with the accumulated markdown string.
