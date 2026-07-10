@@ -209,3 +209,8 @@
 **Timestamp**: 2026-07-02 12:39
 ## Initial Setup Session
 * **Accomplishments**: Read AGENTS.md, initialized `.devdocs/`.
+
+**Timestamp**: 2026-07-10 01:46
+* **Session Focus**: Fixed plugin installation logic.
+* **Accomplishments**: Reconfigured root CMakeLists.txt to set the default CMAKE_INSTALL_PREFIX to /usr and enable KDE_INSTALL_USE_QT_SYS_PATHS so that running sudo make install natively deploys the plugin into the system's Qt6 plugin paths, allowing KDevelop to discover it out of the box.
+* **Modified Files**: CMakeLists.txt

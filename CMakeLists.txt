@@ -8,6 +8,14 @@ set(REQUIRED_KF_VERSION "6.0.0")
 find_package(ECM ${REQUIRED_KF_VERSION} REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 
+# Set default prefix to /usr to ensure KDevelop finds the plugin naturally
+if (CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+    set(CMAKE_INSTALL_PREFIX "/usr" CACHE PATH "Default install prefix for KDevelop plugin" FORCE)
+endif()
+
+# Force installation to the exact system Qt plugin directory
+set(KDE_INSTALL_USE_QT_SYS_PATHS ON CACHE BOOL "Install plugins to system Qt plugin directory" FORCE)
+
 include(KDEInstallDirs)
 include(KDECMakeSettings)
 include(KDECompilerSettings NO_POLICY_SCOPE)
