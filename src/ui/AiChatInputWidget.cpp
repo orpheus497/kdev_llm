@@ -134,6 +134,8 @@ CommandTextEdit::CompletionContext CommandTextEdit::completionUnderCursor() cons
                 context.filterText = context.prefix.length() > 1 ? context.prefix.mid(1) : QString();
                 context.prefixStart = searchPos;
                 return context;
+            } else {
+                break;
             }
         }
         if (ch.isSpace()) break;

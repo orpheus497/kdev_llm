@@ -1,11 +1,20 @@
 #pragma once
 #include <QUrl>
 #include <QString>
+#include <KTextEditor/Cursor>
+#include <KTextEditor/Range>
+
 namespace KTextEditor {
     class Document {
     public:
         virtual ~Document() = default;
         virtual QUrl url() const = 0;
         virtual QString text() const { return QString(); }
+        virtual QString text(const Range&) const { return QString(); }
+        virtual int lines() const { return 1; }
+        virtual int lineLength(int) const { return 0; }
+        virtual bool replaceText(const Range&, const QString&) { return true; }
+        virtual void setText(const QString&) {}
+        virtual class View* createView(class QWidget*) { return nullptr; }
     };
 }

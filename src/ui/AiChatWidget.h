@@ -15,6 +15,7 @@ class ContextManager;
 // ##Class purpose: Manages the chat history display and input box for interacting with the AI.
 class AiChatWidget : public QWidget {
     Q_OBJECT
+    friend class TestAiChatWidget;
 public:
     // ##Method purpose: Constructor for the chat widget.
     explicit AiChatWidget(QWidget *parent = nullptr);

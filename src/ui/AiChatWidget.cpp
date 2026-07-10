@@ -64,7 +64,8 @@ void AiChatWidget::sendMessage(const QString &text)
     
     // ##Condition purpose: Inject or update the system prompt on every message to keep file context fresh.
     KTextEditor::View* activeView = nullptr;
-    auto activeDoc = KDevelop::ICore::self()->documentController()->activeDocument();
+    auto core = KDevelop::ICore::self();
+    auto activeDoc = core ? core->documentController()->activeDocument() : nullptr;
     if (activeDoc) {
         activeView = activeDoc->activeTextView();
     }
