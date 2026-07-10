@@ -156,7 +156,7 @@ AiChatInputWidget::AiChatInputWidget(QWidget *parent)
     mainLayout->setContentsMargins(0, 0, 0, 0);
 
     m_textEdit = new CommandTextEdit(this);
-    m_textEdit->setPlaceholderText(QStringLiteral("Type a message... (@ for files)"));
+    m_textEdit->setPlaceholderText(i18n("Type a message... (@ for files)"));
     m_textEdit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::MinimumExpanding);
     m_textEdit->installEventFilter(this);
 

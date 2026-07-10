@@ -14,6 +14,36 @@
 #include <language/duchain/declaration.h>
 #include <language/duchain/types/abstracttype.h>
 #include <util/path.h>
+#include <QStringBuilder>
+
+// ##Method purpose: Helper to truncate large documents to fit context limits
+static QString getTruncatedDocumentText(KTextEditor::Document *doc, int maxLength)
+{
+    if (!doc) {
+        return QString();
+    }
+    int totalLength = 0;
+    int linesCount = doc->lines();
+    int targetLine = 0;
+    int targetColumn = 0;
+    bool truncated = false;
+
+    for (int i = 0; i < linesCount; ++i) {
+        int len = doc->lineLength(i);
+        if (totalLength + len + 1 > maxLength) {
+            targetLine = i;
+            targetColumn = maxLength - totalLength;
+            truncated = true;
+            break;
+        }
+        totalLength += len + 1;
+    }
+
+    if (truncated) {
+        return doc->text(KTextEditor::Range(0, 0, targetLine, targetColumn)) % QStringLiteral("\n...[Content truncated due to size]...\n");
+    }
+    return doc->text();
+}
 
 // ##Method purpose: Constructor implementation.
 ContextManager::ContextManager(QObject *parent) : QObject(parent) {}
@@ -25,11 +55,13 @@ QString ContextManager::getProjectRoot(KTextEditor::Document *doc) const
     }
     
     // Attempt IDE proper integration first
-    KDevelop::IProjectController* pc = KDevelop::ICore::self()->projectController();
-    if (pc) {
-        KDevelop::IProject* proj = pc->findProjectForUrl(doc->url());
-        if (proj) {
-            return proj->path().toLocalFile();
+    if (KDevelop::ICore::self()) {
+        KDevelop::IProjectController* pc = KDevelop::ICore::self()->projectController();
+        if (pc) {
+            KDevelop::IProject* proj = pc->findProjectForUrl(doc->url());
+            if (proj) {
+                return proj->path().toLocalFile();
+            }
         }
     }
     
@@ -95,23 +127,20 @@ QString ContextManager::buildSystemPrompt(KTextEditor::View *view) const
         QString root = getProjectRoot(view->document());
         QString agentsInst = getAgentsInstruction(root);
         
-        KDevelop::IProjectController* pc = KDevelop::ICore::self()->projectController();
-        if (pc) {
-            KDevelop::IProject* proj = pc->findProjectForUrl(view->document()->url());
-            if (proj) {
-                prompt += QStringLiteral("Project Name: ") % proj->name() % QChar('
-') %
-                          QStringLiteral("Project Root: ") % proj->path().toLocalFile() % QStringLiteral("
-
-");
+        if (KDevelop::ICore::self()) {
+            KDevelop::IProjectController* pc = KDevelop::ICore::self()->projectController();
+            if (pc) {
+                KDevelop::IProject* proj = pc->findProjectForUrl(view->document()->url());
+                if (proj) {
+                    prompt += QStringLiteral("Project Name: ") % proj->name() % QChar('\n') %
+                              QStringLiteral("Project Root: ") % proj->path().toLocalFile() % QStringLiteral("\n\n");
+                }
             }
         }
         
         if (!agentsInst.isEmpty()) {
-            prompt += QStringLiteral("Follow these project-specific instructions from AGENTS.md:
-") %
-                      agentsInst % QChar('
-');
+            prompt += QStringLiteral("Follow these project-specific instructions from AGENTS.md:\n") %
+                      agentsInst % QChar('\n');
         }
         
         prompt += QStringLiteral("
@@ -123,31 +152,7 @@ Current file: ") % view->document()->url().toLocalFile() % QChar('
 ");
 
         const int maxFileLength = 50000;
-        KTextEditor::Document *doc = view->document();
-        int totalLength = 0;
-        int linesCount = doc->lines();
-        int targetLine = 0;
-        int targetColumn = 0;
-        bool truncated = false;
-
-        for (int i = 0; i < linesCount; ++i) {
-            int len = doc->lineLength(i);
-            if (totalLength + len + 1 > maxFileLength) {
-                targetLine = i;
-                targetColumn = maxFileLength - totalLength;
-                truncated = true;
-                break;
-            }
-            totalLength += len + 1;
-        }
-
-        if (truncated) {
-            prompt += doc->text(KTextEditor::Range(0, 0, targetLine, targetColumn)) % QStringLiteral("
-...[Content truncated due to size]...
-");
-        } else {
-            prompt += doc->text();
-        }
+        prompt += getTruncatedDocumentText(view->document(), maxFileLength);
 
         prompt += QStringLiteral("
 ```
@@ -182,11 +187,13 @@ QString ContextManager::buildRefactorPrompt(const QString &instruction, const QS
     QString prompt = QStringLiteral("You are an expert developer. ");
     
     if (view && view->document()) {
-        KDevelop::IProjectController* pc = KDevelop::ICore::self()->projectController();
-        if (pc) {
-            KDevelop::IProject* proj = pc->findProjectForUrl(view->document()->url());
-            if (proj) {
-                prompt += QStringLiteral("Project Name: ") + proj->name() + QStringLiteral("\n");
+        if (KDevelop::ICore::self()) {
+            KDevelop::IProjectController* pc = KDevelop::ICore::self()->projectController();
+            if (pc) {
+                KDevelop::IProject* proj = pc->findProjectForUrl(view->document()->url());
+                if (proj) {
+                    prompt += QStringLiteral("Project Name: ") % proj->name() % QChar('\n');
+                }
             }
         }
         
@@ -198,31 +205,7 @@ QString ContextManager::buildRefactorPrompt(const QString &instruction, const QS
 ");
 
         const int maxFileLength = 50000;
-        KTextEditor::Document *doc = view->document();
-        int totalLength = 0;
-        int linesCount = doc->lines();
-        int targetLine = 0;
-        int targetColumn = 0;
-        bool truncated = false;
-
-        for (int i = 0; i < linesCount; ++i) {
-            int len = doc->lineLength(i);
-            if (totalLength + len + 1 > maxFileLength) {
-                targetLine = i;
-                targetColumn = maxFileLength - totalLength;
-                truncated = true;
-                break;
-            }
-            totalLength += len + 1;
-        }
-
-        if (truncated) {
-            prompt += doc->text(KTextEditor::Range(0, 0, targetLine, targetColumn)) % QStringLiteral("
-...[Content truncated due to size]...
-");
-        } else {
-            prompt += doc->text();
-        }
+        prompt += getTruncatedDocumentText(view->document(), maxFileLength);
 
         prompt += QStringLiteral("
 ```
