@@ -59,8 +59,11 @@ protected:
 private Q_SLOTS:
     void onSendClicked();
     void onNewChatClicked();
+    void onTextChanged();
 
 private:
+    void updateSendButtonState();
+
     CommandTextEdit *m_textEdit;
     QPushButton *m_sendButton;
     QPushButton *m_newChatButton;

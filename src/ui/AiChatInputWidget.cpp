@@ -182,15 +182,33 @@ AiChatInputWidget::AiChatInputWidget(QWidget *parent)
     mainLayout->addWidget(m_textEdit, 1);
     mainLayout->addLayout(btnLayout);
 
+    m_textEdit->setAccessibleName(i18n("Chat input area"));
+    m_sendButton->setAccessibleName(i18n("Send message"));
+    m_newChatButton->setAccessibleName(i18n("Start new chat"));
+
     connect(m_sendButton, &QPushButton::clicked, this, &AiChatInputWidget::onSendClicked);
     connect(m_newChatButton, &QPushButton::clicked, this, &AiChatInputWidget::onNewChatClicked);
+    connect(m_textEdit, &QTextEdit::textChanged, this, &AiChatInputWidget::onTextChanged);
+
+    updateSendButtonState();
+}
+
+void AiChatInputWidget::updateSendButtonState()
+{
+    bool hasText = !m_textEdit->toPlainText().trimmed().isEmpty();
+    m_sendButton->setEnabled(hasText && !m_promptRunning);
+}
+
+void AiChatInputWidget::onTextChanged()
+{
+    updateSendButtonState();
 }
 
 // ##Method purpose: Enables or disables the input box and buttons.
 void AiChatInputWidget::setPromptRunning(bool running)
 {
     m_promptRunning = running;
-    m_sendButton->setEnabled(!running);
+    updateSendButtonState();
     if (running) {
         m_sendButton->setToolTip(i18n("Waiting for AI response..."));
     } else {
@@ -250,4 +268,5 @@ void AiChatInputWidget::onSendClicked()
 void AiChatInputWidget::onNewChatClicked()
 {
     Q_EMIT newChatClicked();
+    m_textEdit->setFocus();
 }
