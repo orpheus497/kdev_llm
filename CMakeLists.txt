@@ -35,9 +35,7 @@ endif()
 
 find_package(KDevPlatform 6.0 REQUIRED)
 
-include(CTest)
 add_subdirectory(src)
-
 if(BUILD_TESTING)
     enable_testing()
     add_subdirectory(tests)

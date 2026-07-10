@@ -40,6 +40,9 @@ private Q_SLOTS:
     // ##Method purpose: Triggered when the LlamaClient encounters an error.
     void onError(const QString &error);
 
+    // ##Method purpose: Triggered when the LlamaClient issues a security warning.
+    void onWarning(const QString &warning);
+
     // ##Method purpose: Clears the message history and resets the chat UI.
     void clearChat();
 

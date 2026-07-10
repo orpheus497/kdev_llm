@@ -16,9 +16,11 @@
 - Merged PR 14, resolved conflicts, fixed build/tests, and updated installation instructions.
 
 ## Current Blockers
-- None.
+- Awaiting user verification that the ToolView can be successfully opened from the `Window -> Tool Views` menu and that Autocomplete now works in standard documents.
 
 ## Recent Architectural Decisions
+- Removed early `CreateAndRaise` calls on the ToolView to prevent KDevelop startup failures.
+- Renamed project branding globally across CMake, JSON Metadata, and C++ UI strings.
 - Testing requires mock objects for KDevelop framework components.
 - Decided to stop using `.local` as a hothotfix for KDevelop plugin installation; moving to standard KDE plugin paths requiring `sudo make install`.
 

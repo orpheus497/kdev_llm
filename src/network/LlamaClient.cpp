@@ -22,6 +22,7 @@ LlamaClient::LlamaClient(QObject *parent)
 void LlamaClient::setEndpointUrl(const QString &url)
 {
     m_endpointUrl = url;
+    m_insecureWarningEmitted = false;
 }
 
 // ##Method purpose: Retrieve the server endpoint URL.
@@ -30,10 +31,24 @@ QString LlamaClient::endpointUrl() const
     return m_endpointUrl;
 }
 
+// ##Method purpose: Emits a warning if the endpoint scheme is insecure and non-loopback.
+void LlamaClient::checkInsecureEndpoint(const QString &scheme, const QString &host)
+{
+    // ##Condition purpose: Warn only once per endpoint change if HTTP is used on a non-loopback address.
+    if (scheme == QStringLiteral("http") && host != QStringLiteral("127.0.0.1") && host != QStringLiteral("localhost") && host != QStringLiteral("::1")) {
+        // ##Condition purpose: Prevent duplicate warnings from being emitted for the same endpoint configuration.
+        if (!m_insecureWarningEmitted) {
+            Q_EMIT warningOccurred(QStringLiteral("Using HTTP with a non-loopback endpoint exposes your code to network interception. Consider using HTTPS."));
+            m_insecureWarningEmitted = true;
+        }
+    }
+}
+
 // ##Method purpose: Prepares and sends an HTTP POST request to the /completion endpoint.
 void LlamaClient::requestCompletion(const QString &prefix, const QString &suffix)
 {
     QUrl url(m_endpointUrl + QStringLiteral("/completion"));
+    checkInsecureEndpoint(url.scheme(), url.host());
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, QByteArray("application/json"));
 
@@ -58,6 +73,7 @@ void LlamaClient::requestCompletion(const QString &prefix, const QString &suffix
 void LlamaClient::requestChat(const QJsonArray &messages)
 {
     QUrl url(m_endpointUrl + QStringLiteral("/chat/completions"));
+    checkInsecureEndpoint(url.scheme(), url.host());
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, QByteArray("application/json"));
 
@@ -79,6 +95,7 @@ void LlamaClient::requestChat(const QJsonArray &messages)
 void LlamaClient::requestRefactor(const QString &promptText)
 {
     QUrl url(m_endpointUrl + QStringLiteral("/completion"));
+    checkInsecureEndpoint(url.scheme(), url.host());
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, QByteArray("application/json"));
 

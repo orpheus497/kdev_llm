@@ -4,7 +4,6 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QTextStream>
-#include <QDateTime>
 #include <interfaces/icore.h>
 #include <interfaces/iprojectcontroller.h>
 #include <interfaces/iproject.h>
@@ -89,31 +88,12 @@ QString ContextManager::getAgentsInstruction(const QString &projectRoot) const
 
     // ##Loop purpose: Check all possible locations for the AGENTS.md file.
     for (const auto &candidate : candidates) {
-        QString filePath = QDir(projectRoot).filePath(candidate);
-        QFileInfo fileInfo(filePath);
+        QFile file(QDir(projectRoot).filePath(candidate));
         
-        if (fileInfo.exists()) {
-            QDateTime lastModified = fileInfo.lastModified();
-
-            // Check cache first
-            auto it = m_agentsCache.constFind(filePath);
-            if (it != m_agentsCache.constEnd() && it.value().lastModified == lastModified) {
-                return it.value().content;
-            }
-
-            QFile file(filePath);
-            // ##Condition purpose: Only read the file if we can successfully open it.
-            if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-                QTextStream in(&file);
-                QString content = in.readAll();
-
-                AgentsCacheEntry newEntry;
-                newEntry.lastModified = lastModified;
-                newEntry.content = content;
-                m_agentsCache.insert(filePath, newEntry);
-
-                return content;
-            }
+        // ##Condition purpose: Only read the file if we can successfully open it.
+        if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+            QTextStream in(&file);
+            return in.readAll();
         }
     }
     return QString();
@@ -132,7 +112,7 @@ QString ContextManager::buildSystemPrompt(KTextEditor::View *view) const
             if (pc) {
                 KDevelop::IProject* proj = pc->findProjectForUrl(view->document()->url());
                 if (proj) {
-                    prompt += QStringLiteral("Project Name: ") % proj->name() % QChar('\n') %
+                    prompt += QStringLiteral("Project Name: ") % proj->name() % QStringLiteral("\n") %
                               QStringLiteral("Project Root: ") % proj->path().toLocalFile() % QStringLiteral("\n\n");
                 }
             }
@@ -140,23 +120,16 @@ QString ContextManager::buildSystemPrompt(KTextEditor::View *view) const
         
         if (!agentsInst.isEmpty()) {
             prompt += QStringLiteral("Follow these project-specific instructions from AGENTS.md:\n") %
-                      agentsInst % QChar('\n');
+                      agentsInst % QStringLiteral("\n");
         }
         
-        prompt += QStringLiteral("
-Current file: ") % view->document()->url().toLocalFile() % QChar('
-') %
-                  QStringLiteral("
---- File Content ---
-```
-");
+        prompt += QStringLiteral("\nCurrent file: ") % view->document()->url().toLocalFile() % QStringLiteral("\n") %
+                  QStringLiteral("\n--- File Content ---\n```\n");
 
         const int maxFileLength = 50000;
         prompt += getTruncatedDocumentText(view->document(), maxFileLength);
 
-        prompt += QStringLiteral("
-```
-");
+        prompt += QStringLiteral("\n```\n");
         
         if (view->selection()) {
             prompt += QStringLiteral("\nThe user has selected the following code:\n```\n") %
@@ -167,11 +140,8 @@ Current file: ") % view->document()->url().toLocalFile() % QChar('
             KDevelop::DUChainReadLocker lock(KDevelop::DUChain::lock());
             KDevelop::DUChainUtils::ItemUnderCursor item = KDevelop::DUChainUtils::itemUnderCursor(view->document()->url(), view->selectionRange().start());
             if (item.declaration) {
-                prompt += QStringLiteral("
-Semantic Information (from KDevelop DUChain AST):
-") %
-                          QStringLiteral("- Declaration: ") % item.declaration->toString() % QChar('
-');
+                prompt += QStringLiteral("\nSemantic Information (from KDevelop DUChain AST):\n") %
+                          QStringLiteral("- Declaration: ") % item.declaration->toString() % QStringLiteral("\n");
                 if (item.declaration->abstractType()) {
                     prompt += QStringLiteral("- Type: ") + item.declaration->abstractType()->toString() + QStringLiteral("\n");
                 }
@@ -192,33 +162,24 @@ QString ContextManager::buildRefactorPrompt(const QString &instruction, const QS
             if (pc) {
                 KDevelop::IProject* proj = pc->findProjectForUrl(view->document()->url());
                 if (proj) {
-                    prompt += QStringLiteral("Project Name: ") % proj->name() % QChar('\n');
+                    prompt += QStringLiteral("Project Name: ") % proj->name() % QStringLiteral("\n");
                 }
             }
         }
         
-        prompt += QStringLiteral("You are working in the file: ") % view->document()->url().toLocalFile() % QStringLiteral("
-
-") %
-                  QStringLiteral("Here is the full content of the file for context:
-```
-");
+        prompt += QStringLiteral("You are working in the file: ") % view->document()->url().toLocalFile() % QStringLiteral("\n\n") %
+                  QStringLiteral("Here is the full content of the file for context:\n```\n");
 
         const int maxFileLength = 50000;
         prompt += getTruncatedDocumentText(view->document(), maxFileLength);
 
-        prompt += QStringLiteral("
-```
-
-");
+        prompt += QStringLiteral("\n```\n\n");
         
         KDevelop::DUChainReadLocker lock(KDevelop::DUChain::lock());
         KDevelop::DUChainUtils::ItemUnderCursor item = KDevelop::DUChainUtils::itemUnderCursor(view->document()->url(), view->selectionRange().start());
         if (item.declaration) {
-            prompt += QStringLiteral("The selected code corresponds to the following semantic AST entity:
-") %
-                      QStringLiteral("- Declaration: ") % item.declaration->toString() % QChar('
-');
+            prompt += QStringLiteral("The selected code corresponds to the following semantic AST entity:\n") %
+                      QStringLiteral("- Declaration: ") % item.declaration->toString() % QStringLiteral("\n");
             if (item.declaration->abstractType()) {
                 prompt += QStringLiteral("- Type: ") + item.declaration->abstractType()->toString() + QStringLiteral("\n");
             }
@@ -226,17 +187,10 @@ QString ContextManager::buildRefactorPrompt(const QString &instruction, const QS
         }
     }
     
-    prompt += QStringLiteral("The user has selected the following code to modify:
-```
-") %
+    prompt += QStringLiteral("The user has selected the following code to modify:\n```\n") %
               code %
-              QStringLiteral("
-```
-
-") %
-              QStringLiteral("Instruction: ") % instruction % QStringLiteral("
-
-") %
+              QStringLiteral("\n```\n\n") %
+              QStringLiteral("Instruction: ") % instruction % QStringLiteral("\n\n") %
               QStringLiteral("Please output ONLY the resulting modified code block to replace the selection. Do not include any conversational text or markdown wrappers in your output. Only raw code.");
     
     return prompt;

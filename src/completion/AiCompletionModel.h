@@ -7,6 +7,7 @@
 // ##Class purpose: Integrates with Kate's autocomplete popup to fetch and display AI code suggestions.
 class AiCompletionModel : public KTextEditor::CodeCompletionModel {
     Q_OBJECT
+    friend class TestAiCompletionModel;
 public:
     // ##Method purpose: Constructor.
     explicit AiCompletionModel(QObject *parent = nullptr);
@@ -29,9 +30,6 @@ private Q_SLOTS:
 
 private:
     LlamaClient *m_client;
-
-    // For testing
-    friend class TestAiCompletionModel;
     QPointer<KTextEditor::View> m_currentView;
     KTextEditor::Range m_currentRange;
     QStringList m_completions;

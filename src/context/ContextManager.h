@@ -2,8 +2,6 @@
 #pragma once
 #include <QObject>
 #include <QString>
-#include <QHash>
-#include <QDateTime>
 #include <KTextEditor/Document>
 #include <KTextEditor/View>
 
@@ -28,13 +26,4 @@ public:
 
     // ##Method purpose: Builds a context-aware prompt for the AI refactoring action.
     QString buildRefactorPrompt(const QString &instruction, const QString &code, KTextEditor::View *view) const;
-
-private:
-    struct AgentsCacheEntry {
-        QDateTime lastModified;
-        QString content;
-    };
-
-    // Caches to prevent redundant file system operations on every keystroke/message
-    mutable QHash<QString, AgentsCacheEntry> m_agentsCache;
 };

@@ -27,10 +27,10 @@ public:
     virtual void requestCompletion(const QString &prefix, const QString &suffix);
     
     // ##Method purpose: Trigger a chat completion request.
-    void requestChat(const QJsonArray &messages);
+    virtual void requestChat(const QJsonArray &messages);
 
     // ##Method purpose: Prepares and sends an HTTP POST request for refactoring.
-    void requestRefactor(const QString &promptText);
+    virtual void requestRefactor(const QString &promptText);
 
 Q_SIGNALS:
     // ##Method purpose: Emitted when an inline completion response stream completes.
@@ -47,6 +47,9 @@ Q_SIGNALS:
     
     // ##Method purpose: Emitted when a network or parsing error occurs.
     void errorOccurred(const QString &errorString);
+
+    // ##Method purpose: Emitted when a security warning occurs.
+    void warningOccurred(const QString &warningString);
 
 private Q_SLOTS:
     // ##Method purpose: Callback for when the completion HTTP request receives data chunks.
@@ -68,6 +71,9 @@ private Q_SLOTS:
     void onRefactorFinished();
 
 private:
+    // ##Method purpose: Emits a warning if the endpoint scheme is insecure and non-loopback.
+    void checkInsecureEndpoint(const QString &scheme, const QString &host);
+
     QNetworkAccessManager *m_nam;
     QString m_endpointUrl = QStringLiteral("http://localhost:8080");
     QString m_completionBuffer;
@@ -75,4 +81,5 @@ private:
     QNetworkReply *m_chatReply = nullptr;
     QNetworkReply *m_completionReply = nullptr;
     QNetworkReply *m_refactorReply = nullptr;
+    bool m_insecureWarningEmitted = false;
 };
