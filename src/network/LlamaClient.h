@@ -24,13 +24,13 @@ public:
     QString endpointUrl() const;
 
     // ##Method purpose: Trigger an inline completion request (infill).
-    void requestCompletion(const QString &prefix, const QString &suffix);
+    virtual void requestCompletion(const QString &prefix, const QString &suffix);
     
     // ##Method purpose: Trigger a chat completion request.
-    void requestChat(const QJsonArray &messages);
+    virtual void requestChat(const QJsonArray &messages);
 
     // ##Method purpose: Prepares and sends an HTTP POST request for refactoring.
-    void requestRefactor(const QString &promptText);
+    virtual void requestRefactor(const QString &promptText);
 
 Q_SIGNALS:
     // ##Method purpose: Emitted when an inline completion response stream completes.
@@ -71,6 +71,7 @@ private Q_SLOTS:
     void onRefactorFinished();
 
 private:
+    // ##Method purpose: Emits a warning if the endpoint scheme is insecure and non-loopback.
     void checkInsecureEndpoint(const QString &scheme, const QString &host);
 
     QNetworkAccessManager *m_nam;

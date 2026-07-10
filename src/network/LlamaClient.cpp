@@ -31,9 +31,12 @@ QString LlamaClient::endpointUrl() const
     return m_endpointUrl;
 }
 
+// ##Method purpose: Emits a warning if the endpoint scheme is insecure and non-loopback.
 void LlamaClient::checkInsecureEndpoint(const QString &scheme, const QString &host)
 {
+    // ##Condition purpose: Warn only once per endpoint change if HTTP is used on a non-loopback address.
     if (scheme == QStringLiteral("http") && host != QStringLiteral("127.0.0.1") && host != QStringLiteral("localhost") && host != QStringLiteral("::1")) {
+        // ##Condition purpose: Prevent duplicate warnings from being emitted for the same endpoint configuration.
         if (!m_insecureWarningEmitted) {
             Q_EMIT warningOccurred(QStringLiteral("Using HTTP with a non-loopback endpoint exposes your code to network interception. Consider using HTTPS."));
             m_insecureWarningEmitted = true;

@@ -12,33 +12,10 @@ namespace KTextEditor {
     class View;
 }
 
+#include <KTextEditor/Editor>
 #include <KTextEditor/Document>
 #include <KTextEditor/View>
 #include "MockLlamaClient.h"
-
-class MockDocument : public KTextEditor::Document {
-    QString m_text;
-public:
-    MockDocument() = default;
-    void setText(const QString& text) { m_text = text; }
-    QString text(const KTextEditor::Range& r) const override {
-        int startCol = r.start().column();
-        int endCol = r.end().column();
-        return m_text.mid(startCol, qMax(0, endCol - startCol));
-    }
-    int lines() const override { return 1; }
-    int lineLength(int) const override { return m_text.length(); }
-    QUrl url() const override { return QUrl(); }
-};
-
-class MockView : public KTextEditor::View {
-    MockDocument m_doc;
-public:
-    MockView() = default;
-    KTextEditor::Document* document() const override { return const_cast<MockDocument*>(&m_doc); }
-    MockDocument* mockDoc() { return &m_doc; }
-};
-
 
 // ##Class purpose: The main test class for AiCompletionModel using QTest.
 class TestAiCompletionModel : public QObject {
@@ -62,9 +39,14 @@ private Q_SLOTS:
 
     // ##Method purpose: Tests completionInvoked with a valid view and document.
     void testCompletionInvoked_ValidView() {
-        MockView mockView;
-        mockView.mockDoc()->setText(QStringLiteral("some text"));
-        auto *view = &mockView;
+        auto *editor = KTextEditor::Editor::instance();
+        if (!editor) {
+            QSKIP("KTextEditor editor component not available");
+        }
+
+        auto *doc = editor->createDocument(this);
+        doc->setText(QStringLiteral("some text"));
+        auto *view = doc->createView(new QWidget());
 
         KTextEditor::Range range(KTextEditor::Cursor(0,0), KTextEditor::Cursor(0,9));
 
@@ -79,6 +61,9 @@ private Q_SLOTS:
         QVERIFY(m_mockClient->requestCompletionCalled);
         QCOMPARE(m_mockClient->m_lastPrefix, QStringLiteral("some text"));
         QCOMPARE(m_mockClient->m_lastSuffix, QStringLiteral(""));
+
+        delete view;
+        delete doc;
     }
 
     // ##Method purpose: Tests completionInvoked with a null view.
