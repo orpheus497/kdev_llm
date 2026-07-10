@@ -45,7 +45,7 @@ private Q_SLOTS:
         }
 
         auto *doc = editor->createDocument(this);
-        doc->setText("some text");
+        doc->setText(QStringLiteral("some text"));
         auto *view = doc->createView(nullptr);
 
         KTextEditor::Range range(KTextEditor::Cursor(0,0), KTextEditor::Cursor(0,9));

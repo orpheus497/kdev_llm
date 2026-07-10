@@ -1,0 +1,18 @@
+// ##Script function and purpose: Mock classes for KSharedConfig to enable testing LlamaClient without KF6 dependencies.
+#pragma once
+#include <QString>
+#include <QSharedPointer>
+
+class KConfigGroup {
+public:
+    KConfigGroup() = default;
+    KConfigGroup(const QString&) {}
+    QString readEntry(const QString&, const QString& defaultVal) const { return defaultVal; }
+};
+
+class KSharedConfig {
+public:
+    using Ptr = QSharedPointer<KSharedConfig>;
+    static Ptr openConfig() { return Ptr(new KSharedConfig()); }
+    KConfigGroup group(const QString& name) { return KConfigGroup(name); }
+};

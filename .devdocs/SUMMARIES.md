@@ -1,3 +1,6 @@
+**Timestamp**: 2026-07-10 10:13
+* Merged PR 14 into main, resolved merge conflicts in context manager and UI headers, fixed subsequent compilation and Qt6 string casting errors in tests, and updated the README installation instructions to enforce standard KDE plugin installation over the local hotfix.
+
 **Timestamp**: 2026-07-07 05:22
 * Added QTest-based unit tests for `AiCompletionModel::completionInvoked` using KTextEditor mocks, integrated tests into CMake, and verified via static syntax checks.
 

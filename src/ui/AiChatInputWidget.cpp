@@ -7,6 +7,7 @@
 #include <QHBoxLayout>
 #include <QPushButton>
 
+#include <KLocalizedString>
 // ============================================================================
 // CommandTextEdit Implementation
 // ============================================================================
@@ -127,11 +128,15 @@ CommandTextEdit::CompletionContext CommandTextEdit::completionUnderCursor() cons
     while (searchPos >= 0) {
         QChar ch = allText.at(searchPos);
         if (ch == QLatin1Char('@')) {
-            context.type = File;
-            context.prefix = allText.mid(searchPos, cursorPos - searchPos);
-            context.filterText = context.prefix.length() > 1 ? context.prefix.mid(1) : QString();
-            context.prefixStart = searchPos;
-            return context;
+            if (searchPos == 0 || allText.at(searchPos - 1).isSpace()) {
+                context.type = File;
+                context.prefix = allText.mid(searchPos, cursorPos - searchPos);
+                context.filterText = context.prefix.length() > 1 ? context.prefix.mid(1) : QString();
+                context.prefixStart = searchPos;
+                return context;
+            } else {
+                break;
+            }
         }
         if (ch.isSpace()) break;
         searchPos--;
