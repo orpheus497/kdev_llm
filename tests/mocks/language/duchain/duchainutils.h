@@ -1,6 +1,8 @@
 #pragma once
 #include <QUrl>
 #include <QString>
+#include <KTextEditor/Cursor>
+
 namespace KDevelop {
     class AbstractType {
     public:
@@ -15,6 +17,6 @@ namespace KDevelop {
         struct ItemUnderCursor {
             Declaration* declaration = nullptr;
         };
-        inline ItemUnderCursor itemUnderCursor(const QUrl&, const void*) { return {}; }
+        inline ItemUnderCursor itemUnderCursor(const QUrl&, const KTextEditor::Cursor&) { return {}; }
     }
 }

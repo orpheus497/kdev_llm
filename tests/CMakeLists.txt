@@ -32,9 +32,9 @@ target_include_directories(TestLlamaClient PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/m
 target_link_libraries(TestLlamaClient LlamaClientObj Qt6::Test)
 add_test(NAME TestLlamaClient COMMAND TestLlamaClient)
 
-# TestAiCompletionModel
 set(TEST_COMPLETION_SRCS
     TestAiCompletionModel.cpp
+    MockLlamaClient.h
     ../src/completion/AiCompletionModel.cpp
 )
 add_executable(TestAiCompletionModel ${TEST_COMPLETION_SRCS})
@@ -42,6 +42,7 @@ target_include_directories(TestAiCompletionModel PRIVATE ${CMAKE_CURRENT_SOURCE_
 target_link_libraries(TestAiCompletionModel PRIVATE
     Qt6::Test Qt6::Core Qt6::Network Qt6::Widgets
     KF6::TextEditor KF6::CoreAddons
+    LlamaClientObj
 )
 add_test(NAME TestAiCompletionModel COMMAND TestAiCompletionModel)
 
@@ -49,12 +50,16 @@ add_test(NAME TestAiCompletionModel COMMAND TestAiCompletionModel)
 set(TEST_WIDGET_SRCS
     TestAiChatWidget.cpp
     ../src/ui/AiChatWidget.cpp
+    ../src/ui/AiChatInputWidget.cpp
+    ../src/context/ContextManager.cpp
 )
 add_executable(TestAiChatWidget ${TEST_WIDGET_SRCS})
-target_include_directories(TestAiChatWidget PRIVATE ../src)
+target_include_directories(TestAiChatWidget PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/mocks ../src)
 target_link_libraries(TestAiChatWidget PRIVATE
     Qt6::Test Qt6::Core Qt6::Widgets Qt6::Network
+    KF6::TextEditor
     KDev::Interfaces KDev::Util KDev::Project KDev::Shell KDev::Language
+    LlamaClientObj
 )
 add_test(NAME TestAiChatWidget COMMAND TestAiChatWidget)
 set_tests_properties(TestAiChatWidget PROPERTIES ENVIRONMENT "QT_QPA_PLATFORM=offscreen")

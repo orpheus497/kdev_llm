@@ -1,17 +1,22 @@
 #pragma once
+#include <QWidget>
 #include <KTextEditor/Document>
+#include <KTextEditor/Range>
 #include <QString>
+
+class QMenu;
 namespace KTextEditor {
-    class Range {
+    class View : public QWidget {
+        Q_OBJECT
     public:
-        void* start() const { return nullptr; }
-    };
-    class View {
-    public:
+        explicit View(QWidget* parent = nullptr) : QWidget(parent) {}
         virtual ~View() = default;
         virtual Document* document() const = 0;
         virtual bool selection() const { return false; }
         virtual QString selectionText() const { return QString(); }
         virtual Range selectionRange() const { return Range(); }
+        virtual void setContextMenu(QMenu*) {}
+        virtual QMenu* contextMenu() const { return nullptr; }
+        virtual QMenu* defaultContextMenu(QMenu*) const { return nullptr; }
     };
 }

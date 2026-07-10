@@ -1,7 +1,7 @@
 // ##Script function and purpose: Implements tests for the AiChatWidget class.
 #include "TestAiChatWidget.h"
-#include "../ui/AiChatWidget.h"
-#include "../ui/AiChatInputWidget.h"
+#include "../src/ui/AiChatWidget.h"
+#include "../src/ui/AiChatInputWidget.h"
 #include <QJsonObject>
 #include <QApplication>
 #include <iostream>
@@ -51,7 +51,7 @@ bool TestAiChatWidget::testSendMessageEmpty() {
     QString initialMarkdown = widget.m_rawMarkdown;
 
     // Trigger sendMessage via private method
-    widget.sendMessage("");
+    widget.sendMessage(QStringLiteral(""));
 
     if (widget.m_messageHistory.size() != initialHistorySize) {
         return false;
@@ -66,7 +66,7 @@ bool TestAiChatWidget::testSendMessageFirstMessage() {
     AiChatWidget widget;
     // Assuming clearChat clears m_messageHistory to empty.
 
-    widget.sendMessage("Hello AI");
+    widget.sendMessage(QStringLiteral("Hello AI"));
 
     // History should have System prompt + User message
     if (widget.m_messageHistory.size() != 2) {
@@ -91,7 +91,7 @@ bool TestAiChatWidget::testSendMessageFirstMessage() {
     }
 
     // Markdown should reflect the user text
-    if (!widget.m_rawMarkdown.contains("**You:**\n\nHello AI\n\n---\n\n**AI:**\n\n")) {
+    if (!widget.m_rawMarkdown.contains(QStringLiteral("**You:**\n\nHello AI\n\n---\n\n**AI:**\n\n"))) {
         std::cerr << "Markdown mismatch\n";
         return false;
     }
@@ -103,10 +103,10 @@ bool TestAiChatWidget::testSendMessageSubsequentMessage() {
     AiChatWidget widget;
 
     // Send first message
-    widget.sendMessage("First");
+    widget.sendMessage(QStringLiteral("First"));
 
     // Send second message
-    widget.sendMessage("Second");
+    widget.sendMessage(QStringLiteral("Second"));
 
     // Expected size: 1 (system) + 1 (user first) + 1 (user second) = 3 messages in history
     // But since LlamaClient finishes response and adds assistant, we mock that behavior?
