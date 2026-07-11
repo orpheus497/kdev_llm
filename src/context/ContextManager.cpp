@@ -86,9 +86,29 @@ QString ContextManager::getAgentsInstruction(const QString &projectRoot) const
         QStringLiteral(".agents/AGENTS.md")
     };
 
+    QDir rootDir(projectRoot);
+    QString canonRoot = rootDir.canonicalPath();
+    if (canonRoot.isEmpty()) return QString();
+
+    // Ensure canonRoot ends with a separator so a sibling dir like project_secrets
+    // doesn't pass the startsWith check for project. Use '/' explicitly as Qt
+    // canonical paths always use forward slashes even on Windows.
+    if (!canonRoot.endsWith(QLatin1Char('/'))) {
+        canonRoot += QLatin1Char('/');
+    }
+
     // ##Loop purpose: Check all possible locations for the AGENTS.md file.
     for (const auto &candidate : candidates) {
-        QFile file(QDir(projectRoot).filePath(candidate));
+        QString filePath = rootDir.filePath(candidate);
+        QFileInfo fi(filePath);
+
+        QString canonFile = fi.canonicalFilePath();
+        if (canonFile.isEmpty()) continue; // File does not exist
+
+        // ##Condition purpose: Prevent path traversal via symlinks.
+        if (!canonFile.startsWith(canonRoot)) continue;
+
+        QFile file(canonFile);
         
         // ##Condition purpose: Only read the file if we can successfully open it.
         if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
