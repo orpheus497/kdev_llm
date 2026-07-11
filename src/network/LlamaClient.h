@@ -32,6 +32,9 @@ public:
     // ##Method purpose: Prepares and sends an HTTP POST request for refactoring.
     virtual void requestRefactor(const QString &promptText);
 
+    // ##Method purpose: Aborts any ongoing chat request.
+    virtual void stopChat();
+
 Q_SIGNALS:
     // ##Method purpose: Emitted when an inline completion response stream completes.
     void completionReceived(const QString &text);

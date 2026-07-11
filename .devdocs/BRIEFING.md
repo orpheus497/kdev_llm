@@ -1,31 +1,24 @@
 # Project Briefing
 
-**Timestamp**: 2026-07-10 11:09
+**Timestamp**: $(date '+%Y-%m-%d %H:%M')
 
 ## Status
-- **Current Phase**: Phase 22 (PR 22 Issues & Conflict Resolution).
-- **Step**: Fix security journal (append instead of replace), implement `scrollToAnchor()` for QTextBrowser link handling, and resolve merge conflicts in `tests/TestAiChatWidget.cpp`.
-- **Progress**: 0% - Starting PR 22 tasks.
+- **Current Phase**: Phase 23 (Chat UI and Memory Overhaul).
+- **Step**: Analyze advanced chat requirements, fix the missing stop button, and start implementing basic chat history saving.
+- **Progress**: 5% - Initializing new feature development.
 
 ## Previous Session Accomplishments
-- Implemented deep KDevelop integrations: DUChain AST extraction, `IProject` aware contexts.
-- Rewrote the side panel initialization to natively obey KDevelop's layout engine without breaking.
-- Hooked code completion injection natively into `IDocumentController` to support all KDevelop views.
-- Fully rebranded the plugin from "Jenova AI / Jenova K Text" to **JCA KDev Plugin** featuring the **Jenova C.A.** UI persona.
-- Updated the main `README.md` to reflect all architectural changes and deployment steps.
-- Merged PR 14, resolved all conflicts, fixed build/tests, and updated installation instructions.
+- Fixed security journal and implemented `scrollToAnchor()` for `QTextBrowser`.
+- Resolved merge conflicts in tests and merged PR 22 tasks successfully.
 
 ## Current Blockers
-- None.
+- Extensive UI refactor required for chat bubbles and thinking states, starting with functional fixes first (Stop button, New chat state retention).
 
 ## Recent Architectural Decisions
-- Security journal must remain an append-only log to preserve historical context (e.g. URL scheme validation context).
-- Removed early `CreateAndRaise` calls on the ToolView to prevent KDevelop startup failures.
-- Renamed project branding globally across CMake, JSON Metadata, and C++ UI strings.
-- Testing requires mock objects for KDevelop framework components.
-- Decided to stop using `.local` as a hothotfix for KDevelop plugin installation; moving to standard KDE plugin paths requiring `sudo make install`.
+- The "New Chat" button should save current conversation state to the filesystem (JSON) to avoid data loss before implementing a full multi-chat selection UI.
+- LlamaClient needs a formal cancellation/abort mechanism to support stopping generation mid-stream.
 
 ## Next Execution Steps
-1. Locate and append the new vulnerability entry to the Security Journal instead of replacing the existing one. (2-3 mins)
-2. Locate the link handling logic for QTextBrowser (likely in `AiChatWidget.cpp`) and add support for relative URLs with fragments using `scrollToAnchor()`. (3-5 mins)
-3. Resolve merge conflicts in `tests/TestAiChatWidget.cpp`. (3-5 mins)
+1. Add a Stop button to `AiChatInputWidget` and implement cancellation logic in `LlamaClient`.
+2. Add JSON-based auto-save mechanism to `AiChatWidget::clearChat()`.
+3. Verify basic stop and save functionality without regressions.

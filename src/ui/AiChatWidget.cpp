@@ -14,6 +14,11 @@
 #include <QDesktopServices>
 #include <QUrl>
 #include <QTextDocument>
+#include <QFile>
+#include <QDir>
+#include <QStandardPaths>
+#include <QJsonDocument>
+#include <QDateTime>
 
 #include <interfaces/icore.h>
 #include <interfaces/idocumentcontroller.h>
@@ -39,6 +44,7 @@ AiChatWidget::AiChatWidget(QWidget *parent)
     
     connect(m_inputWidget, &AiChatInputWidget::messageSubmitted, this, &AiChatWidget::sendMessage);
     connect(m_inputWidget, &AiChatInputWidget::newChatClicked, this, &AiChatWidget::clearChat);
+    connect(m_inputWidget, &AiChatInputWidget::stopClicked, m_client, &LlamaClient::stopChat);
     connect(m_chatHistory, &QTextBrowser::anchorClicked, this, &AiChatWidget::onAnchorClicked);
     
     connect(m_client, &LlamaClient::chatTokenReceived, this, &AiChatWidget::onChatTokenReceived);
@@ -144,6 +150,23 @@ void AiChatWidget::renderMarkdown()
 // ##Method purpose: Clears the message history and resets the chat UI.
 void AiChatWidget::clearChat()
 {
+    // Save history before clearing, if we have active user/assistant messages.
+    if (m_messageHistory.size() > 1) { // > 1 to ignore empty chats with only the system prompt
+        QString dataPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/chat_history");
+        QDir dir(dataPath);
+        if (!dir.exists()) {
+            dir.mkpath(QStringLiteral("."));
+        }
+        QString timestamp = QDateTime::currentDateTime().toString(QStringLiteral("yyyy-MM-dd_HH-mm-ss"));
+        QString filename = dir.filePath(QStringLiteral("chat_") + timestamp + QStringLiteral(".json"));
+        QFile file(filename);
+        if (file.open(QIODevice::WriteOnly)) {
+            QJsonDocument doc(m_messageHistory);
+            file.write(doc.toJson());
+            file.close();
+        }
+    }
+
     m_messageHistory = QJsonArray();
     m_currentAssistantResponse.clear();
     m_rawMarkdown = QStringLiteral("# KDev LLM\n\nWelcome to KDev LLM, your AI Assistant for KDevelop!\n\n## Features:\n- **Chat**: Type below and press `Enter` to ask questions about your code.\n- **Refactor**: Select code, right-click (or Tools menu) and choose **AI: Refactor Selection...**\n- **Autocomplete**: Press `Ctrl+Space` while typing to get AI code suggestions.\n\n*(Note: Ensure your local Llama.cpp server is running at the configured endpoint in Settings)*\n\n---\n\n");

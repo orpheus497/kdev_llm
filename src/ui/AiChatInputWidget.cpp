@@ -172,11 +172,16 @@ AiChatInputWidget::AiChatInputWidget(QWidget *parent)
     m_sendButton = new QPushButton(QStringLiteral("Send"), this);
     m_sendButton->setToolTip(i18n("Send message (Enter)"));
     m_sendButton->setCursor(Qt::PointingHandCursor);
+    m_stopButton = new QPushButton(QStringLiteral("Stop"), this);
+    m_stopButton->setToolTip(i18n("Stop generating response"));
+    m_stopButton->setCursor(Qt::PointingHandCursor);
+    m_stopButton->setVisible(false); // Hidden by default
     m_newChatButton = new QPushButton(QStringLiteral("New Chat"), this);
     m_newChatButton->setToolTip(i18n("Clear history and start a new chat"));
     m_newChatButton->setCursor(Qt::PointingHandCursor);
     
     btnLayout->addWidget(m_sendButton);
+    btnLayout->addWidget(m_stopButton);
     btnLayout->addWidget(m_newChatButton);
     
     mainLayout->addWidget(m_textEdit, 1);
@@ -184,9 +189,11 @@ AiChatInputWidget::AiChatInputWidget(QWidget *parent)
 
     m_textEdit->setAccessibleName(i18n("Chat input area"));
     m_sendButton->setAccessibleName(i18n("Send message"));
+    m_stopButton->setAccessibleName(i18n("Stop generating response"));
     m_newChatButton->setAccessibleName(i18n("Start new chat"));
 
     connect(m_sendButton, &QPushButton::clicked, this, &AiChatInputWidget::onSendClicked);
+    connect(m_stopButton, &QPushButton::clicked, this, &AiChatInputWidget::stopClicked);
     connect(m_newChatButton, &QPushButton::clicked, this, &AiChatInputWidget::onNewChatClicked);
     connect(m_textEdit, &QTextEdit::textChanged, this, &AiChatInputWidget::onTextChanged);
 
@@ -209,6 +216,10 @@ void AiChatInputWidget::setPromptRunning(bool running)
 {
     m_promptRunning = running;
     updateSendButtonState();
+
+    m_sendButton->setVisible(!running);
+    m_stopButton->setVisible(running);
+
     if (running) {
         m_sendButton->setToolTip(i18n("Waiting for AI response..."));
     } else {

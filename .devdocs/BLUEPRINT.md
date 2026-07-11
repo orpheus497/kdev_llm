@@ -37,3 +37,12 @@ make install
 
 ### [COMPLETED] 
 *None currently.*
+
+### [ACTIVE] Chat UI and Memory Management Overhaul
+* **Requirement**: Introduce robust conversation management, stop generation features, and modern UI elements to the chat panel.
+* **Details**:
+    * Implement a "Stop Generation" button to cancel active LLM network requests.
+    * Add filesystem/database-backed chat history. "New Chat" should save the current state, and the user must be able to switch between old/new conversations.
+    * Render distinct UI chat bubbles separating User vs. LLM positions visually, replacing plain markdown output.
+    * Include expandable "thinking" blocks or bubbles for the AI reasoning phases.
+* **Questions**: Should the conversation history be stored as raw JSON files or in an SQLite database?

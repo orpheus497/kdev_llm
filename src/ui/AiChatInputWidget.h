@@ -67,6 +67,7 @@ private:
     CommandTextEdit *m_textEdit;
     QPushButton *m_sendButton;
     QPushButton *m_newChatButton;
+    QPushButton *m_stopButton;
     QCompleter *m_completer;
     QAbstractItemModel *m_fileModel = nullptr;
     bool m_promptRunning = false;
