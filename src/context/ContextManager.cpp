@@ -15,6 +15,25 @@
 #include <util/path.h>
 #include <QStringBuilder>
 
+// ##Method purpose: Helper to extract semantic context from KDevelop DUChain AST
+static QString getSemanticASTString(KTextEditor::View *view, const QString &header)
+{
+    if (!view || !view->document()) return QString();
+
+    KDevelop::DUChainReadLocker lock(KDevelop::DUChain::lock());
+    KDevelop::DUChainUtils::ItemUnderCursor item = KDevelop::DUChainUtils::itemUnderCursor(view->document()->url(), view->selectionRange().start());
+
+    if (item.declaration) {
+        QString result = header % QStringLiteral("\n") %
+                         QStringLiteral("- Declaration: ") % item.declaration->toString() % QStringLiteral("\n");
+        if (item.declaration->abstractType()) {
+            result += QStringLiteral("- Type: ") % item.declaration->abstractType()->toString() % QStringLiteral("\n");
+        }
+        return result;
+    }
+    return QString();
+}
+
 // ##Method purpose: Helper to truncate large documents to fit context limits
 static QString getTruncatedDocumentText(KTextEditor::Document *doc, int maxLength)
 {
@@ -157,15 +176,7 @@ QString ContextManager::buildSystemPrompt(KTextEditor::View *view) const
                       QStringLiteral("\n```\n");
             
             // Try extracting semantic context from selection via DUChain
-            KDevelop::DUChainReadLocker lock(KDevelop::DUChain::lock());
-            KDevelop::DUChainUtils::ItemUnderCursor item = KDevelop::DUChainUtils::itemUnderCursor(view->document()->url(), view->selectionRange().start());
-            if (item.declaration) {
-                prompt += QStringLiteral("\nSemantic Information (from KDevelop DUChain AST):\n") %
-                          QStringLiteral("- Declaration: ") % item.declaration->toString() % QStringLiteral("\n");
-                if (item.declaration->abstractType()) {
-                    prompt += QStringLiteral("- Type: ") + item.declaration->abstractType()->toString() + QStringLiteral("\n");
-                }
-            }
+            prompt += getSemanticASTString(view, QStringLiteral("\nSemantic Information (from KDevelop DUChain AST):"));
         }
     }
     
@@ -195,15 +206,9 @@ QString ContextManager::buildRefactorPrompt(const QString &instruction, const QS
 
         prompt += QStringLiteral("\n```\n\n");
         
-        KDevelop::DUChainReadLocker lock(KDevelop::DUChain::lock());
-        KDevelop::DUChainUtils::ItemUnderCursor item = KDevelop::DUChainUtils::itemUnderCursor(view->document()->url(), view->selectionRange().start());
-        if (item.declaration) {
-            prompt += QStringLiteral("The selected code corresponds to the following semantic AST entity:\n") %
-                      QStringLiteral("- Declaration: ") % item.declaration->toString() % QStringLiteral("\n");
-            if (item.declaration->abstractType()) {
-                prompt += QStringLiteral("- Type: ") + item.declaration->abstractType()->toString() + QStringLiteral("\n");
-            }
-            prompt += QStringLiteral("\n");
+        QString astInfo = getSemanticASTString(view, QStringLiteral("The selected code corresponds to the following semantic AST entity:"));
+        if (!astInfo.isEmpty()) {
+            prompt += astInfo % QStringLiteral("\n");
         }
     }
     
