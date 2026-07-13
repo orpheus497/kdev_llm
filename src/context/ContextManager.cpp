@@ -49,8 +49,11 @@ ContextManager::ContextManager(QObject *parent) : QObject(parent) {}
 
 KDevelop::IProject* ContextManager::projectForUrl(const QUrl &url) const
 {
-    if (KDevelop::ICore::self()) {
-        if (KDevelop::IProjectController* pc = KDevelop::ICore::self()->projectController()) {
+    if (url.isEmpty()) {
+        return nullptr;
+    }
+    if (auto* core = KDevelop::ICore::self()) {
+        if (auto* pc = core->projectController()) {
             return pc->findProjectForUrl(url);
         }
     }
