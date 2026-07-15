@@ -66,6 +66,19 @@ static QString getTruncatedDocumentText(KTextEditor::Document *doc, int maxLengt
 // ##Method purpose: Constructor implementation.
 ContextManager::ContextManager(QObject *parent) : QObject(parent) {}
 
+KDevelop::IProject* ContextManager::projectForUrl(const QUrl &url) const
+{
+    if (url.isEmpty()) {
+        return nullptr;
+    }
+    if (auto* core = KDevelop::ICore::self()) {
+        if (auto* pc = core->projectController()) {
+            return pc->findProjectForUrl(url);
+        }
+    }
+    return nullptr;
+}
+
 QString ContextManager::getProjectRoot(KTextEditor::Document *doc) const
 {
     if (!doc || doc->url().isEmpty()) {
@@ -73,14 +86,8 @@ QString ContextManager::getProjectRoot(KTextEditor::Document *doc) const
     }
     
     // Attempt IDE proper integration first
-    if (KDevelop::ICore::self()) {
-        KDevelop::IProjectController* pc = KDevelop::ICore::self()->projectController();
-        if (pc) {
-            KDevelop::IProject* proj = pc->findProjectForUrl(doc->url());
-            if (proj) {
-                return proj->path().toLocalFile();
-            }
-        }
+    if (KDevelop::IProject* proj = projectForUrl(doc->url())) {
+        return proj->path().toLocalFile();
     }
     
     // Fallback to directory scanning if not in a KDevelop project
@@ -146,15 +153,9 @@ QString ContextManager::buildSystemPrompt(KTextEditor::View *view) const
         QString root = getProjectRoot(view->document());
         QString agentsInst = getAgentsInstruction(root);
         
-        if (KDevelop::ICore::self()) {
-            KDevelop::IProjectController* pc = KDevelop::ICore::self()->projectController();
-            if (pc) {
-                KDevelop::IProject* proj = pc->findProjectForUrl(view->document()->url());
-                if (proj) {
-                    prompt += QStringLiteral("Project Name: ") % proj->name() % QStringLiteral("\n") %
-                              QStringLiteral("Project Root: ") % proj->path().toLocalFile() % QStringLiteral("\n\n");
-                }
-            }
+        if (KDevelop::IProject* proj = projectForUrl(view->document()->url())) {
+            prompt += QStringLiteral("Project Name: ") % proj->name() % QStringLiteral("\n") %
+                      QStringLiteral("Project Root: ") % proj->path().toLocalFile() % QStringLiteral("\n\n");
         }
         
         if (!agentsInst.isEmpty()) {
@@ -188,14 +189,8 @@ QString ContextManager::buildRefactorPrompt(const QString &instruction, const QS
     QString prompt = QStringLiteral("You are an expert developer. ");
     
     if (view && view->document()) {
-        if (KDevelop::ICore::self()) {
-            KDevelop::IProjectController* pc = KDevelop::ICore::self()->projectController();
-            if (pc) {
-                KDevelop::IProject* proj = pc->findProjectForUrl(view->document()->url());
-                if (proj) {
-                    prompt += QStringLiteral("Project Name: ") % proj->name() % QStringLiteral("\n");
-                }
-            }
+        if (KDevelop::IProject* proj = projectForUrl(view->document()->url())) {
+            prompt += QStringLiteral("Project Name: ") % proj->name() % QStringLiteral("\n");
         }
         
         prompt += QStringLiteral("You are working in the file: ") % view->document()->url().toLocalFile() % QStringLiteral("\n\n") %

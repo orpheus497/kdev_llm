@@ -2,8 +2,13 @@
 #pragma once
 #include <QObject>
 #include <QString>
+#include <QUrl>
 #include <KTextEditor/Document>
 #include <KTextEditor/View>
+
+namespace KDevelop {
+class IProject;
+}
 
 // ##Class purpose: Utility class for finding project roots and aggregating context for prompts.
 class ContextManager : public QObject {
@@ -15,6 +20,11 @@ public:
     // ##Method purpose: Destructor.
     ~ContextManager() override = default;
 
+private:
+    // ##Method purpose: Helper method to get the KDevelop project for a given URL.
+    KDevelop::IProject* projectForUrl(const QUrl &url) const;
+
+public:
     // ##Method purpose: Determines the project root directory from a given document.
     QString getProjectRoot(KTextEditor::Document *doc) const;
 
