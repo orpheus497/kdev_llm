@@ -83,6 +83,11 @@ KDevLLMPlugin::KDevLLMPlugin(QObject* parent, const KPluginMetaData& metaData, c
     }
 }
 
+void KDevLLMPlugin::setupView(KTextEditor::View* view)
+{
+    view->registerCompletionModel(m_completionModel);
+}
+
 KDevLLMPlugin::~KDevLLMPlugin()
 {
 }
