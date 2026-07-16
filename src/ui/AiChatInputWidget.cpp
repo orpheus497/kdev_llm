@@ -6,6 +6,7 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QPushButton>
+#include <QStringListModel>
 
 #include <KLocalizedString>
 // ============================================================================
@@ -240,7 +241,6 @@ QString AiChatInputWidget::text() const
 }
 
 // ##Method purpose: Provides the list of file paths to the autocompleter.
-#include <QStringListModel>
 void AiChatInputWidget::setAvailableFiles(const QStringList &files)
 {
     if (m_fileModel) {
