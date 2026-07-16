@@ -32,6 +32,8 @@ private Q_SLOTS:
     void onRefactorReceived(const QString &text);
 
 private:
+    void setupView(KTextEditor::View* view);
+
     AiToolViewFactory* m_factory;
     AiCompletionModel* m_completionModel;
     LlamaClient* m_refactorClient;

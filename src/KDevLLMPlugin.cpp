@@ -64,10 +64,10 @@ KDevLLMPlugin::KDevLLMPlugin(QObject* parent, const KPluginMetaData& metaData, c
     auto setupTextDocument = [this](KDevelop::IDocument* doc) {
         if (auto* textDoc = doc->textDocument()) {
             connect(textDoc, &KTextEditor::Document::viewCreated, this, [this](KTextEditor::Document*, KTextEditor::View* view) {
-                view->registerCompletionModel(m_completionModel);
+                setupView(view);
             });
             for (auto* view : textDoc->views()) {
-                view->registerCompletionModel(m_completionModel);
+                setupView(view);
             }
         }
     };
@@ -77,6 +77,11 @@ KDevLLMPlugin::KDevLLMPlugin(QObject* parent, const KPluginMetaData& metaData, c
     for (auto* doc : core()->documentController()->openDocuments()) {
         setupTextDocument(doc);
     }
+}
+
+void KDevLLMPlugin::setupView(KTextEditor::View* view)
+{
+    view->registerCompletionModel(m_completionModel);
 }
 
 KDevLLMPlugin::~KDevLLMPlugin()
