@@ -2,6 +2,7 @@
 #include "AiCompletionModel.h"
 #include <KTextEditor/Document>
 #include <KTextEditor/View>
+#include <QStringBuilder>
 
 // ##Method purpose: Constructor; initializes the LlamaClient and disables group headings.
 AiCompletionModel::AiCompletionModel(QObject *parent) 
@@ -76,11 +77,11 @@ QVariant AiCompletionModel::data(const QModelIndex &index, int role) const
             QString fullText = m_completions.at(index.row());
             
             // DisplayRole can show a preview
-            QString preview = fullText.split(QLatin1Char('\n')).first();
-            if (fullText.contains(QLatin1Char('\n'))) {
-                preview += QStringLiteral(" ...");
+            int nlIndex = fullText.indexOf(QLatin1Char('\n'));
+            if (nlIndex != -1) {
+                return QString(fullText.left(nlIndex) % QStringLiteral(" ..."));
             }
-            return preview;
+            return fullText;
         }
     }
     return QVariant();
