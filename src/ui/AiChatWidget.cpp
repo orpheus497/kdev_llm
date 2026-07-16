@@ -19,6 +19,7 @@
 #include <QStandardPaths>
 #include <QJsonDocument>
 #include <QDateTime>
+#include <QTimer>
 
 #include <interfaces/icore.h>
 #include <interfaces/idocumentcontroller.h>
@@ -29,7 +30,12 @@ AiChatWidget::AiChatWidget(QWidget *parent)
     : QWidget(parent)
     , m_client(new LlamaClient(this))
     , m_context(new ContextManager(this))
+    , m_renderTimer(new QTimer(this))
 {
+    m_renderTimer->setSingleShot(true);
+    m_renderTimer->setInterval(50);
+    connect(m_renderTimer, &QTimer::timeout, this, &AiChatWidget::renderMarkdown);
+
     auto *layout = new QVBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
     
@@ -106,12 +112,18 @@ void AiChatWidget::onChatTokenReceived(const QString &token)
 {
     m_currentAssistantResponse += token;
     m_rawMarkdown += token;
-    renderMarkdown();
+    if (!m_renderTimer->isActive()) {
+        m_renderTimer->start();
+    }
 }
 
 // ##Method purpose: Triggered when the AI finishes responding, finalizing the message block.
 void AiChatWidget::onChatFinished()
 {
+    if (m_renderTimer->isActive()) {
+        m_renderTimer->stop();
+    }
+
     m_inputWidget->setPromptRunning(false);
     
     QJsonObject assistantMsg;

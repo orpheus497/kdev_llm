@@ -11,6 +11,7 @@ class QPushButton;
 class QVBoxLayout;
 class LlamaClient;
 class ContextManager;
+class QTimer;
 
 // ##Class purpose: Manages the chat history display and input box for interacting with the AI.
 class AiChatWidget : public QWidget {
@@ -63,4 +64,5 @@ private:
     QJsonArray m_messageHistory;
     QString m_rawMarkdown;
     QString m_currentAssistantResponse;
+    QTimer *m_renderTimer;
 };

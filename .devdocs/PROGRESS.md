@@ -49,3 +49,7 @@
 * **Refactor Logic and Integration Fixes (Phase 13)**: Complete (Upgraded chat and refactor contexts to use full file content, replaced C++ context menus with native XMLGUI, and added user prompts for refactor operations).
 - **2026-07-07 05:48**: Implemented a mitigation for HTTP insecurity on non-loopback IPs by adding warning logic to `LlamaClient` and `AiChatWidget`.
 - **2026-07-08 00:45**: Refactored the security warning mechanism in `LlamaClient` into a private helper method that implements the warning, addressing code review comments without enforcing HTTPS or removing the exposure.
+
+**Timestamp**: 2026-07-16 03:45
+
+* **Performance Optimization**: Complete. Reduced UI thread rendering bottleneck in `AiChatWidget::onChatTokenReceived` by debouncing the `renderMarkdown` call with a 50ms `QTimer`, mitigating an $O(N^2)$ slowdown during fast token generation.
