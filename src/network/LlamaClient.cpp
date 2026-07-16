@@ -9,6 +9,32 @@
 #include <KSharedConfig>
 #include <KConfigGroup>
 
+namespace {
+
+template <typename Func>
+void processSseEvents(QNetworkReply* reply, Func callback) {
+    if (!reply) {
+        return;
+    }
+    // ##Loop purpose: Read all available SSE lines.
+    while (reply->canReadLine()) {
+        QByteArray line = reply->readLine().trimmed();
+
+        // ##Condition purpose: Parse only data lines.
+        if (line.startsWith("data: ")) {
+            QByteArray jsonData = line.mid(6);
+            if (jsonData == "[DONE]") continue;
+
+            QJsonDocument doc = QJsonDocument::fromJson(jsonData);
+            if (doc.isObject()) {
+                callback(doc.object());
+            }
+        }
+    }
+}
+
+} // namespace
+
 // ##Method purpose: Constructor.
 LlamaClient::LlamaClient(QObject *parent) 
     : QObject(parent), m_nam(new QNetworkAccessManager(this)) 
@@ -133,21 +159,9 @@ void LlamaClient::onCompletionReadyRead()
 
     QString batchContent;
 
-    // ##Loop purpose: Read all available SSE lines.
-    while (reply->canReadLine()) {
-        QByteArray line = reply->readLine().trimmed();
-        
-        // ##Condition purpose: Parse only data lines.
-        if (line.startsWith("data: ")) {
-            QByteArray jsonData = line.mid(6);
-            if (jsonData == "[DONE]") continue;
-
-            QJsonDocument doc = QJsonDocument::fromJson(jsonData);
-            if (doc.isObject()) {
-                batchContent += doc.object()[QStringLiteral("content")].toString();
-            }
-        }
-    }
+    processSseEvents(reply, [&batchContent](const QJsonObject& obj) {
+        batchContent += obj[QStringLiteral("content")].toString();
+    });
 
     if (!batchContent.isEmpty()) {
         m_completionBuffer += batchContent;
@@ -184,28 +198,16 @@ void LlamaClient::onChatReadyRead()
 
     QString batchContent;
 
-    // ##Loop purpose: Read all available SSE lines.
-    while (reply->canReadLine()) {
-        QByteArray line = reply->readLine().trimmed();
-        
-        // ##Condition purpose: Parse only data lines.
-        if (line.startsWith("data: ")) {
-            QByteArray jsonData = line.mid(6);
-            if (jsonData == "[DONE]") continue;
-
-            QJsonDocument doc = QJsonDocument::fromJson(jsonData);
-            if (doc.isObject()) {
-                QJsonArray choices = doc.object()[QStringLiteral("choices")].toArray();
-                if (!choices.isEmpty()) {
-                    QJsonObject delta = choices.first().toObject()[QStringLiteral("delta")].toObject();
-                    QString content = delta[QStringLiteral("content")].toString();
-                    if (!content.isEmpty()) {
-                        batchContent += content;
-                    }
-                }
+    processSseEvents(reply, [&batchContent](const QJsonObject& obj) {
+        QJsonArray choices = obj[QStringLiteral("choices")].toArray();
+        if (!choices.isEmpty()) {
+            QJsonObject delta = choices.first().toObject()[QStringLiteral("delta")].toObject();
+            QString content = delta[QStringLiteral("content")].toString();
+            if (!content.isEmpty()) {
+                batchContent += content;
             }
         }
-    }
+    });
 
     if (!batchContent.isEmpty()) {
         Q_EMIT chatTokenReceived(batchContent);
@@ -239,19 +241,9 @@ void LlamaClient::onRefactorReadyRead()
     auto *reply = qobject_cast<QNetworkReply *>(sender());
     if (!reply) return;
 
-    while (reply->canReadLine()) {
-        QByteArray line = reply->readLine().trimmed();
-        
-        if (line.startsWith("data: ")) {
-            QByteArray jsonData = line.mid(6);
-            if (jsonData == "[DONE]") continue;
-
-            QJsonDocument doc = QJsonDocument::fromJson(jsonData);
-            if (doc.isObject()) {
-                m_refactorBuffer += doc.object()[QStringLiteral("content")].toString();
-            }
-        }
-    }
+    processSseEvents(reply, [this](const QJsonObject& obj) {
+        m_refactorBuffer += obj[QStringLiteral("content")].toString();
+    });
 }
 
 // ##Method purpose: Handles completion of the refactor request.
