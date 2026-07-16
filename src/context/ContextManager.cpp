@@ -147,11 +147,10 @@ QString ContextManager::getAgentsInstruction(const QString &projectRoot) const
 
 QString ContextManager::buildSystemPrompt(KTextEditor::View *view) const
 {
-    QString prompt;
-    prompt.reserve(65536);
-    prompt += QStringLiteral("You are an expert AI coding assistant integrated natively into the KDevelop IDE.\n");
+    QString prompt = QStringLiteral("You are an expert AI coding assistant integrated natively into the KDevelop IDE.\n");
     
     if (view && view->document()) {
+        prompt.reserve(65536);
         QString root = getProjectRoot(view->document());
         QString agentsInst = getAgentsInstruction(root);
         
@@ -188,11 +187,10 @@ QString ContextManager::buildSystemPrompt(KTextEditor::View *view) const
 
 QString ContextManager::buildRefactorPrompt(const QString &instruction, const QString &code, KTextEditor::View *view) const
 {
-    QString prompt;
-    prompt.reserve(65536);
-    prompt += QStringLiteral("You are an expert developer. ");
+    QString prompt = QStringLiteral("You are an expert developer. ");
     
     if (view && view->document()) {
+        prompt.reserve(65536);
         if (KDevelop::IProject* proj = projectForUrl(view->document()->url())) {
             prompt += QStringLiteral("Project Name: ") % proj->name() % QStringLiteral("\n");
         }
