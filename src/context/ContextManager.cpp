@@ -84,20 +84,30 @@ QString ContextManager::getProjectRoot(KTextEditor::Document *doc) const
     if (!doc || doc->url().isEmpty()) {
         return QString();
     }
+
+    QString docUrlString = doc->url().toString();
+    if (m_projectRootCache.contains(docUrlString)) {
+        return m_projectRootCache.value(docUrlString);
+    }
     
     // Attempt IDE proper integration first
     if (KDevelop::IProject* proj = projectForUrl(doc->url())) {
-        return proj->path().toLocalFile();
+        QString root = proj->path().toLocalFile();
+        m_projectRootCache.insert(docUrlString, root);
+        return root;
     }
     
     // Fallback to directory scanning if not in a KDevelop project
     QDir dir = QFileInfo(doc->url().toLocalFile()).absoluteDir();
     while (dir.absolutePath() != QStringLiteral("/")) {
         if (dir.exists(QStringLiteral(".git")) || dir.exists(QStringLiteral("CMakeLists.txt"))) {
-            return dir.absolutePath();
+            QString root = dir.absolutePath();
+            m_projectRootCache.insert(docUrlString, root);
+            return root;
         }
         dir.cdUp();
     }
+    m_projectRootCache.insert(docUrlString, QString());
     return QString();
 }
 
