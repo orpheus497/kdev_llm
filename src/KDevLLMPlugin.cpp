@@ -60,10 +60,14 @@ KDevLLMPlugin::KDevLLMPlugin(QObject* parent, const KPluginMetaData& metaData, c
         }
     });
 
+    auto setupView = [this](KTextEditor::View* view) {
+        view->registerCompletionModel(m_completionModel);
+    };
+
     // Register completion model via KDevelop DocumentController
-    auto setupTextDocument = [this](KDevelop::IDocument* doc) {
+    auto setupTextDocument = [this, setupView](KDevelop::IDocument* doc) {
         if (auto* textDoc = doc->textDocument()) {
-            connect(textDoc, &KTextEditor::Document::viewCreated, this, [this](KTextEditor::Document*, KTextEditor::View* view) {
+            connect(textDoc, &KTextEditor::Document::viewCreated, this, [setupView](KTextEditor::Document*, KTextEditor::View* view) {
                 setupView(view);
             });
             for (auto* view : textDoc->views()) {
