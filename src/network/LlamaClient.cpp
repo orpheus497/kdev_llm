@@ -13,6 +13,9 @@ namespace {
 
 template <typename Func>
 void processSseEvents(QNetworkReply* reply, Func callback) {
+    if (!reply) {
+        return;
+    }
     // ##Loop purpose: Read all available SSE lines.
     while (reply->canReadLine()) {
         QByteArray line = reply->readLine().trimmed();
