@@ -16,6 +16,7 @@
 #include <QStringBuilder>
 
 // ##Method purpose: Helper to extract semantic context from KDevelop DUChain AST
+// Uses the DUChain AST engine to retrieve the abstract type and declaration of the item under the cursor.
 static QString getSemanticASTString(KTextEditor::View *view, const QString &header)
 {
     if (!view || !view->document()) return QString();
@@ -201,6 +202,7 @@ QString ContextManager::buildRefactorPrompt(const QString &instruction, const QS
 
         prompt += QStringLiteral("\n```\n\n");
         
+        // Append AST semantic information if available
         QString astInfo = getSemanticASTString(view, QStringLiteral("The selected code corresponds to the following semantic AST entity:"));
         if (!astInfo.isEmpty()) {
             prompt += astInfo % QStringLiteral("\n");
