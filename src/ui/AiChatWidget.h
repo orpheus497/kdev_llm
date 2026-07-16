@@ -23,10 +23,6 @@ public:
     // ##Method purpose: Destructor.
     ~AiChatWidget() override = default;
 
-protected:
-    // ##Method purpose: Intercepts events, specifically the Enter key for sending messages.
-    bool eventFilter(QObject *watched, QEvent *event) override;
-
 private Q_SLOTS:
     // ##Method purpose: Triggered when the user clicks Send; packages the message.
     void sendMessage(const QString &text);

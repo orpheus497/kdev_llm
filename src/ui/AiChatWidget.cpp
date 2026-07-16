@@ -56,12 +56,6 @@ AiChatWidget::AiChatWidget(QWidget *parent)
     clearChat();
 }
 
-// (eventFilter removed because AiChatInputWidget handles its own input keys now)
-bool AiChatWidget::eventFilter(QObject *watched, QEvent *event)
-{
-    return QWidget::eventFilter(watched, event);
-}
-
 // ##Method purpose: Reads user input, builds the JSON message history, and starts the stream.
 void AiChatWidget::sendMessage(const QString &text)
 {

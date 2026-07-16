@@ -1,0 +1,3 @@
+#pragma once
+#include <QString>
+#define i18n(x) QStringLiteral(x)
