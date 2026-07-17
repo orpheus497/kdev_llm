@@ -36,4 +36,10 @@ public:
 
     // ##Method purpose: Builds a context-aware prompt for the AI refactoring action.
     QString buildRefactorPrompt(const QString &instruction, const QString &code, KTextEditor::View *view) const;
+
+    // ##Method purpose: Extracts relevant context (declarations, types) from a file using DUChain instead of dumping the full file.
+    QString extractRelevantFileContext(const QString &filePath) const;
+
+    // ##Method purpose: Returns the list of project file paths for @file autocompletion.
+    QStringList getProjectFiles() const;
 };

@@ -21,16 +21,21 @@
 #include "completion/AiCompletionModel.h"
 #include "network/LlamaClient.h"
 #include "context/ContextManager.h"
+#include "config/AiConfigPage.h"
 
+// ##Class purpose: Factory for creating the AI chat tool view widget in the KDevelop sidebar.
 class AiToolViewFactory : public KDevelop::IToolViewFactory {
 public:
     AiToolViewFactory(KDevLLMPlugin* plugin) : m_plugin(plugin) {}
+    // ##Method purpose: Creates a new AiChatWidget instance for the tool view.
     QWidget* create(QWidget *parent = nullptr) override {
         auto* widget = new AiChatWidget(parent);
         widget->setWindowTitle(QStringLiteral("KDev LLM"));
         return widget;
     }
+    // ##Method purpose: Returns the unique identifier for this tool view factory.
     QString id() const override { return QStringLiteral("org.kdevelop.KDevLLMPlugin"); }
+    // ##Method purpose: Returns the default dock widget area for the tool view.
     Qt::DockWidgetArea defaultPosition() const override { return Qt::RightDockWidgetArea; }
 private:
     KDevLLMPlugin* m_plugin;
@@ -145,10 +150,23 @@ void KDevLLMPlugin::requestAiRefactor(KTextEditor::View* view)
     m_refactorClient->requestRefactor(promptText);
 }
 
+// ##Method purpose: Handles the refactored text received from the LLM and applies it to the editor.
 void KDevLLMPlugin::onRefactorReceived(const QString &text)
 {
+    // ##Condition purpose: Guard against stale document reference; clean up leaked range.
     if (!m_refactorDocument) {
+        delete m_currentRefactorRange;
         m_currentRefactorRange = nullptr;
+        return;
+    }
+    
+    // ##Condition purpose: Validate that the LLM returned non-empty text before replacing editor content.
+    if (text.trimmed().isEmpty()) {
+        delete m_currentRefactorRange;
+        m_currentRefactorRange = nullptr;
+        auto *msg = new KTextEditor::Message(i18n("AI Refactor returned empty response."), KTextEditor::Message::Error);
+        msg->setPosition(KTextEditor::Message::TopInView);
+        m_refactorDocument->postMessage(msg);
         return;
     }
     
@@ -161,6 +179,22 @@ void KDevLLMPlugin::onRefactorReceived(const QString &text)
     auto *msg = new KTextEditor::Message(i18n("AI Refactor applied. Press Ctrl+Z to undo."), KTextEditor::Message::Information);
     msg->setPosition(KTextEditor::Message::TopInView);
     m_refactorDocument->postMessage(msg);
+}
+
+// ##Method purpose: Returns the number of config pages provided by this plugin.
+int KDevLLMPlugin::configPages() const
+{
+    return 1;
+}
+
+// ##Method purpose: Returns the config page widget for the given index.
+KDevelop::ConfigPage* KDevLLMPlugin::configPage(int number, QWidget *parent)
+{
+    // ##Condition purpose: Only index 0 is valid; return the AI settings page.
+    if (number == 0) {
+        return new AiConfigPage(this, parent);
+    }
+    return nullptr;
 }
 
 #include "KDevLLMPlugin.moc"

@@ -12,6 +12,8 @@
 #include <language/duchain/duchainutils.h>
 #include <language/duchain/declaration.h>
 #include <language/duchain/types/abstracttype.h>
+#include <language/duchain/topducontext.h>
+#include <project/projectmodel.h>
 #include <util/path.h>
 #include <QStringBuilder>
 
@@ -214,4 +216,88 @@ QString ContextManager::buildRefactorPrompt(const QString &instruction, const QS
               QStringLiteral("Please output ONLY the resulting modified code block to replace the selection. Do not include any conversational text or markdown wrappers in your output. Only raw code.");
     
     return prompt;
+}
+
+// ##Method purpose: Extracts relevant declarations and structure from a file using DUChain.
+QString ContextManager::extractRelevantFileContext(const QString &filePath) const
+{
+    // ##Condition purpose: Return empty if path is invalid.
+    if (filePath.isEmpty()) return QString();
+
+    QUrl fileUrl = QUrl::fromLocalFile(filePath);
+
+    // ##Step purpose: Try DUChain first for semantic context.
+    {
+        KDevelop::DUChainReadLocker lock(KDevelop::DUChain::lock());
+        auto *topContext = KDevelop::DUChain::self()->chainForDocument(fileUrl);
+        if (topContext) {
+            QString result = QStringLiteral("File: ") % filePath % QStringLiteral("\nDeclarations:\n");
+            const auto decls = topContext->localDeclarations();
+            // ##Loop purpose: Iterate top-level declarations in the file.
+            for (auto *decl : decls) {
+                result += QStringLiteral("  - ") % decl->toString();
+                if (auto type = decl->abstractType()) {
+                    result += QStringLiteral(" : ") % type->toString();
+                }
+                result += QStringLiteral("\n");
+            }
+            return result;
+        }
+    }
+
+    // ##Step purpose: Fallback — read first 200 lines of the file if DUChain has no data.
+    QFile file(filePath);
+    if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        QTextStream in(&file);
+        QString content;
+        int lineCount = 0;
+        // ##Loop purpose: Read up to 200 lines as a fallback.
+        while (!in.atEnd() && lineCount < 200) {
+            content += in.readLine() % QStringLiteral("\n");
+            ++lineCount;
+        }
+        if (!in.atEnd()) {
+            content += QStringLiteral("\n...[Truncated]...\n");
+        }
+        return QStringLiteral("File: ") % filePath % QStringLiteral("\n```\n") % content % QStringLiteral("```\n");
+    }
+    return QString();
+}
+
+// ##Method purpose: Returns the list of project source file paths for @file autocompletion.
+QStringList ContextManager::getProjectFiles() const
+{
+    QStringList files;
+    auto *core = KDevelop::ICore::self();
+    // ##Condition purpose: Only proceed if KDevelop core is available.
+    if (!core || !core->projectController()) return files;
+
+    auto *project = core->projectController()->findProjectForUrl(QUrl());
+    // ##Condition purpose: Try the first open project if no URL match.
+    if (!project) {
+        auto projects = core->projectController()->projects();
+        if (!projects.isEmpty()) {
+            project = projects.first();
+        }
+    }
+    if (!project) return files;
+
+    // ##Step purpose: Recursively collect all file items from the project model.
+    const auto allFiles = project->fileSet();
+    for (const auto &indexedString : allFiles) {
+        QString path = indexedString.str();
+        // ##Condition purpose: Only include source-like files, not build artifacts.
+        if (path.endsWith(QStringLiteral(".cpp")) || path.endsWith(QStringLiteral(".h")) ||
+            path.endsWith(QStringLiteral(".c")) || path.endsWith(QStringLiteral(".hpp")) ||
+            path.endsWith(QStringLiteral(".py")) || path.endsWith(QStringLiteral(".js")) ||
+            path.endsWith(QStringLiteral(".ts")) || path.endsWith(QStringLiteral(".java")) ||
+            path.endsWith(QStringLiteral(".rs")) || path.endsWith(QStringLiteral(".go")) ||
+            path.endsWith(QStringLiteral(".cmake")) || path.endsWith(QStringLiteral(".txt")) ||
+            path.endsWith(QStringLiteral(".md")) || path.endsWith(QStringLiteral(".json")) ||
+            path.endsWith(QStringLiteral(".xml")) || path.endsWith(QStringLiteral(".yaml")) ||
+            path.endsWith(QStringLiteral(".yml"))) {
+            files.append(path);
+        }
+    }
+    return files;
 }

@@ -3,19 +3,30 @@
 #include <KTextEditor/Document>
 #include <KTextEditor/View>
 
-// ##Method purpose: Constructor; initializes the LlamaClient and disables group headings.
+// ##Method purpose: Constructor; initializes the LlamaClient, debounce timer, and disables group headings.
 AiCompletionModel::AiCompletionModel(QObject *parent) 
     : KTextEditor::CodeCompletionModel(parent)
     , m_client(new LlamaClient(this))
 {
     setHasGroups(false);
     connect(m_client, &LlamaClient::completionReceived, this, &AiCompletionModel::onCompletionReceived);
-    connect(m_client, &LlamaClient::errorOccurred, this, [this]() {
+    connect(m_client, &LlamaClient::errorOccurred, this, [this](const QString &) {
         m_isWaiting = false;
         m_completions.clear();
-        setRowCount(0);
         beginResetModel();
+        setRowCount(0);
         endResetModel();
+    });
+
+    // ##Step purpose: Configure a 300ms debounce timer to prevent excessive LLM requests during fast typing.
+    m_debounceTimer = new QTimer(this);
+    m_debounceTimer->setSingleShot(true);
+    m_debounceTimer->setInterval(300);
+    connect(m_debounceTimer, &QTimer::timeout, this, [this]() {
+        // ##Condition purpose: Only fire the request if the view is still alive.
+        if (m_currentView && m_currentView->document()) {
+            m_client->requestCompletion(m_pendingPrefix, m_pendingSuffix);
+        }
     });
 }
 
@@ -23,6 +34,10 @@ AiCompletionModel::AiCompletionModel(QObject *parent)
 void AiCompletionModel::completionInvoked(KTextEditor::View *view, const KTextEditor::Range &range, InvocationType invocationType)
 {
     Q_UNUSED(invocationType);
+
+    // ##Condition purpose: Abort early if the view or document is invalid, before setting any model state.
+    if (!view || !view->document()) return;
+
     m_currentView = view;
     m_currentRange = range;
     
@@ -33,9 +48,6 @@ void AiCompletionModel::completionInvoked(KTextEditor::View *view, const KTextEd
     m_isWaiting = true;
     endResetModel();
 
-    // ##Condition purpose: Abort if the view or document is invalid.
-    if (!view || !view->document()) return;
-
     KTextEditor::Document *doc = view->document();
     QString prefix = doc->text(KTextEditor::Range(KTextEditor::Cursor(0, 0), range.end()));
     
@@ -44,7 +56,10 @@ void AiCompletionModel::completionInvoked(KTextEditor::View *view, const KTextEd
     int endCol = doc->lineLength(endLine);
     QString suffix = doc->text(KTextEditor::Range(range.end(), KTextEditor::Cursor(endLine, endCol)));
 
-    m_client->requestCompletion(prefix, suffix);
+    // ##Step purpose: Store context and debounce — the actual request fires after 300ms of inactivity.
+    m_pendingPrefix = prefix;
+    m_pendingSuffix = suffix;
+    m_debounceTimer->start();
 }
 
 // ##Method purpose: Updates the internal model list when the LLM returns a full buffered suggestion.

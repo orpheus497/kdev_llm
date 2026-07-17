@@ -34,6 +34,7 @@ find_package(Qt6 REQUIRED COMPONENTS
     Core
     Widgets
     Network
+    Sql
 )
 
 option(BUILD_TESTING "Build the testing tree" OFF)

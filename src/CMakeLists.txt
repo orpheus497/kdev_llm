@@ -6,8 +6,12 @@ set(kdevllm_SRCS
     KDevLLMPlugin.cpp
     ui/AiChatWidget.cpp
     ui/AiChatInputWidget.cpp
+    ui/ChatMessageModel.cpp
+    ui/ChatMessageDelegate.cpp
     context/ContextManager.cpp
     completion/AiCompletionModel.cpp
+    config/AiConfigPage.cpp
+    storage/ChatDatabase.cpp
 )
 
 kdevplatform_add_plugin(kdevllm
@@ -21,7 +25,10 @@ target_link_libraries(kdevllm
     KDev::Project
     KDev::Shell
     KDev::Language
+    KF6::ConfigCore
+    KF6::I18n
     Qt6::Core
     Qt6::Widgets
     Qt6::Network
+    Qt6::Sql
 )

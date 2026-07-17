@@ -244,7 +244,8 @@ QString AiChatInputWidget::text() const
 void AiChatInputWidget::setAvailableFiles(const QStringList &files)
 {
     if (m_fileModel) {
-        delete m_fileModel;
+        m_fileModel->deleteLater();
+        m_fileModel = nullptr;
     }
     m_fileModel = new QStringListModel(files, this);
     m_textEdit->setModels(m_fileModel);

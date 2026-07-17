@@ -6,6 +6,7 @@
 #include <QJsonDocument>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
+#include <QTimer>
 
 // ##Class purpose: Wrapper for asynchronous streaming network requests to the local LLM server.
 class LlamaClient : public QObject {
@@ -34,6 +35,12 @@ public:
 
     // ##Method purpose: Aborts any ongoing chat request.
     virtual void stopChat();
+
+    // ##Method purpose: Aborts any ongoing refactor request.
+    virtual void stopRefactor();
+
+    // ##Method purpose: Aborts any ongoing completion request.
+    virtual void stopCompletion();
 
 Q_SIGNALS:
     // ##Method purpose: Emitted when an inline completion response stream completes.
@@ -78,6 +85,7 @@ private:
     void checkInsecureEndpoint(const QString &scheme, const QString &host);
 
     QNetworkAccessManager *m_nam;
+    QTimer *m_requestTimer;
     QString m_endpointUrl = QStringLiteral("http://localhost:8080");
     QString m_completionBuffer;
     QString m_refactorBuffer;

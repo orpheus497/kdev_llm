@@ -1,4 +1,40 @@
+**Timestamp**: 2026-07-18 00:48
+* **Session Focus**: Critical bugfixes — settings crash, conversation history, timeout, thinking indicator.
+* **Accomplishments**:
+  - Fixed settings page crash: `reset()` was being called from constructor which triggered base-class `KDevelop::ConfigPage::reset()` that dereferences a null `KConfigDialogManager`. Added separate `loadSettings()` helper.
+  - Fixed timeout: Changed default from 60s → 600s in both `LlamaClient.cpp` and `AiConfigPage.cpp`. Raised max to 3600s.
+  - Fixed conversation history: Connected `AiChatInputWidget::newChatClicked` to `clearChat()`, fixed combo box selection tracking to highlight current conversation, fixed `refreshConversationList()` to preserve selection after repopulating.
+  - Added "Waiting for response..." thinking indicator: new `thinking` role in `ChatMessageModel`, auto-replaced by first LLM token, removed on error. Styled with subtle highlight tint in `ChatMessageDelegate`.
+  - Fixed scroll-to-bottom: Deferred via `QTimer::singleShot(0, ...)` so layout updates complete before scrolling.
+  - Build verified: zero warnings, zero errors.
+* **Modified Files**: AiConfigPage.h/cpp, LlamaClient.cpp, AiChatWidget.cpp, ChatMessageModel.h/cpp, ChatMessageDelegate.cpp.
+* **Root Causes**: Constructor calling `reset()` → null skeleton dereference; `newChatClicked` signal not connected; no visual feedback during LLM wait; 60s timeout too short for large responses.
+
+---
+
+**Timestamp**: 2026-07-18 00:34
+
+* **Session Focus**: Phase 24 — Comprehensive Codebase Audit, Stabilisation, and Native Chat UI.
+* **Accomplishments**:
+  - Completed full audit of all 12 source files, 6 test files, 13 mock files, 3 CMake configs.
+  - Identified and fixed 11 bugs (dangling pointers, memory leaks, missing timeout, missing HTTP validation, null-view dereference, uninitialised members, missing linker deps).
+  - Created 8 new files: ChatMessageModel.h/.cpp, ChatMessageDelegate.h/.cpp, AiConfigPage.h/.cpp, ChatDatabase.h/.cpp.
+  - Refactored AiChatWidget from QTextBrowser to native QListView + QStyledItemDelegate.
+  - Added SQLite-backed chat history with conversation browser (QComboBox).
+  - Added DUChain-powered @file context injection.
+  - Added KDevelop settings page (endpoint, model, timeout).
+  - Added 60-second network timeout and stopRefactor()/stopCompletion() methods.
+  - Added 300ms completion debouncing.
+  - Build verified: zero warnings, zero errors.
+* **Modified Files**: AiChatWidget.h/cpp, AiChatInputWidget.cpp, LlamaClient.h/cpp, AiCompletionModel.h/cpp, KDevLLMPlugin.h/cpp, ContextManager.h/cpp, src/CMakeLists.txt, CMakeLists.txt.
+* **Created Files**: ChatMessageModel.h/cpp, ChatMessageDelegate.h/cpp, AiConfigPage.h/cpp, ChatDatabase.h/cpp.
+* **Decisions**: SQLite for chat storage (user decision). Native Qt widgets for chat bubbles (user decision). Tests deferred (user decision). DUChain-first for @file extraction with 200-line fallback.
+* **Next Steps**: User testing in running KDevelop instance. Expand test coverage when ready. Add conversation deletion UI. Syntax highlighting in chat bubbles.
+
+---
+
 **Timestamp**: 2026-07-10 11:16
+
 * **Session Focus**: Fixing PR 22 issues (Security Journal overwrite, anchor handling, and test conflicts).
 * **Accomplishments**: Updated the Security Journal (`.jules/sentinel.md`) to append the new URL Security entry rather than overwrite the existing one. Confirmed `scrollToAnchor()` was already properly handled in `AiChatWidget.cpp`. Resolved test conflicts by retrieving `tests/TestAiChatWidget.cpp` from `main` and integrating the security vulnerability tests from the PR branch into the main test suite. Updated `tests/CMakeLists.txt` to properly build `TestAiChatWidget` and verified all tests pass.
 * **Modified Files**: `.jules/sentinel.md`, `tests/TestAiChatWidget.h`, `tests/TestAiChatWidget.cpp`, `tests/CMakeLists.txt`, `src/ui/AiChatWidget.h`.

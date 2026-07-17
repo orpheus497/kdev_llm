@@ -2,6 +2,7 @@
 #pragma once
 #include <KTextEditor/CodeCompletionModel>
 #include <QPointer>
+#include <QTimer>
 #include "../network/LlamaClient.h"
 
 // ##Class purpose: Integrates with Kate's autocomplete popup to fetch and display AI code suggestions.
@@ -30,8 +31,11 @@ private Q_SLOTS:
 
 private:
     LlamaClient *m_client;
+    QTimer *m_debounceTimer;
     QPointer<KTextEditor::View> m_currentView;
     KTextEditor::Range m_currentRange;
     QStringList m_completions;
     bool m_isWaiting = false;
+    QString m_pendingPrefix;
+    QString m_pendingSuffix;
 };

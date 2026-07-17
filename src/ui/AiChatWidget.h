@@ -1,18 +1,20 @@
-// ##Script function and purpose: Defines the UI widget for the AI chat panel, with Markdown rendering and streaming text support.
+// ##Script function and purpose: Defines the UI widget for the AI chat panel with native Qt list-based message display.
 #pragma once
 
 #include <QWidget>
 #include <QJsonArray>
 #include <QUrl>
 
-class QTextBrowser;
+class QListView;
+class QComboBox;
 class AiChatInputWidget;
-class QPushButton;
-class QVBoxLayout;
 class LlamaClient;
 class ContextManager;
+class ChatMessageModel;
+class ChatMessageDelegate;
+class ChatDatabase;
 
-// ##Class purpose: Manages the chat history display and input box for interacting with the AI.
+// ##Class purpose: Manages the native chat display, input, history persistence, and LLM streaming for the AI panel.
 class AiChatWidget : public QWidget {
     Q_OBJECT
     friend class TestAiChatWidget;
@@ -22,10 +24,6 @@ public:
     
     // ##Method purpose: Destructor.
     ~AiChatWidget() override = default;
-
-protected:
-    // ##Method purpose: Intercepts events, specifically the Enter key for sending messages.
-    bool eventFilter(QObject *watched, QEvent *event) override;
 
 private Q_SLOTS:
     // ##Method purpose: Triggered when the user clicks Send; packages the message.
@@ -43,24 +41,33 @@ private Q_SLOTS:
     // ##Method purpose: Triggered when the LlamaClient issues a security warning.
     void onWarning(const QString &warning);
 
-    // ##Method purpose: Clears the message history and resets the chat UI.
+    // ##Method purpose: Starts a new conversation, saving the current one to SQLite.
     void clearChat();
 
-    // ##Method purpose: Securely handles clicked links to prevent arbitrary scheme execution.
-    void onAnchorClicked(const QUrl &url);
+    // ##Method purpose: Loads a previous conversation from the history selector.
+    void loadConversation(int comboIndex);
 
 private:
-    // ##Method purpose: Refreshes the QTextBrowser with the accumulated markdown string.
-    void renderMarkdown();
-    
-    QPushButton *m_sendButton;
-    QPushButton *m_newChatButton;
-    QTextBrowser *m_chatHistory;
-    AiChatInputWidget *m_inputWidget;
-    
+    // ##Method purpose: Scrolls the list view to the bottom to show the latest message.
+    void scrollToBottom();
+
+    // ##Method purpose: Populates the conversation selector combo box from the database.
+    void refreshConversationList();
+
+    // ##Method purpose: Extracts @file references from user text and builds context string.
+    QString resolveFileReferences(const QString &text) const;
+
     LlamaClient *m_client;
     ContextManager *m_context;
+    ChatDatabase *m_database;
+    ChatMessageModel *m_messageModel;
+    ChatMessageDelegate *m_delegate;
+
+    QListView *m_chatView;
+    QComboBox *m_conversationSelector;
+    AiChatInputWidget *m_inputWidget;
+
+    qint64 m_currentConversationId = -1;
     QJsonArray m_messageHistory;
-    QString m_rawMarkdown;
     QString m_currentAssistantResponse;
 };

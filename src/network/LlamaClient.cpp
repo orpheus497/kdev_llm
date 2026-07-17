@@ -42,6 +42,18 @@ LlamaClient::LlamaClient(QObject *parent)
     KSharedConfig::Ptr config = KSharedConfig::openConfig();
     KConfigGroup group = config->group(QStringLiteral("KDevLLM"));
     m_endpointUrl = group.readEntry("EndpointUrl", QStringLiteral("http://127.0.0.1:8080"));
+
+    // ##Step purpose: Configure a single-shot timeout timer that aborts all active requests on expiry.
+    m_requestTimer = new QTimer(this);
+    m_requestTimer->setSingleShot(true);
+    int timeoutSecs = group.readEntry("Timeout", 600);
+    m_requestTimer->setInterval(timeoutSecs * 1000);
+    connect(m_requestTimer, &QTimer::timeout, this, [this]() {
+        if (m_chatReply) m_chatReply->abort();
+        if (m_completionReply) m_completionReply->abort();
+        if (m_refactorReply) m_refactorReply->abort();
+        Q_EMIT errorOccurred(QStringLiteral("Request timed out after %1 seconds.").arg(m_requestTimer->interval() / 1000));
+    });
 }
 
 // ##Method purpose: Update the server endpoint URL.
@@ -93,6 +105,7 @@ void LlamaClient::requestCompletion(const QString &prefix, const QString &suffix
     m_completionReply = m_nam->post(request, QJsonDocument(json).toJson());
     connect(m_completionReply, &QNetworkReply::readyRead, this, &LlamaClient::onCompletionReadyRead);
     connect(m_completionReply, &QNetworkReply::finished, this, &LlamaClient::onCompletionFinished);
+    m_requestTimer->start();
 }
 
 // ##Method purpose: Prepares and sends an HTTP POST request to the /chat/completions endpoint.
@@ -115,14 +128,34 @@ void LlamaClient::requestChat(const QJsonArray &messages)
     m_chatReply = m_nam->post(request, QJsonDocument(json).toJson());
     connect(m_chatReply, &QNetworkReply::readyRead, this, &LlamaClient::onChatReadyRead);
     connect(m_chatReply, &QNetworkReply::finished, this, &LlamaClient::onChatFinished);
+    m_requestTimer->start();
 }
 
 // ##Method purpose: Aborts any ongoing chat request.
 void LlamaClient::stopChat()
 {
+    m_requestTimer->stop();
     if (m_chatReply) {
         m_chatReply->abort();
         Q_EMIT chatResponseFinished();
+    }
+}
+
+// ##Method purpose: Aborts any ongoing refactor request.
+void LlamaClient::stopRefactor()
+{
+    m_requestTimer->stop();
+    if (m_refactorReply) {
+        m_refactorReply->abort();
+    }
+}
+
+// ##Method purpose: Aborts any ongoing completion request.
+void LlamaClient::stopCompletion()
+{
+    m_requestTimer->stop();
+    if (m_completionReply) {
+        m_completionReply->abort();
     }
 }
 
@@ -148,6 +181,7 @@ void LlamaClient::requestRefactor(const QString &promptText)
     m_refactorReply = m_nam->post(request, QJsonDocument(json).toJson());
     connect(m_refactorReply, &QNetworkReply::readyRead, this, &LlamaClient::onRefactorReadyRead);
     connect(m_refactorReply, &QNetworkReply::finished, this, &LlamaClient::onRefactorFinished);
+    m_requestTimer->start();
 }
 
 // ##Method purpose: Parses the SSE chunks from the /completion endpoint.
@@ -171,6 +205,7 @@ void LlamaClient::onCompletionReadyRead()
 // ##Method purpose: Handles completion of the /completion request.
 void LlamaClient::onCompletionFinished()
 {
+    m_requestTimer->stop();
     auto *reply = qobject_cast<QNetworkReply *>(sender());
     if (!reply) return;
     
@@ -180,7 +215,13 @@ void LlamaClient::onCompletionFinished()
             Q_EMIT errorOccurred(reply->errorString());
         }
     } else {
-        Q_EMIT completionReceived(m_completionBuffer);
+        // ##Condition purpose: Check for non-2xx HTTP status codes.
+        int httpStatus = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+        if (httpStatus < 200 || httpStatus >= 300) {
+            Q_EMIT errorOccurred(QStringLiteral("HTTP error %1").arg(httpStatus));
+        } else {
+            Q_EMIT completionReceived(m_completionBuffer);
+        }
     }
     
     if (reply == m_completionReply) {
@@ -217,6 +258,7 @@ void LlamaClient::onChatReadyRead()
 // ##Method purpose: Handles completion of the /chat/completions request.
 void LlamaClient::onChatFinished()
 {
+    m_requestTimer->stop();
     auto *reply = qobject_cast<QNetworkReply *>(sender());
     if (!reply) return;
     
@@ -226,7 +268,13 @@ void LlamaClient::onChatFinished()
             Q_EMIT errorOccurred(reply->errorString());
         }
     } else {
-        Q_EMIT chatResponseFinished();
+        // ##Condition purpose: Check for non-2xx HTTP status codes.
+        int httpStatus = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+        if (httpStatus < 200 || httpStatus >= 300) {
+            Q_EMIT errorOccurred(QStringLiteral("HTTP error %1").arg(httpStatus));
+        } else {
+            Q_EMIT chatResponseFinished();
+        }
     }
     
     if (reply == m_chatReply) {
@@ -249,6 +297,7 @@ void LlamaClient::onRefactorReadyRead()
 // ##Method purpose: Handles completion of the refactor request.
 void LlamaClient::onRefactorFinished()
 {
+    m_requestTimer->stop();
     auto *reply = qobject_cast<QNetworkReply *>(sender());
     if (!reply) return;
     
@@ -257,21 +306,27 @@ void LlamaClient::onRefactorFinished()
             Q_EMIT errorOccurred(reply->errorString());
         }
     } else {
-        // Strip out the wrapping markdown syntax from the LLM's response
-        QString clean = m_refactorBuffer.trimmed();
-        if (clean.startsWith(QStringLiteral("```"))) {
-            int newlineIdx = clean.indexOf(QLatin1Char('\n'));
-            if (newlineIdx != -1) {
-                clean = clean.mid(newlineIdx + 1);
-            } else {
-                clean.remove(0, 3);
+        // ##Condition purpose: Check for non-2xx HTTP status codes.
+        int httpStatus = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+        if (httpStatus < 200 || httpStatus >= 300) {
+            Q_EMIT errorOccurred(QStringLiteral("HTTP error %1").arg(httpStatus));
+        } else {
+            // Strip out the wrapping markdown syntax from the LLM's response
+            QString clean = m_refactorBuffer.trimmed();
+            if (clean.startsWith(QStringLiteral("```"))) {
+                int newlineIdx = clean.indexOf(QLatin1Char('\n'));
+                if (newlineIdx != -1) {
+                    clean = clean.mid(newlineIdx + 1);
+                } else {
+                    clean.remove(0, 3);
+                }
             }
+            if (clean.endsWith(QStringLiteral("```"))) {
+                clean.chop(3);
+            }
+            clean = clean.trimmed();
+            Q_EMIT refactorReceived(clean);
         }
-        if (clean.endsWith(QStringLiteral("```"))) {
-            clean.chop(3);
-        }
-        clean = clean.trimmed();
-        Q_EMIT refactorReceived(clean);
     }
     
     if (reply == m_refactorReply) {

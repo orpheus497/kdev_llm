@@ -27,12 +27,17 @@ public:
     void unload() override;
     KDevelop::ContextMenuExtension contextMenuExtension(KDevelop::Context* context, QWidget* parent) override;
 
+    // ##Method purpose: Returns the number of config pages provided by this plugin.
+    int configPages() const override;
+    // ##Method purpose: Returns the config page widget for the given index.
+    KDevelop::ConfigPage* configPage(int number, QWidget *parent) override;
+
 private Q_SLOTS:
     void requestAiRefactor(KTextEditor::View* view);
     void onRefactorReceived(const QString &text);
 
 private:
-    AiToolViewFactory* m_factory;
+    AiToolViewFactory* m_factory = nullptr;
     AiCompletionModel* m_completionModel;
     LlamaClient* m_refactorClient;
     KTextEditor::MovingRange* m_currentRefactorRange = nullptr;
