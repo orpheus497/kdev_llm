@@ -104,13 +104,15 @@ QString ContextManager::getProjectRoot(KTextEditor::Document *doc) const
 
     // Fallback to directory scanning if not in a KDevelop project
     QDir dir = QFileInfo(filePath).absoluteDir();
-    while (dir.absolutePath() != QStringLiteral("/")) {
+    while (true) {
         if (dir.exists(QStringLiteral(".git")) || dir.exists(QStringLiteral("CMakeLists.txt"))) {
             QString rootPath = dir.absolutePath();
             m_projectRootCache.insert(filePath, new QString(rootPath));
             return rootPath;
         }
-        dir.cdUp();
+        if (dir.isRoot() || !dir.cdUp()) {
+            break;
+        }
     }
 
     m_projectRootCache.insert(filePath, new QString());
