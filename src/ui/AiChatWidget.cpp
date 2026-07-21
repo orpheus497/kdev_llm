@@ -20,6 +20,7 @@
 #include <QSet>
 #include <QTimer>
 #include <QDir>
+#include <KLocalizedString>
 #include <QFileInfo>
 
 #include <interfaces/icore.h>
@@ -51,11 +52,11 @@ AiChatWidget::AiChatWidget(QWidget *parent)
     m_conversationSelector->setToolTip(QStringLiteral("Select a previous conversation"));
     toolbar->addWidget(m_conversationSelector);
 
-    auto *newChatBtn = new QPushButton(QIcon::fromTheme(QStringLiteral("document-new")), QStringLiteral("New"), this);
+    auto *newChatBtn = new QPushButton(QIcon::fromTheme(QStringLiteral("document-new")), i18n("New"), this);
     newChatBtn->setToolTip(QStringLiteral("Start a new conversation"));
     toolbar->addWidget(newChatBtn);
 
-    m_deleteBtn = new QPushButton(QIcon::fromTheme(QStringLiteral("edit-delete")), QStringLiteral("Delete"), this);
+    m_deleteBtn = new QPushButton(QIcon::fromTheme(QStringLiteral("edit-delete")), i18n("Delete"), this);
     m_deleteBtn->setToolTip(QStringLiteral("Delete the selected conversation"));
     m_deleteBtn->setEnabled(false);
     toolbar->addWidget(m_deleteBtn);
