@@ -95,6 +95,9 @@ QString ContextManager::getProjectRoot(KTextEditor::Document *doc) const
     }
     
     QString filePath = doc->url().toLocalFile();
+    if (filePath.isEmpty()) {
+        return QString();
+    }
     if (QString* cachedRoot = m_projectRootCache.object(filePath)) {
         return *cachedRoot;
     }
