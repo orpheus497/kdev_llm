@@ -82,3 +82,5 @@
 
 **Timestamp**: 2026-07-02 12:39
 * **2026-07-02 12:39**: Generated `.devdocs/` initialization files.
+2026-07-21 00:22
+- Secured directory traversal logic against infinite loops in `ContextManager.cpp`.

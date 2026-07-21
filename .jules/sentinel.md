@@ -7,3 +7,8 @@
 **Vulnerability:** XSS/HTML Injection in QTextBrowser via Markdown
 **Learning:** `QTextBrowser::setMarkdown` enables HTML rendering by default. Thus, when passing untrusted output to it, any embedded HTML tags are rendered, which can lead to XSS/Script Execution in Qt.
 **Prevention:** Configure the underlying `QTextDocument` directly by passing `QTextDocument::MarkdownNoHTML` to `QTextDocument::setMarkdown()`. This disables rendering raw HTML while keeping Markdown parsing active.
+
+## 2024-05-24 - Infinite Loop DoS in Directory Traversal
+**Vulnerability:** An infinite loop DoS vector was found in `ContextManager::getProjectRoot` during directory traversal.
+**Learning:** Comparing a path string to `QStringLiteral("/")` to stop traversal fails on non-Unix OSs (like Windows where root is `C:/`) or if `dir.cdUp()` fails silently, causing the loop to run indefinitely while consuming CPU resources.
+**Prevention:** When traversing up a directory tree using `QDir`, always rely on `QDir::isRoot()` as the loop terminator and check the return value of `dir.cdUp()` to safely break on traversal failure.
