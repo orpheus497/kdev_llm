@@ -16,6 +16,7 @@
 #include <project/projectmodel.h>
 #include <util/path.h>
 #include <QStringBuilder>
+#include <QFileSystemWatcher>
 
 // ##Method purpose: Helper to extract semantic context from KDevelop DUChain AST
 static QString getSemanticASTString(KTextEditor::View *view, const QString &header)
@@ -138,15 +139,40 @@ QString ContextManager::getAgentsInstruction(const QString &projectRoot) const
         // ##Condition purpose: Prevent path traversal via symlinks.
         if (!canonFile.startsWith(canonRoot)) continue;
 
+        // ##Condition purpose: Return cached agent instructions if available.
+        auto it = m_agentsCache.constFind(canonFile);
+        if (it != m_agentsCache.constEnd()) {
+            return *it;
+        }
+
         QFile file(canonFile);
         
         // ##Condition purpose: Only read the file if we can successfully open it.
         if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
             QTextStream in(&file);
-            return in.readAll();
+            QString content = in.readAll();
+
+            // ##Step purpose: Ensure file is watched for changes to invalidate cache properly.
+            if (!m_fileWatcher) {
+                m_fileWatcher = new QFileSystemWatcher(const_cast<ContextManager*>(this));
+                connect(m_fileWatcher, &QFileSystemWatcher::fileChanged,
+                        this, &ContextManager::onAgentsFileChanged);
+            }
+            m_fileWatcher->addPath(canonFile);
+
+            // ##Action purpose: Cache the content now that an invalidation path is guaranteed.
+            m_agentsCache.insert(canonFile, content);
+
+            return content;
         }
     }
     return QString();
+}
+
+// ##Method purpose: Slot to clear cache entry when the underlying AGENTS.md file changes on disk.
+void ContextManager::onAgentsFileChanged(const QString &path)
+{
+    m_agentsCache.remove(path);
 }
 
 QString ContextManager::buildSystemPrompt(KTextEditor::View *view) const

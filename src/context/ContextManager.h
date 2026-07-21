@@ -3,6 +3,8 @@
 #include <QObject>
 #include <QString>
 #include <QUrl>
+#include <QHash>
+#include <QFileSystemWatcher>
 #include <KTextEditor/Document>
 #include <KTextEditor/View>
 
@@ -42,4 +44,12 @@ public:
 
     // ##Method purpose: Returns the list of project file paths for @file autocompletion.
     QStringList getProjectFiles() const;
+
+private Q_SLOTS:
+    // ##Method purpose: Removes the specified file from the cache when it is modified.
+    void onAgentsFileChanged(const QString &path);
+
+private:
+    mutable QHash<QString, QString> m_agentsCache;
+    mutable QFileSystemWatcher* m_fileWatcher = nullptr;
 };
