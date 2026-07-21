@@ -103,17 +103,13 @@ QString ContextManager::getProjectRoot(KTextEditor::Document *doc) const
     }
     // ##Action purpose: Check cache before expensive traversal; rely on file watcher to evict stale entries.
     if (QString* cachedRoot = m_projectRootCache.object(filePath)) {
-        if (cachedRoot->isEmpty()) {
-            return QString();
-        } else {
-            return *cachedRoot;
-        }
+        return *cachedRoot;
     }
 
     // Fallback to directory scanning if not in a KDevelop project
     // ##Action purpose: Begin scanning upwards from the document's directory.
     QDir dir = QFileInfo(filePath).absoluteDir();
-    // ##Loop purpose: Traverse upwards checking for root markers until we hit the root or an established cached state.
+    // ##Loop purpose: Traverse upwards checking for root markers until we hit the root.
     while (true) {
         // ##Condition purpose: Identify standard project root markers and cache/return if found.
         if (dir.exists(QStringLiteral(".git")) || dir.exists(QStringLiteral("CMakeLists.txt"))) {
