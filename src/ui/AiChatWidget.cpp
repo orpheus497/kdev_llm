@@ -185,8 +185,8 @@ QString AiChatWidget::resolveFileReferences(const QString &text) const
         QString resolvedPath = resolveFilePath(rawPath);
         // ##Action purpose: Generate a canonical path key for safe duplication checks.
         QString normalizedKey = QFileInfo(resolvedPath).canonicalFilePath();
-        // ##Condition purpose: Fallback to the original resolved path if canonicalization fails.
-        if (normalizedKey.isEmpty()) normalizedKey = resolvedPath;
+        // ##Condition purpose: Fallback to a cleaned resolved path if canonicalization fails.
+        if (normalizedKey.isEmpty()) normalizedKey = QDir::cleanPath(resolvedPath);
 
         // ##Condition purpose: Prevent duplication of already extracted file context.
         if (resolvedPath.isEmpty() || processedPaths.contains(normalizedKey)) {
