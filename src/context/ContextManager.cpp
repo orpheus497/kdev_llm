@@ -101,13 +101,13 @@ QString ContextManager::getProjectRoot(KTextEditor::Document *doc) const
     if (filePath.isEmpty()) {
         return QString();
     }
-    // ##Action purpose: Check cache before expensive traversal.
-    // ##Condition purpose: Extract the cached root, track its limit, and differentiate negative entries.
-    QString targetLimit;
-    bool hasCache = false;
+    // ##Action purpose: Check cache before expensive traversal; rely on file watcher to evict stale entries.
     if (QString* cachedRoot = m_projectRootCache.object(filePath)) {
-        hasCache = true;
-        targetLimit = cachedRoot->isEmpty() ? QStringLiteral("//__EMPTY__") : *cachedRoot;
+        if (cachedRoot->isEmpty()) {
+            return QString();
+        } else {
+            return *cachedRoot;
+        }
     }
 
     // Fallback to directory scanning if not in a KDevelop project
@@ -122,28 +122,14 @@ QString ContextManager::getProjectRoot(KTextEditor::Document *doc) const
             return rootPath;
         }
 
-        // ##Condition purpose: Evaluate if we've reached a previous cache evaluation boundary without a hit.
-        if (hasCache) {
-            if (targetLimit == QStringLiteral("//__EMPTY__")) {
-                if (dir.isRoot()) {
-                    return QString();
-                }
-            } else if (dir.absolutePath() == targetLimit) {
-                // ##Action purpose: Invalidate the cache by letting it scan past the old invalid limit.
-                hasCache = false;
-            }
-        }
-
         // ##Condition purpose: Break if we reach the absolute filesystem root or fail to traverse upwards.
         if (dir.isRoot() || !dir.cdUp()) {
             break;
         }
     }
 
-    // ##Condition purpose: Cache empty string if no project root found and we aren't duplicating a negative cache hit.
-    if (!hasCache || targetLimit != QStringLiteral("//__EMPTY__")) {
-        m_projectRootCache.insert(filePath, new QString());
-    }
+    // ##Action purpose: Cache empty string if no project root found and we aren't duplicating a negative cache hit.
+    m_projectRootCache.insert(filePath, new QString());
     return QString();
 }
 
