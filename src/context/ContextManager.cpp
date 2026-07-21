@@ -16,6 +16,7 @@
 #include <project/projectmodel.h>
 #include <util/path.h>
 #include <QStringBuilder>
+#include <QFileSystemWatcher>
 
 // ##Method purpose: Helper to extract semantic context from KDevelop DUChain AST
 static QString getSemanticASTString(KTextEditor::View *view, const QString &header)
@@ -136,15 +137,37 @@ QString ContextManager::getAgentsInstruction(const QString &projectRoot) const
         // ##Condition purpose: Prevent path traversal via symlinks.
         if (!canonFile.startsWith(canonRoot)) continue;
 
+        if (m_agentsCache.contains(canonFile)) {
+            return m_agentsCache.value(canonFile);
+        }
+
         QFile file(canonFile);
         
         // ##Condition purpose: Only read the file if we can successfully open it.
         if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
             QTextStream in(&file);
-            return in.readAll();
+            QString content = in.readAll();
+
+            m_agentsCache.insert(canonFile, content);
+
+            if (!m_fileWatcher) {
+                m_fileWatcher = new QFileSystemWatcher(const_cast<ContextManager*>(this));
+                connect(m_fileWatcher, &QFileSystemWatcher::fileChanged,
+                        this, &ContextManager::onAgentsFileChanged);
+            }
+            if (!m_fileWatcher->files().contains(canonFile)) {
+                m_fileWatcher->addPath(canonFile);
+            }
+
+            return content;
         }
     }
     return QString();
+}
+
+void ContextManager::onAgentsFileChanged(const QString &path)
+{
+    m_agentsCache.remove(path);
 }
 
 QString ContextManager::buildSystemPrompt(KTextEditor::View *view) const
