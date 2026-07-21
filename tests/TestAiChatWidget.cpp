@@ -44,6 +44,15 @@ int TestAiChatWidget::runTests() {
     } else {
         std::cout << "testMarkdownSecurity PASSED\n";
     }
+
+    std::cout << "Running testFileContextAggregation...\n";
+    if (!testFileContextAggregation()) {
+        std::cerr << "testFileContextAggregation FAILED\n";
+        failed++;
+    } else {
+        std::cout << "testFileContextAggregation PASSED\n";
+    }
+
     if (failed == 0) {
         std::cout << "All tests passed!\n";
     } else {
@@ -166,6 +175,68 @@ bool TestAiChatWidget::testMarkdownSecurity() {
         return false;
     }
 }
+
+bool TestAiChatWidget::testFileContextAggregation() {
+    AiChatWidget widget;
+
+    // First message references a file
+    widget.sendMessage(QStringLiteral("Review @src/main.cpp"));
+
+    // Setup some dummy state to mimic a loaded conversation
+    QJsonObject firstUserMsg;
+    firstUserMsg[QStringLiteral("role")] = QStringLiteral("user");
+    firstUserMsg[QStringLiteral("content")] = QStringLiteral("Review @src/main.cpp");
+    widget.m_messageHistory.append(firstUserMsg);
+
+    // Second message references another file
+    widget.sendMessage(QStringLiteral("Now check @src/utils.cpp"));
+
+    // And append to history
+    QJsonObject secondUserMsg;
+    secondUserMsg[QStringLiteral("role")] = QStringLiteral("user");
+    secondUserMsg[QStringLiteral("content")] = QStringLiteral("Now check @src/utils.cpp");
+    widget.m_messageHistory.append(secondUserMsg);
+
+    // Third message references the first file again
+    widget.sendMessage(QStringLiteral("Let's look at @src/main.cpp again"));
+
+    // Extract the system prompt to verify all contexts exist exactly once
+    if (widget.m_messageHistory.isEmpty()) {
+        std::cerr << "Message history is empty!\n";
+        return false;
+    }
+
+    QJsonObject sysMsg = widget.m_messageHistory.first().toObject();
+    if (sysMsg[QStringLiteral("role")].toString() != QStringLiteral("system")) {
+        std::cerr << "First message is not system prompt!\n";
+        return false;
+    }
+
+    QString content = sysMsg[QStringLiteral("content")].toString();
+
+    // Both files should be in the context block
+    if (!content.contains(QStringLiteral("--- Referenced File Context (@src/main.cpp) ---"))) {
+        std::cerr << "Missing context for src/main.cpp\n";
+        return false;
+    }
+
+    if (!content.contains(QStringLiteral("--- Referenced File Context (@src/utils.cpp) ---"))) {
+        std::cerr << "Missing context for src/utils.cpp\n";
+        return false;
+    }
+
+    // Check for duplicates
+    int firstOccurrence = content.indexOf(QStringLiteral("--- Referenced File Context (@src/main.cpp) ---"));
+    int lastOccurrence = content.lastIndexOf(QStringLiteral("--- Referenced File Context (@src/main.cpp) ---"));
+
+    if (firstOccurrence != lastOccurrence) {
+        std::cerr << "Duplicate context found for src/main.cpp\n";
+        return false;
+    }
+
+    return true;
+}
+
 // ##Function purpose: Application entry point for running the standalone test suite.
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);

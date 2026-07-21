@@ -52,10 +52,12 @@ AiChatWidget::AiChatWidget(QWidget *parent)
     m_conversationSelector->setToolTip(QStringLiteral("Select a previous conversation"));
     toolbar->addWidget(m_conversationSelector);
 
+    // ##Action purpose: Create a 'New Chat' button.
     auto *newChatBtn = new QPushButton(QIcon::fromTheme(QStringLiteral("document-new")), i18n("New"), this);
     newChatBtn->setToolTip(QStringLiteral("Start a new conversation"));
     toolbar->addWidget(newChatBtn);
 
+    // ##Action purpose: Create a 'Delete Chat' button.
     m_deleteBtn = new QPushButton(QIcon::fromTheme(QStringLiteral("edit-delete")), i18n("Delete"), this);
     m_deleteBtn->setToolTip(QStringLiteral("Delete the selected conversation"));
     m_deleteBtn->setEnabled(false);
@@ -181,8 +183,14 @@ QString AiChatWidget::resolveFileReferences(const QString &text) const
 
         // ##Step purpose: Resolve the path against the project root before extracting context.
         QString resolvedPath = resolveFilePath(rawPath);
-        if (resolvedPath.isEmpty() || processedPaths.contains(resolvedPath)) continue;
-        processedPaths.insert(resolvedPath);
+        QString normalizedKey = QFileInfo(resolvedPath).canonicalFilePath();
+        if (normalizedKey.isEmpty()) normalizedKey = resolvedPath;
+
+        // ##Condition purpose: Prevent duplication of already extracted file context.
+        if (resolvedPath.isEmpty() || processedPaths.contains(normalizedKey)) {
+            continue;
+        }
+        processedPaths.insert(normalizedKey);
 
         QString fileContext = m_context->extractRelevantFileContext(resolvedPath);
         if (!fileContext.isEmpty()) {
@@ -223,8 +231,10 @@ void AiChatWidget::sendMessage(const QString &text)
 
     // ##Step purpose: Resolve any @file references from the entire conversation and append their context to the system prompt.
     QString allTextForRefs = text;
+    // ##Loop purpose: Accumulate user messages to correctly resolve all historical file context.
     for (const auto &msg : m_messageHistory) {
         QJsonObject obj = msg.toObject();
+        // ##Condition purpose: Extract only user message content for file references.
         if (obj[QStringLiteral("role")].toString() == QStringLiteral("user")) {
             allTextForRefs += QStringLiteral(" ") + obj[QStringLiteral("content")].toString();
         }
