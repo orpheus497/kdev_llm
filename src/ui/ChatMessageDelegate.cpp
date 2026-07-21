@@ -38,7 +38,7 @@ QTextDocument* ChatMessageDelegate::createDoc(const QString &content, const QStr
 
     // ##Condition purpose: Use markdown for assistant content, plain text for everything else.
     if (role == QStringLiteral("assistant")) {
-        doc->setMarkdown(content, QTextDocument::MarkdownDialectGitHub);
+        doc->setMarkdown(content, QTextDocument::MarkdownDialectGitHub | QTextDocument::MarkdownNoHTML);
     } else {
         doc->setPlainText(content);
     }
