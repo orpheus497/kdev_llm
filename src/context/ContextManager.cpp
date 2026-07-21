@@ -103,12 +103,16 @@ QString ContextManager::getProjectRoot(KTextEditor::Document *doc) const
     }
     // ##Action purpose: Check cache before expensive traversal.
     if (QString* cachedRoot = m_projectRootCache.object(filePath)) {
-        // ##Action purpose: Invalidate cache if standard marker missing.
-        QDir rootDir(*cachedRoot);
-        if (!cachedRoot->isEmpty() && !rootDir.exists(QStringLiteral(".git")) && !rootDir.exists(QStringLiteral("CMakeLists.txt"))) {
+        // ##Action purpose: Invalidate cache if standard marker missing or if negative entry needs rescan.
+        if (cachedRoot->isEmpty()) {
             m_projectRootCache.remove(filePath);
         } else {
-            return *cachedRoot;
+            QDir rootDir(*cachedRoot);
+            if (!rootDir.exists(QStringLiteral(".git")) && !rootDir.exists(QStringLiteral("CMakeLists.txt"))) {
+                m_projectRootCache.remove(filePath);
+            } else {
+                return *cachedRoot;
+            }
         }
     }
 

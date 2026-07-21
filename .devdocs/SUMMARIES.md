@@ -1,5 +1,6 @@
+# Historical Session Summaries
 **Timestamp**: 2026-07-21 00:22
-* **2026-07-21 00:22**: Secured directory traversal logic against infinite loops in `ContextManager.cpp`.
+* **Directory Traversal Safety**: Secured directory traversal logic against infinite loops in `ContextManager.cpp`.
 
 **Timestamp**: 2026-07-10 11:16
 * **Summary**: Fixed PR 22 issues by appending the new URL Security entry to the Security Journal (`.jules/sentinel.md`) instead of overwriting the previous one. Confirmed `QTextBrowser` is correctly using `scrollToAnchor()` for relative links. Resolved test file conflicts in `TestAiChatWidget` by merging the logic from the `main` branch with the security vulnerability checks from the PR branch, ensuring both chat and security tests pass successfully.
@@ -30,7 +31,6 @@
 - Integrated `IDocumentController` for foolproof code completion injection.
 - Rebranded the plugin to "JCA KDev Plugin" and the UI to "Jenova C.A." per user instruction.
 - Brought the README.md up-to-date with the new branding, DUChain functionality, and KDevelop installation instructions.
-# Historical Session Summaries
 
 **Timestamp**: 2026-07-03 01:43
 * **Phase 14 (Cleanup)**: Deleted the old Kate `src` codebase, promoted `src_kdevelop` to `src`, updated `CMakeLists.txt`, and documented KDevelop installation and testing instructions in `README.md`.
