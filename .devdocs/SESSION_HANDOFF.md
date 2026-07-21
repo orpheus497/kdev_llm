@@ -254,3 +254,8 @@
 **Timestamp**: 2026-07-11 17:19
 
 * **Chat UI and Memory Overhaul (Phase 23)**: Analyzed user requirements for Stop button, chat history persistence, expandable thinking bubbles, and modern chat UI bubbles. Documented these requirements in BLUEPRINT.md and BRIEFING.md. Next up: implement the Stop button and basic JSON-based chat history saving.
+2026-07-21 00:22
+- Accomplishments: Fixed DoS vulnerability in `ContextManager::getProjectRoot` where directory traversal could loop infinitely. Replaced hardcoded `"/"` check with `dir.isRoot()` and checked `cdUp()` return value.
+- Modified Files: `src/context/ContextManager.cpp`
+- Decisions: Relied on QDir standard methods to ensure cross-platform compatibility and robustness. Verified with standalone script due to missing KDE dev headers.
+- Next Steps: Submit PR.
