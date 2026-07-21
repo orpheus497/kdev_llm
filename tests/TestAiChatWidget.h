@@ -26,4 +26,7 @@ private:
 
     // ##Method purpose: Tests that markdown rendering does not allow unsanitized HTML execution.
     static bool testMarkdownSecurity();
+
+    // ##Method purpose: Tests that file references from previous messages are retained in the system prompt without duplicates.
+    static bool testFileContextAggregation();
 };

@@ -31,6 +31,11 @@ QTextDocument* ChatMessageDelegate::createDoc(const QString &content, const QStr
     doc->setTextWidth(layoutWidth);
     doc->setDocumentMargin(0);
 
+    // ##Step purpose: Ensure text wrapping properly handles long uninterrupted strings like URLs or code blocks.
+    QTextOption opt = doc->defaultTextOption();
+    opt.setWrapMode(QTextOption::WrapAtWordBoundaryOrAnywhere);
+    doc->setDefaultTextOption(opt);
+
     // ##Condition purpose: Use markdown for assistant content, plain text for everything else.
     if (role == QStringLiteral("assistant")) {
         doc->setMarkdown(content, QTextDocument::MarkdownDialectGitHub);
