@@ -4,10 +4,17 @@
 
 ## Status
 - **Current Phase**: PR 47 Merge Conflict Resolution — **COMPLETE**.
-- **Step**: Resolved conflicts in sentinel journal, context manager, and test suites.
+- **Step**: Resolved conflicts in sentinel journal, context manager, and test suites, merging PR 49 and PR 47 changes.
 - **Progress**: 100%.
 
 ## Previous Session Accomplishments
+- Resolved PR 47 merge conflicts across the codebase:
+  - Resolved sentinel journal append formatting conflicts.
+  - Integrated both `testDeleteConversation()` and `testFileContextAggregation()` into the test suite.
+- Resolved PR #49 review issues on the branch:
+  - Refactored `QMessageBox::question` conversation delete confirmation into a virtual protected method `askDeletionConfirmation()` inside `AiChatWidget`.
+  - Added unit test coverage for conversation deletion in `TestAiChatWidget` using a `TestableAiChatWidget` mock subclass.
+  - Configured `QMessageBox::question` default button explicitly to `QMessageBox::No` and refined annotations.
 - Completed full audit of all source/test/build files.
 - Executed 6-phase implementation plan:
   - Phase A: Critical bug fixes (dangling pointers, stale range, response validation).
