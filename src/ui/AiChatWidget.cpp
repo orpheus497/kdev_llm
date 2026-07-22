@@ -22,6 +22,7 @@
 #include <QDir>
 #include <KLocalizedString>
 #include <QFileInfo>
+#include <QMessageBox>
 
 #include <interfaces/icore.h>
 #include <interfaces/idocumentcontroller.h>
@@ -393,6 +394,14 @@ void AiChatWidget::deleteCurrentConversation()
     qint64 convId = m_conversationSelector->itemData(idx).toLongLong();
     // ##Condition purpose: Ignore the placeholder entry.
     if (convId <= 0) return;
+
+    QMessageBox::StandardButton reply;
+    reply = QMessageBox::question(this, i18n("Confirm Delete"),
+                                  i18n("Are you sure you want to delete this conversation?"),
+                                  QMessageBox::Yes | QMessageBox::No);
+    if (reply != QMessageBox::Yes) {
+        return;
+    }
 
     m_database->deleteConversation(convId);
 
