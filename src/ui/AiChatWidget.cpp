@@ -22,6 +22,7 @@
 #include <QDir>
 #include <KLocalizedString>
 #include <QFileInfo>
+#include <QMessageBox>
 
 #include <interfaces/icore.h>
 #include <interfaces/idocumentcontroller.h>
@@ -386,6 +387,17 @@ void AiChatWidget::loadConversation(int comboIndex)
     m_conversationSelector->setCurrentIndex(comboIndex);
 }
 
+// ##Method purpose: Prompts the user to confirm conversation deletion.
+QMessageBox::StandardButton AiChatWidget::askDeletionConfirmation()
+{
+    // ##Step purpose: Display standard question box for deletion confirmation.
+    // ##Action purpose: Prompt user via QMessageBox::question dialog with QMessageBox::No as default.
+    return QMessageBox::question(this, i18n("Confirm Delete"),
+                                  i18n("Are you sure you want to delete this conversation?"),
+                                  QMessageBox::Yes | QMessageBox::No,
+                                  QMessageBox::No);
+}
+
 // ##Method purpose: Deletes the conversation selected in the combo box from SQLite.
 void AiChatWidget::deleteCurrentConversation()
 {
@@ -393,6 +405,13 @@ void AiChatWidget::deleteCurrentConversation()
     qint64 convId = m_conversationSelector->itemData(idx).toLongLong();
     // ##Condition purpose: Ignore the placeholder entry.
     if (convId <= 0) return;
+
+    // ##Step purpose: Request user confirmation before deletion.
+    QMessageBox::StandardButton reply = askDeletionConfirmation();
+    // ##Condition purpose: Abort deletion if confirmation was not approved.
+    if (reply != QMessageBox::Yes) {
+        return;
+    }
 
     m_database->deleteConversation(convId);
 

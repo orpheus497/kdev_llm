@@ -1,3 +1,15 @@
+**Timestamp**: 2026-07-22 13:45
+
+## UI: Explicit Default Button for Deletion Confirmation
+* **Decision**: Set the default button in `QMessageBox::question` explicitly to `QMessageBox::No`. Added standard `// ##Action purpose` and verified `// ##Step purpose` and `// ##Condition purpose` annotations.
+* **Justification**: Setting the default button to "No" prevents accidental destructive actions when the dialog is prompt-focused and immediately confirmed (e.g. by hitting enter). Annotations conform to codebase-wide prefix guidelines.
+
+**Timestamp**: 2026-07-22 13:41
+
+## Testing: Headless-Safe Deletion Prompts
+* **Decision**: Refactored the interactive `QMessageBox::question` dialog in `AiChatWidget::deleteCurrentConversation()` into a virtual protected method `askDeletionConfirmation()`. Overrode this method in a subclass `TestableAiChatWidget` inside the test suite to bypass GUI blocking.
+* **Justification**: Executing blocking GUI prompts during automated tests in offscreen environments (`QT_QPA_PLATFORM=offscreen`) stalls the pipeline indefinitely. Abstracting the confirmation into a virtual method allows clean mocking and full coverage of the deletion codepath without requiring user input.
+
 **Timestamp**: 2026-07-06 06:49\n* Successfully untracked massive local build cache directory (over 45k files) that was previously polluting the repository state.\n* Restructured the src/CMakeLists.txt to properly embed JSON metadata using KDevelop's kdevplatform_add_plugin macro, restoring standard KDevelop KF6 plugin discovery conventions.\n* Removed non-standard hotfix instructions from the README, restoring a standard KDE CMake build command set.\n\n**Timestamp**: 2026-07-03 04:14
 
 ## UI: Dynamic Layouts & Native Wrapping
