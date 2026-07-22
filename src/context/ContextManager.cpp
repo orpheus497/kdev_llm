@@ -142,8 +142,8 @@ QString ContextManager::getAgentsInstruction(const QString &projectRoot) const
         // ##Condition purpose: Prevent path traversal via symlinks.
         if (!canonFile.startsWith(canonRoot)) continue;
 
-        auto it = m_agentsCache.constFind(canonFile);
         // ##Condition purpose: Return cached agent instructions if available.
+        auto it = m_agentsCache.constFind(canonFile);
         if (it != m_agentsCache.constEnd()) {
             return *it;
         }

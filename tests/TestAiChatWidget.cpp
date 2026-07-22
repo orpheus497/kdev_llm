@@ -194,9 +194,20 @@ bool TestAiChatWidget::testFileContextAggregation() {
     // ##Action purpose: Send the first message with a file reference.
     widget.sendMessage(QStringLiteral("Review @src/main.cpp"));
 
+    // Setup some dummy state to mimic a loaded conversation
+    QJsonObject firstUserMsg;
+    firstUserMsg[QStringLiteral("role")] = QStringLiteral("user");
+    firstUserMsg[QStringLiteral("content")] = QStringLiteral("Review @src/main.cpp");
+    widget.m_messageHistory.append(firstUserMsg);
+
     // ##Action purpose: Send the second message with a different file reference.
     widget.sendMessage(QStringLiteral("Now check @src/utils.cpp"));
 
+    // And append to history
+    QJsonObject secondUserMsg;
+    secondUserMsg[QStringLiteral("role")] = QStringLiteral("user");
+    secondUserMsg[QStringLiteral("content")] = QStringLiteral("Now check @src/utils.cpp");
+    widget.m_messageHistory.append(secondUserMsg);
     // ##Action purpose: Send the third message repeating the first file reference.
     widget.sendMessage(QStringLiteral("Let's look at @src/main.cpp again"));
 
