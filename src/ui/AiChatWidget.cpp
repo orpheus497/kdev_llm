@@ -391,9 +391,11 @@ void AiChatWidget::loadConversation(int comboIndex)
 QMessageBox::StandardButton AiChatWidget::askDeletionConfirmation()
 {
     // ##Step purpose: Display standard question box for deletion confirmation.
+    // ##Action purpose: Prompt user via QMessageBox::question dialog with QMessageBox::No as default.
     return QMessageBox::question(this, i18n("Confirm Delete"),
                                   i18n("Are you sure you want to delete this conversation?"),
-                                  QMessageBox::Yes | QMessageBox::No);
+                                  QMessageBox::Yes | QMessageBox::No,
+                                  QMessageBox::No);
 }
 
 // ##Method purpose: Deletes the conversation selected in the combo box from SQLite.

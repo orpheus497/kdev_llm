@@ -1,3 +1,9 @@
+**Timestamp**: 2026-07-22 13:45
+
+## UI: Explicit Default Button for Deletion Confirmation
+* **Decision**: Set the default button in `QMessageBox::question` explicitly to `QMessageBox::No`. Added standard `// ##Action purpose` and verified `// ##Step purpose` and `// ##Condition purpose` annotations.
+* **Justification**: Setting the default button to "No" prevents accidental destructive actions when the dialog is prompt-focused and immediately confirmed (e.g. by hitting enter). Annotations conform to codebase-wide prefix guidelines.
+
 **Timestamp**: 2026-07-22 13:41
 
 ## Testing: Headless-Safe Deletion Prompts
