@@ -1,4 +1,11 @@
+<<<<<<< HEAD
 # Session Handoff Log
+**Timestamp**: 2026-07-21 00:22
+* **Accomplishments**: Fixed DoS vulnerability in `ContextManager::getProjectRoot` where directory traversal could loop infinitely. Replaced hardcoded "/" check with `dir.isRoot()` and checked `cdUp()` return value.
+* **Modified Files**: `src/context/ContextManager.cpp`
+* **Decisions**: Relied on QDir standard methods to ensure cross-platform compatibility and robustness. Verified with standalone script due to missing KDE dev headers.
+* **Next Steps**: Submit PR.
+=======
 **Timestamp**: 2026-07-22 13:57
 * **Session Focus**: PR 47 Merge Conflict Resolution.
 * **Accomplishments**:
@@ -10,12 +17,7 @@
 * **Next Steps**: Merge the branch with main, verify compiling, and run tests.
 
 ---
-
-**Timestamp**: 2026-07-21 00:22
-* **Accomplishments**: Fixed DoS vulnerability in `ContextManager::getProjectRoot` where directory traversal could loop infinitely. Replaced hardcoded "/" check with `dir.isRoot()` and checked `cdUp()` return value.
-* **Modified Files**: `src/context/ContextManager.cpp`
-* **Decisions**: Relied on QDir standard methods to ensure cross-platform compatibility and robustness. Verified with standalone script due to missing KDE dev headers.
-* **Next Steps**: Submit PR.
+>>>>>>> main
 
 **Timestamp**: 2026-07-18 00:48
 * **Session Focus**: Critical bugfixes — settings crash, conversation history, timeout, thinking indicator.

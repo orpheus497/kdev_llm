@@ -3,9 +3,12 @@
 #include <QObject>
 #include <QString>
 #include <QUrl>
+<<<<<<< HEAD
 #include <QCache>
+=======
 #include <QHash>
 #include <QFileSystemWatcher>
+>>>>>>> main
 #include <KTextEditor/Document>
 #include <KTextEditor/View>
 

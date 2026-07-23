@@ -54,4 +54,8 @@
 - **2026-07-07 05:48**: Implemented a mitigation for HTTP insecurity on non-loopback IPs by adding warning logic to `LlamaClient` and `AiChatWidget`.
 - **2026-07-08 00:45**: Refactored the security warning mechanism in `LlamaClient` into a private helper method that implements the warning, addressing code review comments without enforcing HTTPS or removing the exposure.
 2026-07-21 00:22
+<<<<<<< HEAD
 - Addressed infinite loop vulnerability in directory traversal by adding a directory traversal termination check to safely handle traversal limits.
+=======
+- Addressed infinite loop vulnerability in directory traversal by updating the `getProjectRoot` loop condition to safely handle traversal limits.
+>>>>>>> main

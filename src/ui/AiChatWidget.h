@@ -4,7 +4,6 @@
 #include <QWidget>
 #include <QJsonArray>
 #include <QUrl>
-#include <QMessageBox>
 
 class QListView;
 class QComboBox;

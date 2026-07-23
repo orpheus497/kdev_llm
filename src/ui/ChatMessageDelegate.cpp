@@ -33,12 +33,15 @@ QTextDocument* ChatMessageDelegate::createDoc(const QString &content, const QStr
 
     // ##Step purpose: Ensure text wrapping properly handles long uninterrupted strings like URLs or code blocks.
     QTextOption opt = doc->defaultTextOption();
+    // ##Action purpose: Allow breaking long contiguous strings (e.g. URLs) to prevent horizontal overflow.
     opt.setWrapMode(QTextOption::WrapAtWordBoundaryOrAnywhere);
+    // ##Action purpose: Apply the constructed text wrapping options to the document layout.
     doc->setDefaultTextOption(opt);
 
     // ##Condition purpose: Use markdown for assistant content, plain text for everything else.
     if (role == QStringLiteral("assistant")) {
-        doc->setMarkdown(content, QTextDocument::MarkdownFeatures(QTextDocument::MarkdownDialectGitHub | QTextDocument::MarkdownNoHTML));
+        // ##Action purpose: Parse and render the AI's content as GitHub-flavored Markdown while neutralizing raw HTML for security.
+        doc->setMarkdown(content, QTextDocument::MarkdownDialectGitHub | QTextDocument::MarkdownNoHTML);
     } else {
         doc->setPlainText(content);
     }

@@ -1,9 +1,11 @@
+<<<<<<< HEAD
 # Historical Session Summaries
-**Timestamp**: 2026-07-22 13:57
-* **Summary**: Resolved merge conflicts between `main` and `bolt` optimization branch. Aligned formatting in `.jules/sentinel.md`, retained optimized loop patterns in `src/context/ContextManager.cpp`, and integrated both the file context aggregation tests and headless-mocked conversation deletion tests in `tests/TestAiChatWidget.h` and `tests/TestAiChatWidget.cpp`.
-
 **Timestamp**: 2026-07-21 00:22
 * **Directory Traversal Safety**: Secured directory traversal logic against infinite loops in `ContextManager.cpp`.
+=======
+**Timestamp**: 2026-07-22 13:57
+* **Summary**: Resolved merge conflicts between `main` and `bolt` optimization branch. Aligned formatting in `.jules/sentinel.md`, retained optimized loop patterns in `src/context/ContextManager.cpp`, and integrated both the file context aggregation tests and headless-mocked conversation deletion tests in `tests/TestAiChatWidget.h` and `tests/TestAiChatWidget.cpp`.
+>>>>>>> main
 
 **Timestamp**: 2026-07-10 11:16
 * **Summary**: Fixed PR 22 issues by appending the new URL Security entry to the Security Journal (`.jules/sentinel.md`) instead of overwriting the previous one. Confirmed `QTextBrowser` is correctly using `scrollToAnchor()` for relative links. Resolved test file conflicts in `TestAiChatWidget` by merging the logic from the `main` branch with the security vulnerability checks from the PR branch, ensuring both chat and security tests pass successfully.

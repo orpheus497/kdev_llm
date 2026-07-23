@@ -101,17 +101,15 @@ QString ContextManager::getProjectRoot(KTextEditor::Document *doc) const
     
     // ##Action purpose: Extract the local file path to start root traversal.
     QString filePath = doc->url().toLocalFile();
-    // ##Action purpose: Check if path is empty (e.g., non-local URLs) to prevent root mis-caching.
+    // ##Condition purpose: Check if path is empty (e.g., non-local URLs) to prevent root mis-caching.
     if (filePath.isEmpty()) {
         return QString();
     }
-    // ##Action purpose: Check cache before expensive traversal; rely on file watcher to evict stale entries.
+    // ##Condition purpose: Check cache before expensive traversal; rely on file watcher to evict stale entries.
     if (QString* cachedRoot = m_projectRootCache.object(filePath)) {
         return *cachedRoot;
     }
-
     // Fallback to directory scanning if not in a KDevelop project
-    // ##Step purpose: Fallback directory-traversal block to find the project root if it is not a KDevelop project.
     // ##Action purpose: Begin scanning upwards from the document's directory.
     QDir dir = QFileInfo(filePath).absoluteDir();
     // ##Loop purpose: Traverse upwards checking for root markers until we hit the root.
@@ -119,7 +117,6 @@ QString ContextManager::getProjectRoot(KTextEditor::Document *doc) const
         // ##Condition purpose: Identify standard project root markers and cache/return if found.
         if (dir.exists(QStringLiteral(".git")) || dir.exists(QStringLiteral("CMakeLists.txt"))) {
             QString rootPath = dir.absolutePath();
-            // ##Action purpose: Cache the discovered root path for future lookups.
             m_projectRootCache.insert(filePath, new QString(rootPath));
             return rootPath;
         }
@@ -168,8 +165,8 @@ QString ContextManager::getAgentsInstruction(const QString &projectRoot) const
         // ##Condition purpose: Prevent path traversal via symlinks.
         if (!canonFile.startsWith(canonRoot)) continue;
 
-        // ##Condition purpose: Return cached agent instructions if available.
         auto it = m_agentsCache.constFind(canonFile);
+        // ##Condition purpose: Return cached agent instructions if available.
         if (it != m_agentsCache.constEnd()) {
             return *it;
         }
@@ -361,8 +358,8 @@ QStringList ContextManager::getProjectFiles() const
     for (const auto &indexedString : allFiles) {
         QString path = indexedString.str();
 
-        // ##Condition purpose: Guard against files with no extension to prevent out-of-bounds slicing.
         const int dotIndex = path.lastIndexOf(QLatin1Char('.'));
+        // ##Condition purpose: Guard against files with no extension to prevent out-of-bounds slicing.
         if (dotIndex != -1) {
             // ##Step purpose: Extract the file extension string view efficiently without allocating new memory.
             const QStringView suffix = QStringView(path).mid(dotIndex + 1);
