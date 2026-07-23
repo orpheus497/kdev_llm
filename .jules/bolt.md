@@ -15,3 +15,7 @@
 
 **Learning:** Appending locally scoped strings (like `QString`) to a container without using `std::move` causes unnecessary atomic reference count bumps on the string's internal buffer.
 **Action:** When a local `QString` or similar copy-on-write object is no longer needed after being appended to a container (e.g., `QStringList::append()`), wrap it in `std::move()` to transfer ownership efficiently.
+
+## 2024-11-20 - Cache QTextDocument creations
+**Learning:** Instantiating `QTextDocument`s repeatedly in a Qt Model/Delegate during paint and sizeHint methods can be slow for large lists. Using a `QCache<QString, QTextDocument>` and storing the layout widths correctly bounds memory usage while providing massive speedups on re-renders, especially when markdown parsing is involved.
+**Action:** When a UI Delegate is forced to do heavy work during rendering (like parsing and laying out markdown), wrap that logic in a bounded cache so it isn't repeated constantly.

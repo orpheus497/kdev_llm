@@ -12,6 +12,7 @@
 ChatMessageDelegate::ChatMessageDelegate(QObject *parent)
     : QStyledItemDelegate(parent)
 {
+    m_docCache.setMaxCost(100);
 }
 
 // ##Method purpose: Computes the text layout width from the overall available width.
@@ -22,10 +23,20 @@ int ChatMessageDelegate::textLayoutWidth(int viewportWidth) const
     return qMax(100, maxBubbleWidth - 2 * kBubblePadding);
 }
 
-// ##Method purpose: Creates and configures a QTextDocument with the proper content and wrapping width.
-QTextDocument* ChatMessageDelegate::createDoc(const QString &content, const QString &role,
+// ##Method purpose: Gets or creates a QTextDocument with the proper content and wrapping width.
+QTextDocument* ChatMessageDelegate::getDoc(const QString &content, const QString &role,
                                                const QFont &font, int layoutWidth) const
 {
+    if (m_lastLayoutWidth != layoutWidth) {
+        m_docCache.clear();
+        m_lastLayoutWidth = layoutWidth;
+    }
+
+    QString cacheKey = role + QStringLiteral(":") + content;
+    if (QTextDocument *cachedDoc = m_docCache.object(cacheKey)) {
+        return cachedDoc;
+    }
+
     auto *doc = new QTextDocument();
     doc->setDefaultFont(font);
     doc->setTextWidth(layoutWidth);
@@ -48,6 +59,8 @@ QTextDocument* ChatMessageDelegate::createDoc(const QString &content, const QStr
     // ##Step purpose: Force layout so size() is accurate immediately.
     doc->documentLayout();
     doc->adjustSize();
+
+    m_docCache.insert(cacheKey, doc);
     return doc;
 }
 
@@ -68,7 +81,7 @@ void ChatMessageDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
     const int layoutW = textLayoutWidth(viewportWidth);
 
     // ##Step purpose: Build the text document with the shared helper.
-    QTextDocument *doc = createDoc(content, role, option.font, layoutW);
+    QTextDocument *doc = getDoc(content, role, option.font, layoutW);
     const QSizeF docSize = doc->size();
     const int maxBubbleWidth = (viewportWidth - 2 * kBubbleMargin) * kMaxBubbleWidthPercent / 100;
     const int bubbleWidth = qMin(maxBubbleWidth, static_cast<int>(docSize.width()) + 2 * kBubblePadding);
@@ -136,7 +149,6 @@ void ChatMessageDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
     ctx.palette.setColor(QPalette::Text, textColor);
     doc->documentLayout()->draw(painter, ctx);
 
-    delete doc;
     painter->restore();
 }
 
@@ -162,9 +174,8 @@ QSize ChatMessageDelegate::sizeHint(const QStyleOptionViewItem &option, const QM
     const int layoutW = textLayoutWidth(viewportWidth);
 
     // ##Step purpose: Create the document with the exact same parameters as paint().
-    QTextDocument *doc = createDoc(content, role, option.font, layoutW);
+    QTextDocument *doc = getDoc(content, role, option.font, layoutW);
     const int height = static_cast<int>(doc->size().height()) + 2 * kBubblePadding + 2 * kBubbleMargin;
-    delete doc;
 
     return QSize(viewportWidth, height);
 }
