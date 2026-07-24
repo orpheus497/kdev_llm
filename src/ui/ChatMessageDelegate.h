@@ -2,8 +2,8 @@
 #pragma once
 
 #include <QStyledItemDelegate>
-
-class QTextDocument;
+#include <QCache>
+#include <QTextDocument>
 
 // ##Class purpose: Paints chat message bubbles using the native QPalette and QStyle, matching KDevelop's look and feel.
 class ChatMessageDelegate : public QStyledItemDelegate {

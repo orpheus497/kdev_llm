@@ -1,3 +1,35 @@
+# Session Handoff Log
+
+**Timestamp**: 2026-07-24 10:07
+* **Session Focus**: Qt6 Enum Flag Type Casting.
+* **Accomplishments**:
+  - Explicitly wrapped `QTextDocument::MarkdownDialectGitHub | QTextDocument::MarkdownNoHTML` in `QTextDocument::MarkdownFeatures(...)` in `src/ui/ChatMessageDelegate.cpp`.
+* **Modified Files**: `src/ui/ChatMessageDelegate.cpp`.
+* **Next Steps**: Run `make` in `build/` to verify target completion.
+
+---
+
+**Timestamp**: 2026-07-24 10:04
+* **Session Focus**: Permanent Header Normalization & MOC Restoration.
+* **Accomplishments**:
+  - Purged all stashed Git conflict markers from `src/context/ContextManager.h` and `src/ui/ChatMessageDelegate.h`.
+  - Fully defined `QTextDocument` and `QCache` includes in `ChatMessageDelegate.h` for MOC parsing.
+  - Verified project-wide zero conflict markers.
+* **Modified Files**: `src/context/ContextManager.h`, `src/ui/ChatMessageDelegate.h`, `.devdocs/*`.
+* **Next Steps**: Run `make` in `build/` to verify target build.
+
+---
+
+**Timestamp**: 2026-07-24 10:00
+* **Session Focus**: Build & Compilation Repair.
+* **Accomplishments**:
+  - Cleared unresolved Git merge conflict markers from `src/context/ContextManager.h`.
+  - Added `#include <QMessageBox>` to `src/ui/AiChatWidget.h`.
+  - Added `#include <QTextDocument>` to `src/ui/ChatMessageDelegate.h`.
+* **Modified Files**: `src/context/ContextManager.h`, `src/ui/AiChatWidget.h`, `src/ui/ChatMessageDelegate.h`.
+* **Next Steps**: Execute `make` in `build/` to verify target build.
+
+---
 **Timestamp**: 2026-07-22 13:57
 * **Session Focus**: PR 47 Merge Conflict Resolution.
 * **Accomplishments**:

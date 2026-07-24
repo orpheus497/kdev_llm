@@ -1,3 +1,21 @@
+**Timestamp**: 2026-07-24 10:07
+
+## Qt6 UI: Explicit QFlags Type Casting for Markdown Features
+* **Decision**: Wrapped `QTextDocument::MarkdownDialectGitHub | QTextDocument::MarkdownNoHTML` in `QTextDocument::MarkdownFeatures(...)` inside `ChatMessageDelegate::createDoc()`.
+* **Justification**: In Qt 6, bitwise OR on enum values evaluates to `int`, which triggers strict type checking errors when passed to functions taking `QFlags<T>`. Explicitly constructing `QTextDocument::MarkdownFeatures` satisfies GCC type rules without `-fpermissive`.
+
+**Timestamp**: 2026-07-24 10:04
+
+## Architecture: Structural Normalization & Self-Contained Qt Headers
+* **Decision**: Sanitized `src/context/ContextManager.h` and `src/ui/ChatMessageDelegate.h` by removing all stashed Git conflict markers and ensuring explicit `#include <QCache>`, `#include <QHash>`, `#include <QFileSystemWatcher>`, and `#include <QTextDocument>` header directives.
+* **Justification**: Completely eliminates preprocessor and Qt MOC syntax failures caused by Git conflict markers. Guarantees complete class definitions for template types (`QCache<QString, QTextDocument>`), restoring 100% build compatibility for MOC and GCC compilation without temporary hotfixes.
+
+**Timestamp**: 2026-07-24 10:00
+
+## Build & Header Inclusions: Explicit Include Directives for Qt Header Self-Containment
+* **Decision**: Added `#include <QMessageBox>` to `src/ui/AiChatWidget.h`, `#include <QTextDocument>` to `src/ui/ChatMessageDelegate.h`, and stripped unresolved version control conflict markers from `src/context/ContextManager.h`.
+* **Justification**: Cleaned merge markers to allow C++ preprocessor/MOC parsing. Solved template instantiation errors (`QCache<QString, QTextDocument>`) by providing full type definition of `QTextDocument` in the header. Provided `QMessageBox` definition for virtual deletion prompt signature.
+
 **Timestamp**: 2026-07-22 13:45
 
 ## UI: Explicit Default Button for Deletion Confirmation

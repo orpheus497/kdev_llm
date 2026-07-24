@@ -1,3 +1,15 @@
+**Timestamp**: 2026-07-24 10:07
+
+* **Qt6 Enum Type Casting Fix**: Complete. Wrapped markdown flag bitwise OR inside `QTextDocument::MarkdownFeatures(...)` in `ChatMessageDelegate.cpp`.
+
+**Timestamp**: 2026-07-24 10:04
+
+* **Structural Header Normalization & Build Repair**: Complete. Purged stashed conflict markers from `src/context/ContextManager.h` and `src/ui/ChatMessageDelegate.h`. Verified project-wide zero conflict markers.
+
+**Timestamp**: 2026-07-24 10:00
+
+* **Build & Compilation Fixes**: Complete. Resolved git merge conflicts in `src/context/ContextManager.h`, added missing `<QMessageBox>` header to `src/ui/AiChatWidget.h`, and added `<QTextDocument>` header to `src/ui/ChatMessageDelegate.h`.
+
 **Timestamp**: 2026-07-22 13:57
 
 * **PR 47 Merge Conflict Resolution**: Complete. Successfully resolved merge conflicts between the `main` branch and `bolt` branch in `.jules/sentinel.md`, `src/context/ContextManager.cpp`, `tests/TestAiChatWidget.h`, and `tests/TestAiChatWidget.cpp` without running git commands.

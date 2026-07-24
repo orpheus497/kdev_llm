@@ -1,3 +1,13 @@
+# Historical Session Summaries
+
+**Timestamp**: 2026-07-24 10:07
+* **Qt6 Enum Type Casting**: Fixed `invalid conversion from int to QTextDocument::MarkdownFeature` error in `ChatMessageDelegate.cpp` by wrapping combined flags in `QTextDocument::MarkdownFeatures(...)`.
+
+**Timestamp**: 2026-07-24 10:04
+* **Header Normalization**: Purged all stashed Git conflict markers from `ContextManager.h` and `ChatMessageDelegate.h`, ensuring explicit self-contained Qt header inclusions for clean MOC and GCC compilation.
+
+**Timestamp**: 2026-07-24 10:00
+* **Build Fixes**: Resolved build failure by stripping git merge conflict markers in `ContextManager.h`, and adding missing `<QMessageBox>` and `<QTextDocument>` header inclusions.
 **Timestamp**: 2026-07-22 13:57
 * **Summary**: Resolved merge conflicts between `main` and `bolt` optimization branch. Aligned formatting in `.jules/sentinel.md`, retained optimized loop patterns in `src/context/ContextManager.cpp`, and integrated both the file context aggregation tests and headless-mocked conversation deletion tests in `tests/TestAiChatWidget.h` and `tests/TestAiChatWidget.cpp`.
 

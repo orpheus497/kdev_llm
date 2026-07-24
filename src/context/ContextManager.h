@@ -3,6 +3,7 @@
 #include <QObject>
 #include <QString>
 #include <QUrl>
+#include <QCache>
 #include <QHash>
 #include <QFileSystemWatcher>
 #include <KTextEditor/Document>
